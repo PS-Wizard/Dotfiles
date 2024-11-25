@@ -9,3 +9,8 @@ Dotfiles for Sway, Packages installed are
 - Tmux
 
 
+# TODOS:
+
+- Add Screenshots
+- Add Custom Neovim Snippets
+- Make A Script to install these automatically
