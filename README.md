@@ -17,8 +17,6 @@ Dotfiles for Sway, Packages installed are
 - Add Custom Neovim Snippets
 - Make A Script to install these automatically
 
-## Current Installed:
-- junit : junit-4.13.2-2
-Packages (2) java-hamcrest-3.0-1  junit-4.13.2-2
-
+## Current Installed: Extra shit i dont want
+- maven
 
