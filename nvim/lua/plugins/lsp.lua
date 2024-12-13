@@ -22,6 +22,7 @@ return {
             vim.keymap.set('n', '<leader>zz', vim.lsp.buf.format, {})
             vim.keymap.set('n', '[d', vim.diagnostic.goto_next, {})
             vim.keymap.set('n', ']d', vim.diagnostic.goto_prev, {})
+            vim.keymap.set('n', '<leader>rf', vim.lsp.buf.references, {})
         end
         local lspconfig = require("lspconfig")
         local blink_cmp = require('blink.cmp')
@@ -36,10 +37,10 @@ return {
         --     capabilities = capabilities,    
         -- })
 
-        lspconfig.ccls.setup({
-            on_attach = on_attach,         
-            capabilities = capabilities,    
-        })
+        -- lspconfig.ccls.setup({
+        --     on_attach = on_attach,         
+        --     capabilities = capabilities,    
+        -- })
     end,
 }
 

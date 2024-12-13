@@ -35,12 +35,12 @@ return {
         opts = {
             silent=true,
             mappings = {
-                move_down = '<M-j>',
-                move_up = '<M-k>',
-                move_start = '<M-g>',
-                caret_left = '<M-h>',
-                caret_right = '<M-l>',
-                caret_left = '<M-h>',
+                move_down = '<C-j>',
+                move_up = '<C-k>',
+                move_start = '<C-g>',
+                caret_left = '<C-h>',
+                caret_right = '<C-l>',
+                caret_left = '<C-h>',
             }
         }
     },
@@ -86,16 +86,16 @@ return {
         opts = {
             mappings = {
                 -- Visual Mode
-                right = '<M-l>',
-                down = '<M-j>',
-                up = '<M-k>',
-                left = '<M-h>',
+                right = '<C-l>',
+                down = '<C-j>',
+                up = '<C-k>',
+                left = '<C-h>',
 
                 -- Normal Mode
-                line_left = '<M-h>',
-                line_right = '<M-l>',
-                line_down = '<M-j>',
-                line_up = '<M-k>',
+                line_left = '',
+                line_right = '',
+                line_down = '',
+                line_up = '',
             }
         }
     },

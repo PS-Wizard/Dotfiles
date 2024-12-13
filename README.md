@@ -18,5 +18,7 @@ Dotfiles for Sway, Packages installed are
 - Make A Script to install these automatically
 
 ## Current Installed: Extra shit i dont want
-- maven
+- java-hamcrest-3.0-1
+- junit-4.13.2-2
+- Java In its entirety lol
 
