@@ -12,7 +12,7 @@ Dotfiles for Sway, Packages installed are
 
 
 # TODOS:
-
+- figure out the path thingy with junit 
 - Add Screenshots
 - Add Custom Neovim Snippets
 - Make A Script to install these automatically
@@ -20,3 +20,5 @@ Dotfiles for Sway, Packages installed are
 ## Current Installed: Extra shit i dont want
 - java 21 i think
 - https://stackoverflow.com/questions/65867932/how-to-use-junit5-without-maven nothing else lol
+
+
