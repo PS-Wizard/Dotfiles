@@ -18,6 +18,5 @@ Dotfiles for Sway, Packages installed are
 - Make A Script to install these automatically
 
 ## Current Installed: Extra shit i dont want
-- gradle 
 - java 21 i think
-- just pacman -Rns gradle every other thing should be pruned with it
+- https://stackoverflow.com/questions/65867932/how-to-use-junit5-without-maven nothing else lol

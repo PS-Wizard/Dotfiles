@@ -14,7 +14,7 @@ export GOPATH=$HOME/.config/go
 export GOBIN=$HOME/.config/go/bin/
 export PATH=$GOBIN:$PATH
 
-alias java-test='java -cp .:/usr/share/java/junit-4.13.2.jar:/usr/share/java/hamcrest/* org.junit.runner.JUnitCore MathUtilsTest'
-alias java-compile-test='javac -cp .:/usr/share/java/junit-4.13.2.jar:/usr/share/java/hamcrest-core.jar *.java'
+alias java-test='java -jar ../lib/junit-platform-console-standalone-1.8.2.jar -cp "." --select-class'
+alias java-compile-test='javac -cp "../lib/junit-platform-console-standalone-1.8.2.jar"'
 
 
