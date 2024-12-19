@@ -12,7 +12,7 @@ Dotfiles for Sway, Packages installed are
 
 
 # TODOS:
-- figure out the path thingy with junit 
+-[x]figure out the path thingy with junit 
 - Add Screenshots
 - Add Custom Neovim Snippets
 - Make A Script to install these automatically
