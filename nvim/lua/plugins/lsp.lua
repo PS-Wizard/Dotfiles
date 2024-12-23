@@ -9,6 +9,28 @@ return {
             Hint = "H",
             Information = "I"
         }
+        local border = {
+            { '┌', 'FloatBorder' },
+            { '─', 'FloatBorder' },
+            { '┐', 'FloatBorder' },
+            { '│', 'FloatBorder' },
+            { '┘', 'FloatBorder' },
+            { '─', 'FloatBorder' },
+            { '└', 'FloatBorder' },
+            { '│', 'FloatBorder' },
+            
+        }
+        local handlers = {
+            ['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, { border = border }),
+            ['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border }),
+        }
+        vim.diagnostic.config({
+            virtual_text = {
+                prefix = '<- ',
+            },
+            float = { border = border },
+        })
+        
         for type, icon in pairs(signs) do
             local hl = "DiagnosticSign" .. type
             vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
@@ -18,7 +40,11 @@ return {
             vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, {})
             vim.keymap.set('n', 'gd', vim.lsp.buf.definition, {})
             vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, {})
-            vim.keymap.set('n', 'K', vim.lsp.buf.hover, {})
+            vim.keymap.set('n', 'K', function()
+                vim.lsp.buf.hover({
+                    border = "rounded" -- You can change to "single", "double", "shadow", etc.
+                })
+            end, {})
             vim.keymap.set('n', '<leader>zz', vim.lsp.buf.format, {})
             vim.keymap.set('n', '[d', vim.diagnostic.goto_next, {})
             vim.keymap.set('n', ']d', vim.diagnostic.goto_prev, {})
@@ -30,6 +56,7 @@ return {
         lspconfig.gopls.setup({
             on_attach = on_attach,
             capabilities = capabilities,
+            handlers = handlers,
         })
 
         -- lspconfig.jedi_language_server.setup({

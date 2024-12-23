@@ -128,8 +128,8 @@ bar {
 
     colors {
         statusline #018f7a
-        background #000000
-        inactive_workspace #000000 #16161e #535353
+        background #1c1c1c
+        inactive_workspace #1c1c1c #16161e #535353
     }
 }
 include /etc/sway/config.d/*
