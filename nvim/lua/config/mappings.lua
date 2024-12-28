@@ -7,7 +7,7 @@ vim.api.nvim_set_keymap('n', '<A-j>', ':cprev<CR>', opts) -- Alt+h to go up
 -- Add current line to Quickfix list
 vim.api.nvim_set_keymap(
   'n',
-  '<leader>a',
+  '<leader>aa',
   ':lua vim.fn.setqflist({{filename = vim.fn.expand("%"), lnum = vim.fn.line("."), col = vim.fn.col("."), text = vim.fn.getline(vim.fn.line("."))}}, "a")<CR>',
   opts
 )
@@ -20,7 +20,7 @@ vim.api.nvim_set_keymap('n', '<leader>n', '<C-^>', opts)
 
 -- Insert a code block template
 vim.api.nvim_set_keymap('n', '<leader>ab', 'i```<CR>~<CR><CR>```<Esc>O', opts)
-
+vim.api.nvim_set_keymap('n', '<leader>mb', 'saiw*.',{})
 
 -- Insert a math inline-block template
 vim.api.nvim_set_keymap('n', '<leader>am', 'i$$<Esc>i', opts)
