@@ -1,7 +1,7 @@
 return {
     'neovim/nvim-lspconfig',
     -- event = 'BufRead *.py,*.go,*.c ',  -- This ensures the plugin loads only when LSP attaches
-        ft = {"go","c"},
+    ft = {"go","c","typescript","typescriptreact","javascript","javascriptreact"},
     config = function()
         local signs = {
             Error = "E",
@@ -68,6 +68,12 @@ return {
         --     on_attach = on_attach,         
         --     capabilities = capabilities,    
         -- })
+        lspconfig.ts_ls.setup({
+            on_attach = on_attach,
+            capabilities = capabilities,
+            filetypes = { "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact", "typescript.tsx" },
+            cmd = { "typescript-language-server", "--stdio" },
+        })
     end,
 }
 

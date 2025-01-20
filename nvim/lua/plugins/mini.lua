@@ -88,8 +88,8 @@ return {
                 -- Visual Mode
                 right = '<C-l>',
                 down = '<C-j>',
-                up = '<C-k>',
                 left = '<C-h>',
+                up = '<C-k>',
 
                 -- Normal Mode
                 line_left = '',
@@ -102,10 +102,16 @@ return {
     {
         'echasnovski/mini.splitjoin',
         version = '*',
+        opts = { mappings = { toggle = 'ms', } }
+    },
+    {
+        'echasnovski/mini.jump',
+        version = '*',
         opts = {
-            mappings = {
-                toggle = 'ms',
-            }
+            delay = {
+                highlight = 20,
+            },
+            silent=true,
         }
     }
 }

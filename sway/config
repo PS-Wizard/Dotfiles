@@ -123,7 +123,7 @@ set $status  vol: [$volu] - bat: [$batt% -$uptime] - $date
 
 bar {
     position top
-    font JetBrainsMono Nerd Font Mono 
+    font JetBrains Mono 
     status_command while echo $status; do sleep 20; done
 
     colors {

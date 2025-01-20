@@ -15,6 +15,6 @@ return {
                 enabled_providers = { 'lsp', 'path', 'snippets', 'buffer' },
             },
         },
-        -- trigger = { signature_help = { enabled = true } } //  Still kinda buggy 
+        -- trigger = { signature_help = { enabled = true } }  // kinda buggy
     }
 }
