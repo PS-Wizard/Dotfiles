@@ -22,4 +22,7 @@ alias lodepng_compile='gcc -ansi -pedantic -Wall -Wextra -O3 main.c ~/School/nmc
 alias java-test='java -jar ../lib/junit-platform-console-standalone-1.8.2.jar -cp "." --select-class'
 alias java-compile-test='javac -cp "../lib/junit-platform-console-standalone-1.8.2.jar"'
 
+alias java-compile-db='javac -cp .:/usr/share/java/mysql-connector-java.jar'
+alias java-run-db='java -cp .:/usr/share/java/mysql-connector-java.jar'
+
 export PATH=~/.config/pnpm-installs/bin:$PATH

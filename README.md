@@ -9,6 +9,14 @@ Dotfiles for Sway, Packages installed are
 - Tmux
 - xdg-desktop-portal-wlr
 - xdg-desktop-portal
+- mysql-connector-java
+    - by default its at /usr/share/java/
+    - installed with yay so you can `yay -Rns mysql-connector-java`
+- mysql
+    - clean up :
+        remove `/var/lib/mysql/`
+
+
 
 
 # TODOS:
