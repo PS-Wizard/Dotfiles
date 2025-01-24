@@ -8,7 +8,7 @@ local rnotification = require("ruled.notification")
 local dpi = xresources.apply_dpi
 
 local gfs = require("gears.filesystem")
-local themes_path = gfs.get_themes_dir()
+local themes_path = gfs.get_configuration_dir() .. 'themes/'
 
 local theme = {}
 
@@ -35,9 +35,7 @@ theme.menu_submenu_icon = themes_path.."default/submenu.png"
 theme.menu_height = dpi(15)
 theme.menu_width  = dpi(100)
 
-theme.titlebar_floating_button_normal_inactive = themes_path.."default/titlebar/floating_normal_inactive.png"
-
-theme.wallpaper = themes_path.."default/background.png"
+theme.wallpaper = themes_path.."wizard/background.png"
 
 -- Set different colors for urgent notifications.
 rnotification.connect_signal('request::rules', function()

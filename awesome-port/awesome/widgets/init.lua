@@ -3,105 +3,98 @@ local _M = {}
 local awful = require'awful'
 local beautiful = require'beautiful'
 local wibox = require'wibox'
+local gears = require'gears'
 
-local apps = require 'config.apps'
-local mod = require 'bindings.mod'
+local apps = require'config.apps'
+local mod = require'bindings.mod'
 
 _M.textclock = wibox.widget.textclock()
 
-function _M.create_promptbox() return awful.widget.prompt() end
+function _M.create_promptbox()
+    return awful.widget.prompt()
+end
 
 function _M.create_taglist(s)
-   return awful.widget.taglist{
-      screen = s,
-      filter = awful.widget.taglist.filter.all,
-      buttons = {
-         awful.button{
-            modifiers = {},
-            button    = 1,
-            on_press  = function(t) t:view_only() end,
-         },
-         awful.button{
-            modifiers = {mod.super},
-            button    = 1,
-            on_press  = function(t)
-               if client.focus then
-                  client.focus:move_to_tag(t)
-               end
-            end,
-         },
-         awful.button{
-            modifiers = {},
-            button    = 3,
-            on_press  = awful.tag.viewtoggle,
-         },
-         awful.button{
-            modifiers = {mod.super},
-            button    = 3,
-            on_press  = function(t)
-               if client.focus then
-                  client.focus:toggle_tag(t)
-               end
-            end
-         },
-         awful.button{
-            modifiers = {},
-            button    = 4,
-            on_press  = function(t) awful.tag.viewprev(t.screen) end,
-         },
-         awful.button{
-            modifiers = {},
-            button    = 5,
-            on_press  = function(t) awful.tag.viewnext(t.screen) end,
-         },
-      }
-   }
+    return awful.widget.taglist{
+        screen = s,
+        filter = awful.widget.taglist.filter.all,
+    }
 end
 
 function _M.create_battery_widget()
-   return wibox.widget {
-      {   
-         id = 'battery_icon',
-         widget = wibox.widget.imagebox,
-         image = beautiful.battery_icon
-      },
-      {   
-         id = 'battery_text',
-         widget = wibox.widget.textbox,
-         text = "100%",
-      },
-      layout = wibox.layout.fixed.horizontal,
-   }
+    local battery_widget = wibox.widget {
+        {
+            id = 'battery_text',
+            widget = wibox.widget.textbox,
+            text = "Loading...",
+        },
+        layout = wibox.layout.flex.horizontal,
+    }
+
+    -- Update battery widget every minute
+    gears.timer {
+        timeout = 60,
+        autostart = true,
+        callback = function()
+            awful.spawn.easy_async_with_shell("cat /sys/class/power_supply/BAT0/capacity", function(stdout)
+                local capacity = stdout:match("(%d+)")
+                if capacity then
+                    battery_widget:get_children_by_id('battery_text')[1].text = capacity .. "%"
+                else
+                    battery_widget:get_children_by_id('battery_text')[1].text = "N/A"
+                end
+            end)
+        end,
+    }
+
+    return battery_widget
 end
 
 function _M.create_wibox(s)
-   s.promptbox = _M.create_promptbox()
-   s.taglist = _M.create_taglist(s)
+    s.promptbox = _M.create_promptbox()
+    s.taglist = _M.create_taglist(s)
 
-   return awful.wibar{
-      screen = s,
-      position = 'top',
-      widget = {
-         layout = wibox.layout.align.horizontal,
-         -- left widgets
-         {
-            layout = wibox.layout.fixed.horizontal,
-            _M.create_battery_widget(),
-         },
-         -- middle widgets
-         {
-            layout = wibox.layout.fixed.horizontal,
-            expand = "outside",
-            s.taglist,
-            s.promptbox,
-         },
-         -- right widgets
-         {
-            layout = wibox.layout.fixed.horizontal,
-            _M.textclock,
-         }
-      }
-   }
+    s.mywibox = awful.wibar{
+        screen = s,
+        position = 'top',
+        margins = {
+            top = 5,
+            bottom = 5,
+            left = 10,
+            right = 10,
+        },
+        widget = {
+            layout = wibox.layout.align.horizontal,
+            expand = 'none',
+            -- Left widget
+            {
+                layout = wibox.layout.fixed.horizontal,
+                s.taglist,
+                s.promptbox,
+            },
+            -- Middle widget
+            {
+                layout = wibox.layout.fixed.horizontal,
+                _M.textclock,
+            },
+            -- Right widget
+            {
+                layout = wibox.layout.fixed.horizontal,
+                _M.create_battery_widget(),
+            },
+        },
+    }
+
+    return s.mywibox
+end
+
+-- Toggle function for the wibar
+function _M.toggle_wibar()
+    for s in screen do
+        if s.mywibox then
+            s.mywibox.visible = not s.mywibox.visible
+        end
+    end
 end
 
 return _M

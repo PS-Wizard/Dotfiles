@@ -29,13 +29,6 @@ client.connect_signal('request::default_keybindings', function()
          on_press    = awful.client.floating.toggle,
       },
       awful.key{
-         modifiers   = {mod.super, mod.ctrl},
-         key         = 'Return',
-         description = 'move to master',
-         group       = 'client',
-         on_press    = function(c) c:swap(awful.client.getmaster()) end,
-      },
-      awful.key{
          modifiers   = {mod.super},
          key         = 'o',
          description = 'move to screen',
@@ -63,26 +56,6 @@ client.connect_signal('request::default_keybindings', function()
          group       = 'client',
          on_press    = function(c)
             c.maximized = not c.maximized
-            c:raise()
-         end,
-      },
-      awful.key{
-         modifiers   = {mod.super, mod.ctrl},
-         key         = 'm',
-         description = '(un)maximize vertically',
-         group       = 'client',
-         on_press    = function(c)
-            c.maximized_vertical = not c.maximized_vertical
-            c:raise()
-         end,
-      },
-      awful.key{
-         modifiers   = {mod.super, mod.shift},
-         key         = 'm',
-         description = '(un)maximize horizontally',
-         group       = 'client',
-         on_press    = function(c)
-            c.maximized_horizontal = not c.maximized_horizontal
             c:raise()
          end,
       },
