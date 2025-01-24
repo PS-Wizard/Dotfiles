@@ -17,12 +17,12 @@ Dotfiles for Sway, Packages installed are
         remove `/var/lib/mysql/`
 
 
+# Awesome-wm:
+    - Screenshot utils, xrandr hdmi thingy too
+    - battery widget bar type shi
 
 
 # TODOS:
--[x]figure out the path thingy with junit 
-- Add Screenshots
-- Add Custom Neovim Snippets
 - Make A Script to install these automatically
 
 ## Current Installed: Extra shit i dont want
