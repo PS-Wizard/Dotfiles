@@ -123,6 +123,20 @@ awful.keyboard.append_global_keybindings{
             end
         end
     },
+    awful.key{
+        modifiers   = {mod.super},
+        key         = 'space',
+        description = 'select next',
+        group       = 'layout',
+        on_press    = function() awful.layout.inc(1) end,
+    },
+    awful.key{
+      modifiers   = {mod.super, mod.shift},
+      key         = 'space',
+      description = 'select previous',
+      group       = 'layout',
+      on_press    = function() awful.layout.inc(-1) end,
+   },
 }
 
 -- Volume and Brightness Controls
