@@ -15,6 +15,7 @@ Dotfiles for Sway, Packages installed are
 - mysql
     - clean up :
         remove `/var/lib/mysql/`
+        sudo mysql_install_db --user=mysql --basedir=/usr --datadir=/var/lib/mysql
 
 
 # Awesome-wm:
