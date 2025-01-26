@@ -182,6 +182,24 @@ awful.keyboard.append_global_keybindings{
 }
 
 awful.keyboard.append_global_keybindings{
+    awful.key{
+        modifiers   = {mod.super},
+        key         = 'y',
+        description = 'take screenshot and save to ~/Pictures/',
+        group       = 'media',
+        on_press    = function() awful.spawn('maim ' .. os.getenv("HOME") .. '/Pictures/screenshot.png') end,
+    },
+
+    awful.key{
+        modifiers   = {mod.super, mod.shift},
+        key         = 'y',
+        description = 'take screenshot selection and copy to clipboard',
+        group       = 'media',
+        on_press    = function() awful.spawn('maim -g 1920x1080 ' .. os.getenv("HOME") .. '/Pictures/screenshot.png') end,
+    },
+}
+
+awful.keyboard.append_global_keybindings{
    awful.key{
       modifiers   = {mod.super},
       key         = 'p',
@@ -192,4 +210,6 @@ awful.keyboard.append_global_keybindings{
          widgets.toggle_wibar()
       end,
    },
+
 }
+
