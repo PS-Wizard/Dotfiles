@@ -1,16 +1,16 @@
 {
   "blink.cmp": { "branch": "main", "commit": "75cadbcd2657ed01326ca2b0e5e4d78a77127ca3" },
-  "lazy.nvim": { "branch": "main", "commit": "d8f26efd456190241afd1b0f5235fe6fdba13d4a" },
-  "mini-git": { "branch": "main", "commit": "f75ae3855f595e55e1a8a96521ffa01012632b28" },
-  "mini.ai": { "branch": "main", "commit": "40e380a589d07ec2c856940c6422aafe5d949a0d" },
-  "mini.basics": { "branch": "main", "commit": "7d4c6982be471e902c034bea6b3fe348058196d9" },
-  "mini.files": { "branch": "main", "commit": "a3a9cce82115a69dba161ac45bda16f4e606f73b" },
-  "mini.indentscope": { "branch": "main", "commit": "da9af64649e114aa79480c238fd23f6524bc0903" },
-  "mini.jump": { "branch": "main", "commit": "cd429d8d631a2fa766e60b72ee6fbff78afa3fda" },
+  "lazy.nvim": { "branch": "main", "commit": "7527af40ddd4a93a02911be570b32609b9d4ea53" },
+  "mini-git": { "branch": "main", "commit": "fc13dde6cfe87cf25a4fd1ee177c0d157468436b" },
+  "mini.ai": { "branch": "main", "commit": "ebb04799794a7f94628153991e6334c3304961b8" },
+  "mini.basics": { "branch": "main", "commit": "67c10b3436d5d3b892715137f4773e71c6753b13" },
+  "mini.files": { "branch": "main", "commit": "01001e0cfc1e79f581d055ae3f70fbac96a2f378" },
+  "mini.indentscope": { "branch": "main", "commit": "613df2830d7faeae7483ba2e736683154b95921e" },
+  "mini.jump": { "branch": "main", "commit": "bb93d998c9db6936697746330411f5fb9957145e" },
   "mini.move": { "branch": "main", "commit": "4caa1c212f5ca3d1633d21cfb184808090ed74b1" },
-  "mini.pairs": { "branch": "main", "commit": "e543c760edc5e746e5b6cbd02c066c17ead3ef16" },
-  "mini.pick": { "branch": "main", "commit": "b87f4d4e75673f6e7b918408017833424ecaa245" },
+  "mini.pairs": { "branch": "main", "commit": "7e834c5937d95364cc1740e20d673afe2d034cdb" },
+  "mini.pick": { "branch": "main", "commit": "fc0d862a044af97f7850535fc8799ab38a223fe6" },
   "mini.splitjoin": { "branch": "main", "commit": "3e92f6764e770ba392325cad3a4497adcada695f" },
-  "mini.surround": { "branch": "main", "commit": "0e67c4bc147f2a15cee94e7c94dcc0e115b9f55e" },
-  "nvim-lspconfig": { "branch": "master", "commit": "0913481440219390969ab56a3c33089679365ef7" }
+  "mini.surround": { "branch": "main", "commit": "aa5e245829dd12d8ff0c96ef11da28681d6049aa" },
+  "nvim-lspconfig": { "branch": "master", "commit": "ead2fbc4893fdd062e1dd0842679a48bfb7bac5c" }
 }

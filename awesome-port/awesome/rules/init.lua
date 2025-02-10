@@ -18,10 +18,7 @@ ruled.client.connect_signal('request::rules', function()
    ruled.client.append_rule{
       id = 'floating',
       rule_any = {
-         instance = {},
-         class = { },
-         name = { },
-         role = { }
+          class = { "Main"},  -- Match Java-based windows
       },
       properties = {floating = true}
    }
@@ -30,7 +27,7 @@ ruled.client.connect_signal('request::rules', function()
    ruled.client.append_rule{
       id         = 'titlebars',
       rule_any   = {type = {'normal', 'dialog'}},
-      properties = {titlebars_enabled = false},
+      properties = {titlebars_enabled = true},
    }
 
    -- Set Firefox to always map on the tag named '2' on screen 1.

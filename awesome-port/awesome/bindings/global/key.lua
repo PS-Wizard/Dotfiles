@@ -185,9 +185,9 @@ awful.keyboard.append_global_keybindings{
     awful.key{
         modifiers   = {mod.super},
         key         = 'y',
-        description = 'take screenshot and save to ~/Pictures/',
+        description = 'take screenshot and save to 1920x1080 resolution in ~/Pictures/',
         group       = 'media',
-        on_press    = function() awful.spawn('maim ' .. os.getenv("HOME") .. '/Pictures/screenshot.png') end,
+        on_press    = function() awful.spawn('maim -g 1920x1080 ' .. os.getenv("HOME") .. '/Pictures/screenshot.png') end,
     },
 
     awful.key{
@@ -195,7 +195,7 @@ awful.keyboard.append_global_keybindings{
         key         = 'y',
         description = 'take screenshot selection and copy to clipboard',
         group       = 'media',
-        on_press    = function() awful.spawn('maim -g 1920x1080 ' .. os.getenv("HOME") .. '/Pictures/screenshot.png') end,
+        on_press    = function() awful.spawn.with_shell('maim -s | xclip -selection clipboard -t image/png') end,
     },
 }
 

@@ -25,24 +25,28 @@ return {
         version = '*',
         opts = {},
     },
-    { 
+    {
         'echasnovski/mini.pick',
         version = '*',
         keys = {
-            { "<leader>ff", "<cmd>Pick files<cr>", desc = "Pick files" },
+            { "<leader>ff", function()
+                require("mini.pick").start({
+                    source = {
+                        items = vim.fn.systemlist("find . -type f ! -name '*.class'"),
+                    }
+                })
+            end, desc = "Pick files" },
             { "<leader>fc", "<cmd>Pick grep_live<cr>", desc = "Pick live grep" },
         },
         opts = {
-            silent=true,
+            silent = true,
             mappings = {
                 move_down = '<C-j>',
                 move_up = '<C-k>',
-                move_start = '<C-g>',
                 caret_left = '<C-h>',
                 caret_right = '<C-l>',
-                caret_left = '<C-h>',
-            }
-        }
+            },
+        },
     },
     { 
         'echasnovski/mini.files',
