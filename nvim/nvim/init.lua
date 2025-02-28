@@ -202,11 +202,7 @@ later(function()
         on_attach = on_attach,
         capabilities = capabilities,
         handlers = handlers,
+        filetypes = {"go","templ"},
     })
 
-    -- lspconfig.ts_ls.setup({
-        --     on_attach = on_attach,
-        --     capabilities = capabilities,
-        --     cmd = { "typescript-language-server", "--stdio" },
-        -- })
     end)

@@ -18,3 +18,5 @@ vim.o.linebreak = true
 vim.o.undofile = false
 vim.opt.list = false
 vim.opt.hlsearch = false
+
+vim.filetype.add({ extension = { templ = "templ" } })

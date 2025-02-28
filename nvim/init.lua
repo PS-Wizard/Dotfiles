@@ -29,6 +29,10 @@ later(function()
 end)
 
 later(function()
+    add({ source = 'echasnovski/mini.ai', checkout = 'stable' })
+end)
+
+later(function()
     add({ source = 'echasnovski/mini.pairs', checkout = 'stable' })
     require('mini.pairs').setup()
 end)
@@ -39,6 +43,7 @@ end)
 
 later(function()
     add({ source = 'echasnovski/mini.files', checkout = 'stable' })
+    require('mini.files').setup()
 end)
 
 later(function()
@@ -79,19 +84,6 @@ later(function()
 end)
 
 later(function()
-    add({ source = 'echasnovski/mini.pick', checkout = 'stable' })
-    require('mini.pick').setup({
-        silent = true,
-        mappings = {
-            move_down = '<A-j>',
-            move_up = '<A-k>',
-            caret_left = '<A-h>',
-            caret_right = '<A-l>',
-        },
-    })
-end)
-
-later(function()
     add({ source = 'echasnovski/mini.indentscope', checkout = 'stable' })
     require('mini.indentscope').setup({
         silent = true,
@@ -113,20 +105,79 @@ later(function()
         silent = true,
         mappings = {
             -- Visual Mode
-            right = '<A-l>',
-            down = '<A-j>',
-            left = '<A-h>',
-            up = '<A-k>',
+            right = '<C-l>',
+            down = '<C-j>',
+            left = '<C-h>',
+            up = '<C-k>',
 
             -- Normal Mode
-            line_right = '<A-l>',
-            line_down = '<A-j>',
-            line_left = '<A-h>',
-            line_up = '<A-k>',
+            line_right = '',
+            line_down = '',
+            line_left = '',
+            line_up = '',
         }
     })
 end)
 
+later(function()
+    add({
+        source = 'ThePrimeagen/harpoon',
+        checkout = 'harpoon2',
+        depends = { 'nvim-lua/plenary.nvim' },
+    })
+    local harpoon = require("harpoon")
+    harpoon:setup()
+    vim.keymap.set("n", "<leader>a", function() harpoon:list():add() end)
+    vim.keymap.set("n", "<C-e>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
+
+    vim.keymap.set("n", "<leader>1", function() harpoon:list():select(1) end)
+    vim.keymap.set("n", "<leader>2", function() harpoon:list():select(2) end)
+    vim.keymap.set("n", "<leader>3", function() harpoon:list():select(3) end)
+    vim.keymap.set("n", "<leader>4", function() harpoon:list():select(4) end)
+
+    -- Toggle previous & next buffers stored within Harpoon list
+    vim.keymap.set("n", "<A-j>", function() harpoon:list():prev() end)
+    vim.keymap.set("n", "<A-k>", function() harpoon:list():next() end)
+end)
+
+later(function()
+    add({
+        source = 'nvim-telescope/telescope.nvim',
+        depends = { 'nvim-lua/plenary.nvim' },
+    })
+    local actions  = require('telescope.actions')
+    require('telescope').setup({
+        defaults = {
+            mappings = {
+                i = {
+                    -- Exit on Escape
+                    ["<Esc>"] = actions.close,
+                    -- Move up and down
+                    ["<C-k>"] = actions.move_selection_previous,
+                    ["<C-j>"] = actions.move_selection_next,
+                },
+                n = {
+                    -- Move up and down in normal mode
+                    ["<C-k>"] = actions.move_selection_previous,
+                    ["<C-j>"] = actions.move_selection_next,
+                },
+            },
+        },
+        pickers = {
+            live_grep = {
+                file_ignore_patterns = { 'node_modules', '.git', '.venv','.*_templ.go' },
+                additional_args = function(_)
+                    return { "--hidden" }
+                end
+            },
+            find_files = {
+                file_ignore_patterns = { 'node_modules', '.git', '.venv','.*_templ.go' },
+                hidden = true
+            }
+
+        },
+    })
+end)
 MiniDeps.add({
     source = 'saghen/blink.cmp',
     checkout = 'v0.11.0', 
@@ -203,9 +254,10 @@ later(function()
         handlers = handlers,
     })
 
-    -- lspconfig.ts_ls.setup({
-        --     on_attach = on_attach,
-        --     capabilities = capabilities,
-        --     cmd = { "typescript-language-server", "--stdio" },
-        -- })
-    end)
+    lspconfig.templ.setup({
+        on_attach = on_attach,
+        capabilities = capabilities,
+        handlers = handlers,
+    })
+
+end)
