@@ -2,6 +2,7 @@ local opts = { noremap = true, silent = true }
 
 vim.api.nvim_set_keymap('n', '<leader>ff', ':Telescope find_files<CR>', opts)
 vim.api.nvim_set_keymap('n', '<leader>fc', ':Telescope live_grep <CR>', opts)
+vim.api.nvim_set_keymap('n', '<leader>fd', ':Telescope diagnostics <CR>', opts)
 
 vim.api.nvim_set_keymap('n', '<leader>pv', ':lua MiniFiles.open()<CR>', opts)
 
