@@ -23,13 +23,32 @@ return {
                 },
                 pickers = {
                     live_grep = {
-                        file_ignore_patterns = { 'node_modules', '.git', '.venv','.*_templ.go' },
+                        file_ignore_patterns = {
+                            'node_modules/.',
+                            '.git',
+                            '.venv',
+                            '.*_templ.go',
+                            '*.mod',
+                            '*.sum',
+                            '*.class',
+                            '*.pdf',
+                            'package%-lock.json',
+                            'package.json',
+                        },
                         additional_args = function(_)
                             return { "--hidden" }
                         end
                     },
                     find_files = {
-                        file_ignore_patterns = { 'node_modules', '.git', '.venv','.*_templ.go' },
+                        file_ignore_patterns = {
+                            'node_modules/.',
+                            '.git',
+                            '.venv',
+                            '.*_templ.go',
+                            '*.class',
+                            'package%-lock.json',
+                            'package.json',
+                        },
                         hidden = true
                     }
                 },
