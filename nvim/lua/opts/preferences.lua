@@ -1,7 +1,6 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 vim.g.have_nerd_font = true
-vim.opt.number = true
 vim.opt.showmode = false
 vim.opt.breakindent = true
 vim.opt.undofile = false
@@ -12,8 +11,6 @@ vim.o.termguicolors = true
 vim.o.tabstop = 4
 vim.o.shiftwidth = 4
 vim.o.expandtab = true
-vim.wo.number = true
-vim.wo.relativenumber = true
 vim.wo.signcolumn = 'number'
 vim.wo.cursorline = true
 vim.o.smartindent = true

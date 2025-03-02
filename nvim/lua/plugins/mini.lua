@@ -18,6 +18,26 @@ return {
         }
     },
 
+
+    {
+        "echasnovski/mini.basics",
+        version = false,
+        opts = {
+            options = {
+                basic = true,
+                win_borders = 'single'
+            },
+            mappings = {
+                basic = true,
+                windows = false,
+            },
+            autocommands = {
+                basic = true,
+                relnum_in_visual_mode = false,
+            },
+        }
+    },
+
     {
         "echasnovski/mini.indentscope",
         version = false,
@@ -35,23 +55,6 @@ return {
         }
     },
 
-    {
-        "echasnovski/mini.basics",
-        version = false,
-        opts = {
-            options = {
-                basic = true,
-            },
-            mappings = {
-                basic = true,
-                windows = false,
-            },
-            autocommands = {
-                basic = true,
-                relnum_in_visual_mode = true,
-            },
-        }
-    },
 
     {
         "echasnovski/mini.surround",

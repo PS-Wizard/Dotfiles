@@ -28,6 +28,7 @@ return {
                             '.git',
                             '.venv',
                             '.*_templ.go',
+                            '.*_templ.txt',
                             '*.mod',
                             '*.sum',
                             '*.class',
@@ -45,6 +46,7 @@ return {
                             '.git',
                             '.venv',
                             '.*_templ.go',
+                            '.*_templ.txt',
                             '*.class',
                             'package%-lock.json',
                             'package.json',
@@ -71,8 +73,8 @@ return {
             vim.keymap.set("n", "<leader>4", function() harpoon:list():select(4) end)
 
             -- Toggle previous & next buffers stored within Harpoon list
-            vim.keymap.set("n", "<A-j>", function() harpoon:list():prev() end)
-            vim.keymap.set("n", "<A-k>", function() harpoon:list():next() end)
+            vim.keymap.set("n", "<A-k>", function() harpoon:list():prev() end)
+            vim.keymap.set("n", "<A-j>", function() harpoon:list():next() end)
         end,
     }
 }
