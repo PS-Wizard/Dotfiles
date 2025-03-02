@@ -19,7 +19,7 @@ return {
 
     {
         "neovim/nvim-lspconfig",
-        ft = "go,templ",
+        ft = "go",
         config = function()
             local signs = {
                 Error = "E",
@@ -66,6 +66,7 @@ return {
             local lspconfig = require("lspconfig")
             local blink_cmp = require('blink.cmp')
             local capabilities = blink_cmp.get_lsp_capabilities()
+            
 
             lspconfig.gopls.setup({
                 on_attach = on_attach,
@@ -74,11 +75,11 @@ return {
                 filetypes = {"go"},
             })
 
-            lspconfig.templ.setup({
-                on_attach = on_attach,
-                capabilities = capabilities,
-                handlers = handlers,
-            })
+            -- lspconfig.templ.setup({
+            --     on_attach = on_attach,
+            --     capabilities = capabilities,
+            --     handlers = handlers,
+            -- })
 
         end,
     }
