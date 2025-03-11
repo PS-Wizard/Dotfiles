@@ -24,6 +24,5 @@ Dotfiles for Sway, Packages installed are
 - https://stackoverflow.com/questions/65867932/how-to-use-junit5-without-maven nothing else lol
 
 - MPICH MPICC whatever else its annoying
-- Nodejs,NPM For the Tailwind in the Goat Stack
-
+- ` xdg-desktop-portal-wlr` Shit i dont want
 
