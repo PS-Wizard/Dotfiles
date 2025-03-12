@@ -41,18 +41,26 @@ return {
     {
         "echasnovski/mini.indentscope",
         version = false,
-        opts = {
-            silent = true,
-            mappings = {
-                goto_top = '<leader>k',
-                goto_bottom = '<leader>j',
-            },
-            options = {
-                border='both',
-                indent_at_cursor = true,
-                try_as_border = true,
-            },
-        }
+        config = function()
+            local noAnimation = require("mini.indentscope").gen_animation.none()
+            require("mini.indentscope").setup({
+                silent = true,
+                mappings = {
+                    goto_top = '<leader>k',
+                    goto_bottom = '<leader>j',
+                },
+                options = {
+                    border='both',
+                    indent_at_cursor = true,
+                    try_as_border = true,
+                },
+                draw = {
+                    delay = 0,
+                    animation = noAnimation
+                },
+                symbol = '|',
+            })
+        end
     },
 
 

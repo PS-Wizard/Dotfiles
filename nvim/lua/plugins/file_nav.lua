@@ -33,6 +33,7 @@ return {
                             '*.sum',
                             '*.class',
                             '*.pdf',
+                            'tailwindcss',
                             'package%-lock.json',
                             'package.json',
                         },
@@ -49,6 +50,7 @@ return {
                             '.*_templ.txt',
                             '*.class',
                             'package%-lock.json',
+                            'tailwindcss',
                             'package.json',
                         },
                         hidden = false

@@ -19,7 +19,7 @@ return {
 
     {
         "neovim/nvim-lspconfig",
-        ft = "go",
+        ft = "go,templ",
         config = function()
             local signs = {
                 Error = "E",
@@ -75,12 +75,11 @@ return {
                 filetypes = {"go"},
             })
 
-            -- lspconfig.templ.setup({
-            --     on_attach = on_attach,
-            --     capabilities = capabilities,
-            --     handlers = handlers,
-            -- })
-
+            lspconfig.templ.setup({
+                on_attach = on_attach,
+                capabilities = capabilities,
+                handlers = handlers,
+            })
         end,
     }
 
