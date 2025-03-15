@@ -25,4 +25,8 @@ Dotfiles for Sway, Packages installed are
 
 - MPICH MPICC whatever else its annoying
 - ` xdg-desktop-portal-wlr` Shit i dont want
+- `jdk-openjdk` Shit i dont want
+- `Coursier` : Binary, package manager `/usr/bin`
+- `tailwindcss`: Binary, tailwindcss -> `/usr/bin`
+
 
