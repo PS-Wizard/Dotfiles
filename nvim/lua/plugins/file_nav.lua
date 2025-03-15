@@ -36,6 +36,7 @@ return {
                             'tailwindcss',
                             'package%-lock.json',
                             'package.json',
+                            'lib/.',
                         },
                         additional_args = function(_)
                             return { "--hidden" }
@@ -43,6 +44,7 @@ return {
                     },
                     find_files = {
                         file_ignore_patterns = {
+                            'lib/.',
                             'node_modules/.',
                             '.git',
                             '.venv',
