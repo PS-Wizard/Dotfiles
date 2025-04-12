@@ -19,7 +19,7 @@ return {
 
     {
         "neovim/nvim-lspconfig",
-        ft = "go,templ",
+        ft = "go,svelte,javascript,typescriptreact,javascriptreact",
         config = function()
             local signs = {
                 Error = "E",
@@ -75,11 +75,18 @@ return {
                 filetypes = {"go"},
             })
 
-            lspconfig.templ.setup({
+            lspconfig.svelte.setup({
                 on_attach = on_attach,
                 capabilities = capabilities,
                 handlers = handlers,
             })
+
+            lspconfig.ts_ls.setup({
+                on_attach = on_attach,
+                capabilities = capabilities,
+                handlers = handlers,
+            })
+
         end,
     }
 

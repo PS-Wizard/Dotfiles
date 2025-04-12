@@ -24,5 +24,5 @@ require("lazy").setup({
     { import = "plugins" },
   },
   install = { colorscheme = { "dino" } },
-  checker = { enabled = true },
+  checker = { enabled =  false},
 })

@@ -17,7 +17,7 @@ vim.api.nvim_set_keymap('n', '<leader>ab', 'i```<CR>~<CR><CR>```<Esc>O', opts)
 -- Quickfix navigation with wrapping
 vim.api.nvim_set_keymap('n', '<C-j>', ':lua if vim.fn.getqflist({idx=0}).idx == #vim.fn.getqflist() then vim.cmd("cfirst") else vim.cmd("cnext") end<CR>zz', opts)
 vim.api.nvim_set_keymap('n', '<C-k>', ':lua if vim.fn.getqflist({idx=0}).idx == 1 then vim.cmd("clast") else vim.cmd("cprev") end<CR>zz', opts)
-
+--
 -- Text formatting mappings
 vim.api.nvim_set_keymap('n', '<leader>mb', 'i****<Esc>hi', opts)  -- Make bold
 vim.api.nvim_set_keymap('n', '<leader>mi', 'i**<Esc>i', opts)   -- Make italic
