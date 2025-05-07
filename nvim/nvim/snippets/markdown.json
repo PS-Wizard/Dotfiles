@@ -1,0 +1,58 @@
+{
+    "h1": {
+        "prefix": "h1",
+        "body": ["# $0"],
+        "description": "Heading 1"
+    },
+    "h2": {
+        "prefix": "h2",
+        "body": ["## $0"],
+        "description": "Heading 2"
+    },
+    "h3": {
+        "prefix": "h3",
+        "body": ["### $0"],
+        "description": "Heading 3"
+    },
+    "h4": {
+        "prefix": "h4",
+        "body": ["#### $0"],
+        "description": "Heading 4"
+    },
+    "h5": {
+        "prefix": "h5",
+        "body": ["##### $0"],
+        "description": "Heading 5"
+    },
+    "italic": {
+        "prefix": "italic",
+        "body": ["*$0*"],
+        "description": "Italic text"
+    },
+    "bold": {
+        "prefix": "bold",
+        "body": ["**$0**"],
+        "description": "Bold text"
+    },
+    "highlight": {
+        "prefix": "highlight",
+        "body": ["==$0=="],
+        "description": "Highlight"
+    },
+    "codeblock": {
+        "prefix": "codeblock",
+        "body": [
+            "```$1",
+            "$0",
+            "```"
+        ],
+        "description": "Code block with language"
+    },
+    "sep": {
+        "prefix": "seperator",
+        "body": [
+            "---"
+        ],
+        "description": "seperator"
+    }
+}
