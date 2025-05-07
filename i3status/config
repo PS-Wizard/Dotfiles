@@ -1,0 +1,27 @@
+general {
+    output_format = "i3bar"
+    colors = true
+    interval = 60
+}
+
+order += "volume master"
+order += "battery 0"   # Or use battery all for all batteries
+order += "time"
+
+# Volume
+volume master {
+    format = "vol: %volume"
+}
+
+# Battery 
+battery 0 {
+    format = "%status %percentage"
+    path = "/sys/class/power_supply/BAT1/uevent"  # Update path if necessary
+    low_threshold = 20  # Threshold for low battery (in percentage)
+    threshold_type = "percentage"  # Use "percentage" or "time"
+}
+
+# Time
+time {
+    format = "%a %F %H:%M"
+}

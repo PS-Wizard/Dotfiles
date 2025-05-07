@@ -23,6 +23,6 @@ require("lazy").setup({
   spec = {
     { import = "plugins" },
   },
-  install = { colorscheme = { "dino" } },
+  install = { colorscheme = { "rose-pine" } },
   checker = { enabled =  false},
 })

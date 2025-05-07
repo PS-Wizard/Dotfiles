@@ -5,7 +5,7 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
-alias ls='ls --color=auto'
+alias ls='ls --color=auto -p'
 alias grep='grep --color=auto'
 PS1='[\u@\h \W]\$ '
 set -o vi
@@ -27,7 +27,9 @@ export PATH="$PATH:/home/wizard/.turso"
 export TURSO_AUTH_TOKEN="eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NDI2MjQ5MzQsImlkIjoiMTQ4NmEyZWQtNjRlMy00NzJiLTg5ODItN2EzOThhYzkwMDk0IiwicmlkIjoiNmE5ZWIzMTctODYyOC00MGZiLTgxZTUtMjVlYTFmYjUyMTY1In0.EWeDanU1KitFJXVLRgiu4LfstuPmmI3d34xZ8kwwLyoC6k6BB_jThHdHGyULqcbB86jsBHrSwriB8sFzilp8DQ"
 export TURSO_DATABASE_URL="libsql://votingsystem-wizard.turso.io"
 
+export EDITOR=nvim
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
-export NODE_EXTRA_CA_CERTS=$(mkcert -CAROOT)/rootCA.pem
+# export NODE_EXTRA_CA_CERTS=$(mkcert -CAROOT)/rootCA.pem
+#

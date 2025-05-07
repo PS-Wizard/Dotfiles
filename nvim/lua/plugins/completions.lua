@@ -40,14 +40,18 @@ return {
             }
 
             vim.diagnostic.config({
+                signs = {
+                    text = {
+                        [vim.diagnostic.severity.ERROR] = "E",
+                        [vim.diagnostic.severity.WARN] = "W",
+                        [vim.diagnostic.severity.HINT] = "H",
+                        [vim.diagnostic.severity.INFO] = "I",
+                    },
+                },
                 virtual_text = { prefix = '<- ' },
                 float = { border = border },
             })
 
-            for type, icon in pairs(signs) do
-                local hl = "DiagnosticSign" .. type
-                vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
-            end
 
             local on_attach = function(client)
                 vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, {})
@@ -60,13 +64,13 @@ return {
                 vim.keymap.set('n', '<leader>zz', vim.lsp.buf.format, {})
                 vim.keymap.set('n', '[d', vim.diagnostic.goto_next, {})
                 vim.keymap.set('n', ']d', vim.diagnostic.goto_prev, {})
-                vim.keymap.set('n', '<leader>rf', vim.lsp.buf.references, {})
+                vim.keymap.set('n', '<leader>gr', vim.lsp.buf.references, {})
             end
 
             local lspconfig = require("lspconfig")
             local blink_cmp = require('blink.cmp')
             local capabilities = blink_cmp.get_lsp_capabilities()
-            
+
 
             lspconfig.gopls.setup({
                 on_attach = on_attach,

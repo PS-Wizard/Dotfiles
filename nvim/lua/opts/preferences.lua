@@ -27,7 +27,6 @@ vim.opt.inccommand = 'split'
 vim.opt.laststatus = 3
 vim.opt.scrolloff = 10
 
-vim.cmd('colorscheme dino')
 
-vim.filetype.add({ extension = { templ = "templ" } })
-vim.api.nvim_create_autocmd("BufEnter", { pattern = "*.templ", callback = function() vim.cmd("set syntax=html") end }) 
+-- vim.filetype.add({ extension = { templ = "templ" } })
+vim.api.nvim_create_autocmd("BufEnter", { pattern = "*.svelte", callback = function() vim.cmd("set syntax=html") end }) 
