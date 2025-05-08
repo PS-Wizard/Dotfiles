@@ -49,7 +49,7 @@ return {
                             '.git',
                             '.venv',
                             '.*_templ.go',
-                            '.*_templ.txt',
+                            '.y*_templ.txt',
                             '*.class',
                             'package%-lock.json',
                             'tailwindcss',
@@ -61,4 +61,22 @@ return {
             })
         end,
     },
+    {
+        "folke/flash.nvim",
+        event = "VeryLazy",
+        opts = {
+            labels = "qwertuiopasdfjkl;",
+            search = {
+                mode = "fuzzy"
+            },
+            jump = {
+                nohlsearch = true,
+                autojump = true,
+            }
+        },
+        keys = {
+            { "S", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
+            { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
+        },
+    }
 }

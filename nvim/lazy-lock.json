@@ -1,10 +1,12 @@
 {
   "blink.cmp": { "branch": "main", "commit": "4f38ce99a472932d5776337f08f7a8180f1f571a" },
+  "flash.nvim": { "branch": "main", "commit": "3c942666f115e2811e959eabbdd361a025db8b63" },
   "img-clip.nvim": { "branch": "main", "commit": "08a02e14c8c0d42fa7a92c30a98fd04d6993b35d" },
   "kulala.nvim": { "branch": "main", "commit": "48902de58ea576c30f8aa8e0a791d06b54f9f81f" },
   "lazy.nvim": { "branch": "main", "commit": "6c3bda4aca61a13a9c63f1c1d1b16b9d3be90d7a" },
   "mini.ai": { "branch": "main", "commit": "e139eb1101beb0250fea322f8c07a42f0f175688" },
   "mini.basics": { "branch": "main", "commit": "9904890cf863a7cbc3f57a1cbac3d298a33e90a4" },
+  "mini.colors": { "branch": "main", "commit": "c45b8ee96f0347134e34ba3f0adaf08a9a8826d3" },
   "mini.files": { "branch": "main", "commit": "432142ada983ec5863ba480f0e4891b7d64ce3f6" },
   "mini.indentscope": { "branch": "main", "commit": "8af2569a7d7fd37300dfa760e44e71efbbf322fd" },
   "mini.jump": { "branch": "main", "commit": "65bf2c55680d8be63d29ce0c5ee4e33031426115" },
@@ -14,6 +16,5 @@
   "mini.surround": { "branch": "main", "commit": "5aab42fcdcf31fa010f012771eda5631c077840a" },
   "nvim-lspconfig": { "branch": "master", "commit": "46434074f188e6bfccf9d9153dd8be6b1381498b" },
   "plenary.nvim": { "branch": "master", "commit": "857c5ac632080dba10aae49dba902ce3abf91b35" },
-  "rose-pine": { "branch": "main", "commit": "614892e32e94378d976a238f287532cfe790c1fe" },
   "telescope.nvim": { "branch": "master", "commit": "a4ed82509cecc56df1c7138920a1aeaf246c0ac5" }
 }

@@ -10,13 +10,6 @@ return {
         },
     },
     {
-        "rose-pine/neovim",
-        name = "rose-pine",
-        config = function() 
-            vim.cmd.colorscheme("rose-pine-main")
-        end,
-    },
-    {
         "mistweaverco/kulala.nvim",
         keys = {
             { "<leader>Rs", desc = "Send request" },
@@ -27,5 +20,10 @@ return {
             -- your configuration comes here
             global_keymaps = true,
         },
+    },
+    {
+        'echasnovski/mini.colors',
+        version = false,
     }
+
 }
