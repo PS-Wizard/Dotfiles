@@ -75,7 +75,7 @@ return {
             }
         },
         keys = {
-            { "<M-j>", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
+            { "<M-Space>", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
             { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
         },
     },
@@ -91,7 +91,7 @@ return {
                 text_align = "left",
             },
             hints = {
-                dictionary = "hjkl;asdfg",
+                dictionary = "uiopfds",
             },
             navigate = {
                 cancel_snipe = "q"
