@@ -25,4 +25,6 @@ vim.api.nvim_set_keymap('n', '<leader>mb', 'i****<Esc>hi', opts)  -- Make bold
 vim.api.nvim_set_keymap('n', '<leader>mi', 'i**<Esc>i', opts)   -- Make italic
 vim.api.nvim_set_keymap('n', '<leader>mI', 'i++++<Esc>hi', opts)  -- Make insert
 vim.api.nvim_set_keymap('n', '<leader>mn', 'i***++++***<Esc>4hi', opts)  -- Make bold+italic+insert
+vim.api.nvim_set_keymap('n', '<leader>hn', 'i***++++***<Esc>4hi', opts)  -- Make bold+italic+insert
+vim.api.nvim_set_keymap('n', '<leader>hn', [[:lua vim.wo.number = not vim.wo.number; vim.wo.relativenumber = vim.wo.number<CR>]], { noremap = true, silent = true })
 

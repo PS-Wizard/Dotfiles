@@ -75,8 +75,27 @@ return {
             }
         },
         keys = {
-            { "S", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
+            { "<M-j>", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
             { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
         },
+    },
+    {
+        "leath-dub/snipe.nvim",
+        keys = {
+            {"<M-q>", function () require("snipe").open_buffer_menu() end, desc = "Open Snipe buffer menu"}
+        },
+        opts = {
+            ui = {
+                position = "topright",
+                preselect_current = false,
+                text_align = "left",
+            },
+            hints = {
+                dictionary = "hjkl;asdfg",
+            },
+            navigate = {
+                cancel_snipe = "q"
+            },
+        }
     }
 }
