@@ -4,16 +4,32 @@ general {
     interval = 60
 }
 
+order += "memory"
+order += "cpu_usage"
 order += "volume master"
-order += "battery 0"   # Or use battery all for all batteries
+order += "battery 0"
 order += "time"
+
+# Ram usage
+memory {
+    format = "ram: %used / %total"
+    threshold_degraded = "90%"
+    format_degraded = "ram: %used / %total !"
+}
+
+# CPU Usage
+cpu_usage {
+    format = "cpu: %usage"
+    max_threshold = 85
+    format_above_threshold = "cpu: %usage !"
+}
 
 # Volume
 volume master {
     format = "vol: %volume"
 }
 
-# Battery 
+# Battery 0
 battery 0 {
     format = "%status %percentage"
     path = "/sys/class/power_supply/BAT1/uevent"  # Update path if necessary

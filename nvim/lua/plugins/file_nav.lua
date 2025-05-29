@@ -56,46 +56,34 @@ return {
                             'package.json',
                         },
                         hidden = false
-                    }
+                    },
                 },
             })
         end,
     },
     {
-        "folke/flash.nvim",
-        event = "VeryLazy",
-        opts = {
-            labels = "qwertuiopasdfjkl;",
-            search = {
-                mode = "fuzzy"
-            },
-            jump = {
-                nohlsearch = true,
-                autojump = true,
-            }
-        },
-        keys = {
-            { "<M-Space>", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
-            { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
-        },
+        "ThePrimeagen/harpoon",
+        branch = "harpoon2",
+        dependencies = { "nvim-lua/plenary.nvim" },
+        config = function()
+            local harpoon = require("harpoon")
+
+            -- REQUIRED
+            harpoon:setup()
+            -- REQUIRED
+
+            vim.keymap.set("n", "<leader>a", function() harpoon:list():add() end)
+            vim.keymap.set("n", "<C-e>", function() harpoon.ui:toggle_quick_menu(harpoon:list()) end)
+
+            vim.keymap.set("n", "<leader>1", function() harpoon:list():select(1) end)
+            vim.keymap.set("n", "<leader>2", function() harpoon:list():select(2) end)
+            vim.keymap.set("n", "<leader>3", function() harpoon:list():select(3) end)
+            vim.keymap.set("n", "<leader>4", function() harpoon:list():select(4) end)
+            vim.keymap.set("n", "<leader>5", function() harpoon:list():select(5) end)
+
+            -- Toggle previous & next buffers stored within Harpoon list
+            vim.keymap.set("n", "<M-j>", function() harpoon:list():prev() end)
+            vim.keymap.set("n", "<M-k>", function() harpoon:list():next() end)
+        end,
     },
-    {
-        "leath-dub/snipe.nvim",
-        keys = {
-            {"<M-q>", function () require("snipe").open_buffer_menu() end, desc = "Open Snipe buffer menu"}
-        },
-        opts = {
-            ui = {
-                position = "topright",
-                preselect_current = false,
-                text_align = "left",
-            },
-            hints = {
-                dictionary = "uiopfds",
-            },
-            navigate = {
-                cancel_snipe = "q"
-            },
-        }
-    }
 }

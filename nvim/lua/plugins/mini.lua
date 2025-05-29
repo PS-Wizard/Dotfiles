@@ -29,7 +29,7 @@ return {
             },
             mappings = {
                 basic = true,
-                windows = false,
+                windows = true,
             },
             autocommands = {
                 basic = true,
@@ -98,15 +98,15 @@ return {
         }
     },
 
-    -- {
-    --     "echasnovski/mini.jump",    
-    --     version = false,
-    --     opts = {
-    --         delay = {
-    --             highlight = 20,
-    --         },
-    --         silent = true,
-    --     }
-    -- },
+    {
+        "echasnovski/mini.jump",    
+        version = false,
+        opts = {
+            delay = {
+                highlight = 20,
+            },
+            silent = true,
+        }
+    },
 
 }

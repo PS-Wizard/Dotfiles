@@ -26,7 +26,7 @@ vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 vim.opt.inccommand = 'split'
 vim.opt.laststatus = 3
 vim.opt.scrolloff = 10
-
+vim.o.winborder = 'rounded'
 
 -- vim.filetype.add({ extension = { templ = "templ" } })
 vim.api.nvim_create_autocmd("BufEnter", { pattern = "*.svelte", callback = function() vim.cmd("set syntax=html") end }) 

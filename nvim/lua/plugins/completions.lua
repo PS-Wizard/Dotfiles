@@ -1,5 +1,4 @@
 return {
-
     {
         "saghen/blink.cmp",
         version = "*",
@@ -14,53 +13,42 @@ return {
                     'lsp', 'path', 'snippets', 'buffer',
                 },
             },
+            signature = {
+                enabled=true,
+            },
+            completion = {
+                documentation = {
+                    auto_show = true,
+                    auto_show_delay_ms = 500,
+                    window = {
+                        border = 'rounded',
+                        winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:BlinkCmpDocCursorLine,Search:None",
+                    },
+                },
+                menu = {
+                    border = "rounded",
+                    draw = { gap = 2 },
+                    winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:BlinkCmpMenuSelection,Search:None",
+                },
+            },
         }
     },
 
     {
         "neovim/nvim-lspconfig",
-        ft = "go,svelte,javascript,typescriptreact,javascriptreact",
+        ft = "go,rust",
         config = function()
-            local signs = {
-                Error = "E",
-                Warning = "W",
-                Hint = "H",
-                Information = "I"
-            }
-
-            local border = {
-                { '┌', 'FloatBorder' }, { '─', 'FloatBorder' }, { '┐', 'FloatBorder' },
-                { '│', 'FloatBorder' }, { '┘', 'FloatBorder' }, { '─', 'FloatBorder' },
-                { '└', 'FloatBorder' }, { '│', 'FloatBorder' }
-            }
-
-            local handlers = {
-                ['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, { border = border }),
-                ['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, { border = border }),
-            }
 
             vim.diagnostic.config({
-                signs = {
-                    text = {
-                        [vim.diagnostic.severity.ERROR] = "E",
-                        [vim.diagnostic.severity.WARN] = "W",
-                        [vim.diagnostic.severity.HINT] = "H",
-                        [vim.diagnostic.severity.INFO] = "I",
-                    },
-                },
                 virtual_text = { prefix = '<- ' },
-                float = { border = border },
+                float = { border = 'rounded' },
             })
-
-
             local on_attach = function(client)
                 vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, {})
                 vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, {})
                 vim.keymap.set('n', 'gd', vim.lsp.buf.definition, {})
                 vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, {})
-                vim.keymap.set('n', 'K', function()
-                    vim.lsp.buf.hover({ border = "rounded" })
-                end, {})
+                vim.keymap.set('n', 'K', vim.lsp.buf.hover, {})
                 vim.keymap.set('n', '<leader>zz', vim.lsp.buf.format, {})
                 vim.keymap.set('n', '[d', vim.diagnostic.goto_next, {})
                 vim.keymap.set('n', ']d', vim.diagnostic.goto_prev, {})
@@ -71,27 +59,17 @@ return {
             local blink_cmp = require('blink.cmp')
             local capabilities = blink_cmp.get_lsp_capabilities()
 
-
             lspconfig.gopls.setup({
                 on_attach = on_attach,
                 capabilities = capabilities,
-                handlers = handlers,
                 filetypes = {"go"},
             })
 
-            lspconfig.svelte.setup({
+            lspconfig.rust_analyzer.setup({
                 on_attach = on_attach,
                 capabilities = capabilities,
-                handlers = handlers,
+                filetypes = {"rust"},
             })
-
-            lspconfig.ts_ls.setup({
-                on_attach = on_attach,
-                capabilities = capabilities,
-                handlers = handlers,
-            })
-
         end,
     }
-
 }
