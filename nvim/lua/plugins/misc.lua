@@ -21,9 +21,4 @@ return {
             global_keymaps = true,
         },
     },
-    {
-        'echasnovski/mini.colors',
-        version = false,
-    }
-
 }

@@ -77,9 +77,19 @@ return {
     },
 
     {
-        "echasnovski/mini.pairs",   
+        "echasnovski/mini.pairs",
         version = false,
-        opts = {}
+        opts = function()
+            require("mini.pairs").setup()
+
+            -- Just override the insert `'` key in rust files
+            vim.api.nvim_create_autocmd("FileType", {
+                pattern = "rust",
+                callback = function()
+                    vim.keymap.set("i", "'", "'", { buffer = 0 })
+                end,
+            })
+        end,
     },
 
     {
