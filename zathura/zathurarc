@@ -1,0 +1,8 @@
+set recolor           true
+set recolor-keephue   false
+set recolor-lightcolor "#0e0a19"
+set recolor-darkcolor  "#e0def4"
+set adjust-open "best-fit"
+set font "JetBrains Mono 14"
+set selection-clipboard clipboard
+map <F5> recolor
