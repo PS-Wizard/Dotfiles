@@ -37,7 +37,7 @@ return {
 
     {
         "neovim/nvim-lspconfig",
-        ft = "go,rust",
+        ft = "go,rust,typescriptreact,javascriptreact,javascript",
         config = function()
 
             vim.diagnostic.config({
@@ -71,6 +71,13 @@ return {
                 capabilities = capabilities,
                 filetypes = {"rust"},
             })
+
+            lspconfig.ts_ls.setup({
+                on_attach = on_attach,
+                capabilities = capabilities,
+                filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
+            })
+
         end,
     }
 }

@@ -15,8 +15,8 @@ return {
                         "--line-number",
                         "--column",
                         "--smart-case",
-                        "--hidden",
-                        "--glob=!node_modules/*",
+                        "--glob=!node_modules/**",
+                        "--glob=!**/node_modules/**",
                         "--glob=!.git/*",
                         "--glob=!.venv/*",
                         "--glob=!*.mod",
@@ -28,26 +28,14 @@ return {
                         "--glob=!package.json",
                         "--glob=!lib/*",
                         "--glob=!**/*_templ.go",
-                        "--glob=!**/*_templ.txt"
+                        "--glob=!**/*_templ.txt",
+                        "--glob=!.next/*"  
                     }, " ")
                 },
                 files = {
-                    fd_opts = table.concat({
-                        "--color=never",
-                        "--type f",
-                        "--hidden",
-                        "--exclude .git",
-                        "--exclude node_modules",
-                        "--exclude .venv",
-                        "--exclude lib",
-                        "--exclude tailwindcss",
-                        "--exclude package-lock.json",
-                        "--exclude package.json",
-                        "--exclude **/*_templ.go",
-                        "--exclude **/*_templ.txt",
-                        "--exclude *.class"
-                    }, " ")
-                }
+                    fd_opts = [[--color=never --type f --hidden --follow --exclude .git --ignore-file ]]
+                    .. vim.fn.expand("$HOME/.config/nvim/lua/opts/fzf_ignore"),
+                },
             })
             local opts = { noremap = true, silent = true }  -- define opts
 
