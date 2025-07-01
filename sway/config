@@ -10,8 +10,7 @@ set $right l
 set $term foot
 
 # Wallpaper: 
-output * bg $HOME/.config/sway/wallpaper.png fill
-
+output * background /home/wizard/.config/sway/wallpaper.png fill
 # Caps to Escape:
 input * xkb_options "caps:escape"
 # Touchpad: 
@@ -92,7 +91,6 @@ mode "resize" {
     bindsym Return mode "default"
     bindsym Escape mode "default"
 }
-for_window [app_id="firefox"] border none
 bindsym $mod+r mode "resize"
 bindsym $mod+Tab workspace back_and_forth
 
@@ -102,6 +100,8 @@ exec swayidle -w \
     timeout 200 'systemctl suspend ' \
     before-sleep 'nmcli radio wifi off' 
 
+
+default_border pixel 0
 hide_edge_borders --i3 smart
 font pango:monospace 0.001 
 bindsym XF86MonBrightnessDown exec "brightnessctl --min-value=1 set 5%-"
@@ -116,20 +116,21 @@ bindsym $mod+p exec '[ "$(swaymsg -t get_bar_config bar-0 | jq -r ".mode")" = "d
 bindsym $mod+o output HDMI-A-1 pos 0 0 res 1920x1080; output eDP-1 pos 0 1440 res 1920x1080
 client.focused #242323 #242323 #242323 #242323
 set $volu $(wpctl get-volume @DEFAULT_AUDIO_SINK@)
-set $batt $(cat /sys/class/power_supply/BAT0/capacity)
+set $batt $(cat /sys/class/power_supply/BAT1/capacity)
+set $ram_used $(awk '/MemTotal/ {total=$2} /MemAvailable/ {avail=$2} END {printf "%.0f", (total - avail)*100/total}' /proc/meminfo)
 set $date $(date +"%a %F %H:%M")
 set $uptime $(uptime -p)
-set $status  vol: [$volu] - bat: [$batt% -$uptime] - $date
+set $status  vol: [$volu] - bat: [$batt% -$uptime] ram: [$ram_used%]- $date
 
 bar {
     position top
     font JetBrains Mono 
-    status_command while echo $status; do sleep 20; done
-
+    status_command i3status
     colors {
         statusline #018f7a
-        background #070709
+        background #0e0a19
         inactive_workspace #1c1c1c #16161e #535353
     }
 }
+
 include /etc/sway/config.d/*
