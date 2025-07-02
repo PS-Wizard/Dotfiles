@@ -7,21 +7,11 @@ return {
                 winopts = { 
                     fullscreen = true,
                 },
-                -- grep = {
-                --     -- rg_opts = table.concat({
-                --     --     "--color=never",
-                --     --     "--no-heading",
-                --     --     "--with-filename",
-                --     --     "--line-number",
-                --     --     "--column",
-                --     --     "--smart-case",
-                --     --     "--ignore-file=" .. vim.fn.expand("~/.config/nvim/lua/opts/fzf_ignore")
-                --     -- }, " ")
-                -- },
-                -- files = {
-                --     fd_opts = [[--color=never --type f --hidden --follow --exclude .git --ignore-file ]]
-                --     .. vim.fn.expand("$HOME/.config/nvim/lua/opts/fzf_ignore"),
-                -- },
+                keymap = {
+                    builtin = {
+                        ["<C-h>"] = "toggle-preview",
+                    },
+                },
             })
             local opts = { noremap = true, silent = true }  -- define opts
 

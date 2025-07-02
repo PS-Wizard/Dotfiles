@@ -5,8 +5,8 @@ return {
         opts = {
             keymap = {
                 preset = 'super-tab',
-                ['<M-k>'] = { 'select_prev', 'fallback' },
-                ['<M-j>'] = { 'select_next', 'fallback' },
+                ['<C-k>'] = { 'select_prev', 'fallback' },
+                ['<C-j>'] = { 'select_next', 'fallback' },
             },
             sources = {
                 default = {
