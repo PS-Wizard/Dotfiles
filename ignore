@@ -3,6 +3,7 @@ node_modules/
 *.pdf
 
 .local/
+target/
 .npm/
 .cargo/
 .cache/
@@ -11,6 +12,7 @@ node_modules/
 *.rustup*
 .zen/
 .pki/
+.obsidian/
 go/
 
 .config/*next*

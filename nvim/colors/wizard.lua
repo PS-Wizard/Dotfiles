@@ -11,12 +11,17 @@ hi(0, "@attribute.builtin", { bold = true, fg = "#c4a7e7" })
 hi(0, "@attribute.diff", { fg = "#f6c177" })
 hi(0, "@character.special", { link = "Character" })
 hi(0, "@class", { fg = "#9ccfd8" })
-hi(0, "@comment.error", { fg = "#eb6f92" })
-hi(0, "@comment.hint", { bg = "#332d41", fg = "#c4a7e7" })
-hi(0, "@comment.info", { bg = "#2d333f", fg = "#9ccfd8" })
-hi(0, "@comment.note", { bg = "#1d2534", fg = "#31748f" })
-hi(0, "@comment.todo", { bg = "#39303b", fg = "#ebbcba" })
-hi(0, "@comment.warning", { fg = "#f6c177" })
+
+-- hi(0, "@comment.error", { fg = "#eb6f92" })
+-- hi(0, "@comment.hint", { bg = "#332d41", fg = "#c4a7e7" })
+-- hi(0, "@comment.info", { bg = "#2d333f", fg = "#9ccfd8" })
+-- hi(0, "@comment.note", { bg = "#1d2534", fg = "#31748f" })
+-- hi(0, "@comment.todo", { bg = "#39303b", fg = "#ebbcba" })
+-- hi(0, "@comment.warning", { fg = "#f6c177" })
+-- Highlight rules
+-- Match rules (highlight words in comments)
+
+
 hi(0, "@conceal", { link = "Conceal" })
 hi(0, "@conceal.markdown", { fg = "#908caa" })
 hi(0, "@conditional", { link = "Conditional" })

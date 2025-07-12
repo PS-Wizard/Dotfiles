@@ -7,6 +7,8 @@ return {
                 preset = 'super-tab',
                 ['<C-k>'] = { 'select_prev', 'fallback' },
                 ['<C-j>'] = { 'select_next', 'fallback' },
+                ['<C-u>'] = { 'scroll_documentation_up','fallback' },
+                ['<C-d>'] = { 'scroll_documentation_down','fallback' },
             },
             sources = {
                 default = {
@@ -49,8 +51,23 @@ return {
                 vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, { buffer = bufnr })
                 vim.keymap.set('n', 'K', vim.lsp.buf.hover, { buffer = bufnr })
                 vim.keymap.set('n', '<leader>zz', vim.lsp.buf.format, { buffer = bufnr })
-                vim.keymap.set('n', '[d', vim.diagnostic.goto_next, { buffer = bufnr })
-                vim.keymap.set('n', ']d', vim.diagnostic.goto_prev, { buffer = bufnr })
+                local function open_loclist_if_diagnostics()
+                    vim.diagnostic.setloclist()
+                    local loclist = vim.fn.getloclist(0)
+                    if #loclist > 0 then
+                        vim.cmd("lopen")
+                    end
+                end
+
+                vim.keymap.set('n', '[d', function()
+                    vim.diagnostic.goto_prev()
+                    open_loclist_if_diagnostics()
+                end, { buffer = bufnr })
+
+                vim.keymap.set('n', ']d', function()
+                    vim.diagnostic.goto_next()
+                    open_loclist_if_diagnostics()
+                end, { buffer = bufnr })
                 vim.keymap.set('n', '<leader>gr', vim.lsp.buf.references, { buffer = bufnr })
             end
 
