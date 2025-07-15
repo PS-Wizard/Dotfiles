@@ -5,10 +5,10 @@ return {
         opts = {
             silent = true,
             mappings = {
-                right = '<M-l>',
-                down = '<M-j>',
-                left = '<M-h>',
-                up = '<M-k>',
+                right = '<C-l>',
+                down = '<C-j>',
+                left = '<C-h>',
+                up = '<C-k>',
                 -- Normal Mode
                 line_right = '',
                 line_down = '',
@@ -88,12 +88,6 @@ return {
                 end,
             })
         end,
-    },
-
-    {
-        "echasnovski/mini.files",   
-        version = false,
-        opts = {}
     },
 
     {

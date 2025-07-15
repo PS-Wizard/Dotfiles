@@ -1,7 +1,7 @@
 local opts = { noremap = true, silent = true }
-vim.api.nvim_set_keymap('n', '<leader>pv', ':lua MiniFiles.open()<CR>', opts)
-
 -- Toggle between the latest buffers
+
+vim.keymap.set("n", "<leader>pv", "<CMD>Oil<CR>", { desc = "Open oil.nvim file explorer" })
 vim.api.nvim_set_keymap('n', '<leader>n', '<C-^>', opts)
 
 -- yank / paste 

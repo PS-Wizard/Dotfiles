@@ -20,10 +20,10 @@ vim.g.maplocalleader = "\\"
 
 -- Setup lazy.nvim
 require("lazy").setup({
-  spec = {
-    { import = "plugins" },
-  },
-  notify=false,
-  install = { colorscheme = { "wizard" } },
-  checker = { enabled =  false},
+    change_detection = { enabled = false },
+    spec = {
+        { import = "plugins" },
+    },
+    install = { colorscheme = { "wizard" } },
+    checker = { enabled =  false},
 })
