@@ -12,7 +12,8 @@ vim.o.termguicolors = true
 vim.o.tabstop = 4
 vim.o.shiftwidth = 4
 vim.o.expandtab = true
-vim.wo.signcolumn = 'number'
+vim.wo.number = true
+vim.wo.signcolumn = 'yes'
 vim.wo.cursorline = true
 vim.wo.number = true
 vim.wo.relativenumber = true
@@ -25,6 +26,7 @@ vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 vim.opt.inccommand = 'split'
 vim.opt.scrolloff = 10
 vim.o.winborder = 'rounded'
+vim.cmd([[highlight ColorColumn ctermbg=0 guibg=#3c3c3c]])
 
--- Filetype-specific settings
 vim.api.nvim_create_autocmd("BufEnter", { pattern = "*.svelte", callback = function() vim.cmd("set syntax=html") end })
+

@@ -8,6 +8,10 @@ alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 alias lz='lazygit'
 
+
+set -o vi
+set editing-mode vi
+
 export EDITOR=nvim
 export BROWSER=zen-browser
 alias sway='sway --unsupported-gpu'
@@ -28,6 +32,7 @@ eval "$(fzf --bash)"
 export FZF_DEFAULT_COMMAND="fd --type f --hidden"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_ALT_C_COMMAND="fd --type d --hidden"
+
 # fd will automatically use ~/.ignore
 _fzf_compgen_path() { 
     fd --hidden --exclude .git . "$1"
@@ -37,12 +42,10 @@ _fzf_compgen_dir() {
     fd --type=d --hidden --exclude .git . "$1"
 }
 
-. "$HOME/.cargo/env"
-
 clone() {
   git clone "https://github.com/$1.git"
 }
 mclone() {
   git clone "https://github.com/PS-Wizard/$1.git"
 }
-
+. "$HOME/.cargo/env"

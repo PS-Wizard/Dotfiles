@@ -1,0 +1,56 @@
+{
+  "h1": {
+    "prefix": "h1",
+    "body": ["<h1>$0</h1>"],
+    "description": "Heading 1"
+  },
+  "h2": {
+    "prefix": "h2",
+    "body": ["<h2>$0</h2>"],
+    "description": "Heading 2"
+  },
+  "h3": {
+    "prefix": "h3",
+    "body": ["<h3>$0</h3>"],
+    "description": "Heading 3"
+  },
+  "h4": {
+    "prefix": "h4",
+    "body": ["<h4>$0</h4>"],
+    "description": "Heading 4"
+  },
+  "h5": {
+    "prefix": "h5",
+    "body": ["<h5>$0</h5>"],
+    "description": "Heading 5"
+  },
+  "italic": {
+    "prefix": "italic",
+    "body": ["<em>$0</em>"],
+    "description": "Italic text"
+  },
+  "bold": {
+    "prefix": "bold",
+    "body": ["<strong>$0</strong>"],
+    "description": "Bold text"
+  },
+  "highlight": {
+    "prefix": "highlight",
+    "body": ["<mark>$0</mark>"],
+    "description": "Highlight"
+  },
+  "codeblock": {
+    "prefix": "codeblock",
+    "body": [
+      "<pre><code class=\"$1\">",
+      "$0",
+      "</code></pre>"
+    ],
+    "description": "Code block with language"
+  },
+  "sep": {
+    "prefix": "separator",
+    "body": ["<hr />"],
+    "description": "Separator"
+  }
+}

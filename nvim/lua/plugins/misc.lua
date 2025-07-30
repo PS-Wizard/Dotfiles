@@ -10,34 +10,6 @@ return {
         },
     },
     {
-        'stevearc/oil.nvim',
-        config = function ()
-            require("oil").setup({
-                default_file_explorer = true,
-                columns = {
-                    "icon",
-                    "size",
-                },
-                win_options = {
-                    wrap = true,
-                    signcolumn = "no",
-                    cursorcolumn = true,
-                },
-                lsp_file_methods = {
-                    enabled = true,
-                    timeout_ms = 1000,
-                    autosave_changes = false,
-                },
-                keymaps = {
-                    ["h"] = { "actions.parent", mode = "n", desc = "Navigate to parent directory" },
-                    ["l"] = { "actions.select", mode = "n", desc = "Navigate to parent directory" },
-                    -- ["="] = { "actions.save", mode = "n", desc = "Save changes" },
-                },
-            })
-        end,
-        lazy = false,
-    },
-    {
         'mluders/comfy-line-numbers.nvim',
         config = function()
             require('comfy-line-numbers').setup({
@@ -54,7 +26,6 @@ return {
                 up_key = 'k',
                 down_key = 'j',
 
-                -- Line numbers will be completely hidden for the following file/buffer types
                 hidden_file_types = { 'undotree' },
                 hidden_buffer_types = { 'terminal' },
             })

@@ -29,7 +29,7 @@ return {
                 },
                 menu = {
                     border = "rounded",
-                    draw = { gap = 2 },
+                    draw = { gap = 2, },
                     winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:BlinkCmpMenuSelection,Search:None",
                 },
             },
@@ -125,6 +125,18 @@ return {
                 on_attach = on_attach,
                 capabilities = capabilities,
                 filetypes = { "svelte" },
+            })
+
+            lspconfig.astro.setup({
+                on_attach = on_attach,
+                capabilities = capabilities,
+                cmd = { "astro-ls", "--stdio" },
+                filetypes = { "astro" },
+                init_options = {
+                    typescript = {
+                        tsdk = "/home/wizard/.pnpm/bin/global/5/.pnpm/typescript@5.8.3/node_modules/typescript/lib"
+                    }
+                }
             })
 
         end,

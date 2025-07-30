@@ -1,5 +1,4 @@
 {
-
     "h1": {
         "prefix": "h1",
         "body": ["# $0"],
@@ -40,6 +39,7 @@
         "body": ["==$0=="],
         "description": "Highlight"
     },
+
     "codeblock": {
         "prefix": "codeblock",
         "body": [
@@ -49,6 +49,7 @@
         ],
         "description": "Code block with language"
     },
+
     "sep": {
         "prefix": "seperator",
         "body": [

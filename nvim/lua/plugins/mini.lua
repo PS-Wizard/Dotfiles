@@ -1,5 +1,15 @@
 return {
     {
+        'echasnovski/mini.files',
+        version = false,
+        opts = function()
+            require('mini.files').setup({
+                content = { prefix = function() end }
+            })
+        end,
+    },
+
+    {
         "echasnovski/mini.move",
         version = false,
         opts = {
@@ -89,7 +99,6 @@ return {
             })
         end,
     },
-
     {
         "echasnovski/mini.splitjoin",
         version = false,
