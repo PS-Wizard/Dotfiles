@@ -1,6 +1,9 @@
 # Windows Key:
 set $mod Mod4
 
+# define alt
+set $alt Mod1
+
 # Home row direction keys, like vim
 set $left h
 set $down j
@@ -10,7 +13,15 @@ set $right l
 set $term foot
 
 # Wallpaper: 
-output * background /home/wizard/.config/sway/wallpaper.png fill
+output * background /home/wizard/.config/sway/a_house_in_the_woods_blur.jpg fill
+
+
+# Alt + w = blurred wallpaper
+bindsym $alt+w exec swaymsg output "*" background /home/wizard/.config/sway/a_house_in_the_woods_blur.jpg fill
+
+# Alt + Shift + w = normal wallpaper
+bindsym $alt+Shift+w exec swaymsg output "*" background /home/wizard/.config/sway/a_house_in_the_woods.png fill
+
 # Caps to Escape:
 input * xkb_options "caps:escape"
 # Touchpad: 
@@ -130,7 +141,7 @@ bar {
     status_command i3status
     colors {
         statusline #018f7a
-        background #0e0a19
+        background #000000
         inactive_workspace #1c1c1c #16161e #535353
     }
 }

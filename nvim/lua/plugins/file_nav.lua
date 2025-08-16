@@ -6,12 +6,18 @@ return {
                 "telescope",
                 winopts = { 
                     fullscreen = true,
+                    winblend = 0,
                 },
                 keymap = {
                     builtin = {
                         ["<C-h>"] = "toggle-preview",
                     },
                 },
+                fzf_colors = {
+                    true, -- auto generate rest of fzf’s highlights?
+                    bg = '-1',
+                    gutter = '-1', -- I like this one too, try with and without
+                }
             })
             local opts = { noremap = true, silent = true }  -- define opts
 

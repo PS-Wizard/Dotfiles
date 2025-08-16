@@ -24,12 +24,12 @@ return {
                     auto_show_delay_ms = 500,
                     window = {
                         border = 'rounded',
-                        winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:BlinkCmpDocCursorLine,Search:None",
+                        winhighlight = "Normal:Normal,CursorLine:BlinkCmpDocCursorLine,Search:None",
                     },
                 },
                 menu = {
                     border = "rounded",
-                    draw = { gap = 2, },
+                    draw = { gap = 2 },
                     winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:BlinkCmpMenuSelection,Search:None",
                 },
             },
@@ -119,24 +119,14 @@ return {
                 on_attach = on_attach,
                 capabilities = capabilities,
                 filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
+                cmd = { "bunx", "typescript-language-server", "--stdio" },
             })
 
             lspconfig.svelte.setup({
                 on_attach = on_attach,
                 capabilities = capabilities,
                 filetypes = { "svelte" },
-            })
-
-            lspconfig.astro.setup({
-                on_attach = on_attach,
-                capabilities = capabilities,
-                cmd = { "astro-ls", "--stdio" },
-                filetypes = { "astro" },
-                init_options = {
-                    typescript = {
-                        tsdk = "/home/wizard/.pnpm/bin/global/5/.pnpm/typescript@5.8.3/node_modules/typescript/lib"
-                    }
-                }
+                cmd = { "bunx", "svelteserver", "--stdio" },
             })
 
         end,
