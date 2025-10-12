@@ -27,6 +27,7 @@ return {
             }
         }
     },
+
     {
         "echasnovski/mini.basics",
         version = false,
@@ -70,7 +71,6 @@ return {
             })
         end
     },
-
 
     {
         "echasnovski/mini.surround",
@@ -119,5 +119,8 @@ return {
             silent = true,
         }
     },
-
+    {
+        'nvim-mini/mini.keymap',
+        version = false
+    }
 }

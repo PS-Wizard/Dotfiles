@@ -11,5 +11,8 @@ vim.keymap.set("n", "<leader>ab", function() vim.api.nvim_put({ "```", "", "```"
 vim.api.nvim_set_keymap('v', 'g#', '"+y', opts) 
 vim.api.nvim_set_keymap('n', 'gp', '"+p', opts) 
 vim.api.nvim_set_keymap('n', '<C-q>', ':wq!<CR>', opts)
-vim.api.nvim_set_keymap('n', '<C-b>', 'i****<esc>2ha', opts)
-vim.api.nvim_set_keymap('n', '<C-i>', 'i**<esc>ha', opts)
+vim.api.nvim_set_keymap('n', '<leader>m', ':Markview<CR>', opts)
+
+-- Toggle fold with spacebar on current line
+vim.keymap.set("v", "<leader>f", "zf", { desc = "Toggle fold" })
+vim.keymap.set("n", "<CR>", "za", { desc = "Toggle fold" })

@@ -19,7 +19,6 @@ local function smart_qf_loc_next()
     end
     vim.cmd("normal! zz")
 end
-
 local function smart_qf_loc_prev()
     if vim.fn.getloclist(0, { winid = 0 }).winid ~= 0 then
         local loc = vim.fn.getloclist(0, { idx = 0 })

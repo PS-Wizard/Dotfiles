@@ -49,12 +49,29 @@
         ],
         "description": "Code block with language"
     },
-
-    "sep": {
-        "prefix": "seperator",
+    "frontmatter": {
+        "prefix": "#front",
         "body": [
-            "---"
+            "---",
+            "date: ${CURRENT_YEAR}-${CURRENT_MONTH}-${CURRENT_DATE}",
+            "tags: [$1]",
+            "description: $2",
+            "---",
+            "",
+            "# $3",
+            ""
         ],
-        "description": "seperator"
+        "description": "Markdown frontmatter block"
+    },
+    "journaling": {
+        "prefix": "#journaling",
+        "body": [
+            "# ${CURRENT_YEAR}-${CURRENT_MONTH}-${CURRENT_DATE}",
+            "",
+            "## Today",
+            "## Rant",
+            "## Tommorow"
+        ],
+        "description": "Journaling thing"
     }
 }

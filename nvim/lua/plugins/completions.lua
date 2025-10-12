@@ -15,6 +15,10 @@ return {
                     'lsp', 'path', 'snippets', 'buffer',
                 },
             },
+            cmdline = {
+                keymap = { preset = 'inherit' },
+                completion = { menu = { auto_show = true } },
+            },
             signature = {
                 enabled = true,
             },
@@ -39,41 +43,41 @@ return {
     {
         "neovim/nvim-lspconfig",
         config = function()
-            vim.diagnostic.config({
-                virtual_text = { prefix = '<- ' },
-                float = { border = 'rounded' },
+            vim.diagnostic.config({ 
+                virtual_text = false, 
+                virtual_lines = { current_line = true }, 
             })
 
             local on_attach = function(client, bufnr)
+                -- keymaps
                 vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, { buffer = bufnr })
                 vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, { buffer = bufnr })
                 vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { buffer = bufnr })
                 vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, { buffer = bufnr })
                 vim.keymap.set('n', 'K', vim.lsp.buf.hover, { buffer = bufnr })
                 vim.keymap.set('n', '<leader>zz', vim.lsp.buf.format, { buffer = bufnr })
-                local function open_loclist_if_diagnostics()
-                    vim.diagnostic.setloclist()
-                    local loclist = vim.fn.getloclist(0)
-                    if #loclist > 0 then
-                        vim.cmd("lopen")
+                vim.keymap.set('n', '<leader>gr', vim.lsp.buf.references, { buffer = bufnr })
+
+                -- helper for quickfix diagnostics
+                local function open_qflist_if_diagnostics()
+                    vim.diagnostic.setqflist()
+                    local qflist = vim.fn.getqflist()
+                    if #qflist > 0 then
+                        vim.cmd("copen")
                     end
                 end
 
+                -- navigation with quickfix updates
                 vim.keymap.set('n', '[d', function()
                     vim.diagnostic.goto_prev()
-                    open_loclist_if_diagnostics()
+                    open_qflist_if_diagnostics()
                 end, { buffer = bufnr })
 
                 vim.keymap.set('n', ']d', function()
                     vim.diagnostic.goto_next()
-                    open_loclist_if_diagnostics()
+                    open_qflist_if_diagnostics()
                 end, { buffer = bufnr })
-                vim.keymap.set('n', '<leader>gr', vim.lsp.buf.references, { buffer = bufnr })
             end
-
-            local lspconfig = require("lspconfig")
-            local blink_cmp = require('blink.cmp')
-            local capabilities = blink_cmp.get_lsp_capabilities()
 
             -- Define the maximum line count
             local MAX_LSP_LINES = 1000
@@ -97,38 +101,69 @@ return {
                             vim.lsp.buf_detach_client(bufnr, client.id)
                             print("Detaching LSP client '" .. client.name .. "' for large buffer: " .. vim.fn.bufname(bufnr))
                             vim.notify("LSP disabled for large file (>" .. MAX_LSP_LINES .. " lines)", vim.log.levels.WARN)
-                        end, 10) -- Add a small delay to ensure attachment fully completes before detaching
+                        end, 10)
                     end
                 end,
             })
 
-            -- Setup your LSP servers
-            lspconfig.gopls.setup({
-                on_attach = on_attach,
+            -- Get capabilities from blink.cmp if available
+            local capabilities = vim.tbl_deep_extend(
+                'force',
+                vim.lsp.protocol.make_client_capabilities(),
+                require('blink.cmp').get_lsp_capabilities() or {}
+            )
+
+            -- Setup LSP servers using vim.lsp.config
+            vim.lsp.config('gopls', {
+                cmd = { 'gopls' },
+                filetypes = { 'go', 'gomod', 'gowork', 'gotmpl' },
+                root_markers = { 'go.mod', 'go.work', '.git' },
                 capabilities = capabilities,
-                filetypes = { "go" },
             })
 
-            lspconfig.rust_analyzer.setup({
-                on_attach = on_attach,
+            vim.lsp.config('rust_analyzer', {
+                cmd = { 'rust-analyzer' },
+                filetypes = { 'rust' },
+                root_markers = { 'Cargo.toml', 'rust-project.json', '.git' },
                 capabilities = capabilities,
-                filetypes = { "rust" },
             })
 
-            lspconfig.ts_ls.setup({
-                on_attach = on_attach,
+            vim.lsp.config('ts_ls', {
+                cmd = { 'bunx', 'typescript-language-server', '--stdio' },
+                filetypes = { 'typescript', 'typescriptreact', 'javascript', 'javascriptreact' },
+                root_markers = { 'package.json', 'tsconfig.json', 'jsconfig.json', '.git' },
                 capabilities = capabilities,
-                filetypes = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
-                cmd = { "bunx", "typescript-language-server", "--stdio" },
+                settings = {
+                    maxTsServerMemory = 2048
+                },
             })
 
-            lspconfig.svelte.setup({
-                on_attach = on_attach,
+            vim.lsp.config('svelte', {
+                cmd = { 'bunx', 'svelteserver', '--stdio' },
+                filetypes = { 'svelte' },
+                root_markers = { 'package.json', 'svelte.config.js', '.git' },
                 capabilities = capabilities,
-                filetypes = { "svelte" },
-                cmd = { "bunx", "svelteserver", "--stdio" },
             })
 
+            vim.lsp.config('marksman', {
+                cmd = { 'marksman', 'server' },
+                filetypes = { 'markdown' },
+                root_markers = { '.marksman.toml', '.git' },
+                capabilities = capabilities,
+            })
+
+            -- Enable LSP servers for appropriate filetypes
+            vim.lsp.enable({ 'gopls', 'rust_analyzer', 'ts_ls', 'svelte', 'marksman' })
+
+            -- Set up LspAttach autocommand for keybindings
+            vim.api.nvim_create_autocmd('LspAttach', {
+                callback = function(args)
+                    local client = vim.lsp.get_client_by_id(args.data.client_id)
+                    if client then
+                        on_attach(client, args.buf)
+                    end
+                end,
+            })
         end,
     }
 }

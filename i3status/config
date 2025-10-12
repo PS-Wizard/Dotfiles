@@ -7,37 +7,33 @@ general {
 order += "memory"
 order += "cpu_usage"
 order += "volume master"
-order += "battery 0"
+order += "battery 1"
 order += "time"
-
 # Ram usage
 memory {
     format = "ram: %used / %total"
     threshold_degraded = "90%"
     format_degraded = "ram: %used / %total !"
 }
-
 # CPU Usage
 cpu_usage {
     format = "cpu: %usage"
     max_threshold = 85
     format_above_threshold = "cpu: %usage !"
 }
-
 # Volume
 volume master {
     format = "vol: %volume"
 }
 
-# Battery 0
-battery 0 {
+battery 1 {
     format = "%status %percentage"
-    path = "/sys/class/power_supply/BAT1/uevent"  # Update path if necessary
-    low_threshold = 20  # Threshold for low battery (in percentage)
-    threshold_type = "percentage"  # Use "percentage" or "time"
+    path = "/sys/class/power_supply/BAT1/uevent"
+    last_full_capacity = true
 }
 
 # Time
 time {
     format = "%a %F %H:%M"
 }
+

@@ -6,6 +6,7 @@ return {
                 "telescope",
                 winopts = { 
                     fullscreen = true,
+                    border = 'rounded',
                     winblend = 0,
                 },
                 keymap = {

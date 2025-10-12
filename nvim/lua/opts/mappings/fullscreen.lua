@@ -3,6 +3,7 @@ local opts = { noremap = true, silent = true }
 
 local fullscreen_mode = false
 
+
 local function zoom()
   vim.cmd('wincmd _') -- max height
   vim.cmd('wincmd |') -- max width
@@ -38,3 +39,4 @@ vim.keymap.set('n', '<C-h>', nav_and_zoom('h'), { noremap = true, silent = true 
 vim.keymap.set('n', '<C-j>', nav_and_zoom('j'), { noremap = true, silent = true })
 vim.keymap.set('n', '<C-k>', nav_and_zoom('k'), { noremap = true, silent = true })
 vim.keymap.set('n', '<C-l>', nav_and_zoom('l'), { noremap = true, silent = true })
+vim.keymap.set('n', '<leader>ww', '<cmd>cclose<cr>')

@@ -30,14 +30,16 @@ function build_statusline()
     local filename = vim.fn.pathshorten(vim.fn.fnamemodify(vim.fn.bufname(), ":t"))
     local word_count = get_word_count()
     local scroll_pct = get_scroll_percentage()
-
     -- Left: File size, word count, and scroll percentage
     local right = "%#@statusline.left#" .. file_size .. " | " .. word_count .. " words | " .. scroll_pct
     -- Right: Filename with @comment.todo highlight
     local left = "%#@comment.todo#" .. filename .. "%#Normal#"
-
     return left .. "%<" .. "%=" .. right
 end
+
+-- Make statusline transparent
+vim.api.nvim_set_hl(0, "StatusLine", { bg = "NONE" })
+vim.api.nvim_set_hl(0, "StatusLineNC", { bg = "NONE" })
 
 -- Set statusline at the bottom
 vim.o.laststatus = 3  -- Enable global statusline at the bottom
@@ -49,6 +51,9 @@ vim.api.nvim_create_autocmd({"BufEnter", "CursorMoved", "CursorMovedI", "TextCha
     group = vim.api.nvim_create_augroup("CustomStatusline", { clear = true }),
     pattern = "*",
     callback = function()
+        -- Reapply transparent statusline after colorscheme changes
+        vim.api.nvim_set_hl(0, "StatusLine", { bg = "NONE" })
+        vim.api.nvim_set_hl(0, "StatusLineNC", { bg = "NONE" })
         vim.o.statusline = "%!luaeval('build_statusline()')"
     end,
 })

@@ -15,7 +15,7 @@ vim.o.shiftwidth = 4
 vim.o.expandtab = true
 vim.wo.number = true
 vim.wo.signcolumn = 'yes'
-vim.wo.cursorline = true
+vim.wo.cursorline = false
 vim.wo.number = true
 vim.wo.relativenumber = true
 vim.o.smartindent = true
@@ -30,4 +30,12 @@ vim.o.winborder = 'rounded'
 vim.cmd([[highlight ColorColumn ctermbg=0 guibg=#3c3c3c]])
 
 vim.api.nvim_create_autocmd("BufEnter", { pattern = "*.svelte", callback = function() vim.cmd("set syntax=html") end })
-
+vim.api.nvim_create_autocmd("LspAttach", {
+    group = vim.api.nvim_create_augroup("DisableSemanticTokens", { clear = true }),
+    callback = function(args)
+        local client = vim.lsp.get_client_by_id(args.data.client_id)
+        if client and client.server_capabilities and client.server_capabilities.semanticTokensProvider then
+            client.server_capabilities.semanticTokensProvider = nil
+        end
+    end,
+})
