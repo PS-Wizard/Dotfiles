@@ -52,13 +52,14 @@
     "frontmatter": {
         "prefix": "#front",
         "body": [
-            "---",
-            "date: ${CURRENT_YEAR}-${CURRENT_MONTH}-${CURRENT_DATE}",
-            "tags: [$1]",
-            "description: $2",
-            "---",
+            "+++",
+            "title = '$1'",
+            "tags = [$2]",
+            "date = ${CURRENT_YEAR}-${CURRENT_MONTH}-${CURRENT_DATE}",
+            "description = '$3'",
+            "+++",
             "",
-            "# $3",
+            "# $4",
             ""
         ],
         "description": "Markdown frontmatter block"

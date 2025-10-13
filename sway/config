@@ -15,12 +15,6 @@ set $term foot
 # Wallpaper: 
 output * background /home/wizard/.config/sway/wallpaper.jpg fill
 
-# Alt + Shift + w = normal wallpaper
-bindsym $alt+Shift+w exec swaymsg output "*" background /home/wizard/.config/sway/wallpaper.jpg fill
-
-# Alt + Shift + w = normal wallpaper
-bindsym $alt+i exec swaymsg output "*" background /home/wizard/.config/sway/blur.jpg fill
-
 # Caps to Escape:
 input * xkb_options "caps:escape"
 # Touchpad: 

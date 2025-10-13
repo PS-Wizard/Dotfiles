@@ -119,8 +119,4 @@ return {
             silent = true,
         }
     },
-    {
-        'nvim-mini/mini.keymap',
-        version = false
-    }
 }

@@ -31,16 +31,4 @@ return {
             })
         end,
     },
-    {
-        "OXY2DEV/markview.nvim",
-        lazy = false,
-        config = function()
-            local presets_heading = require("markview.presets").headings;
-            require("markview").setup({
-                markdown = {
-                    headings = presets_heading.glow_center
-                }
-            });
-        end,
-    }
 }
