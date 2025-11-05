@@ -1,6 +1,7 @@
 {
   "blink.cmp": { "branch": "main", "commit": "327fff91fe6af358e990be7be1ec8b78037d2138" },
   "comfy-line-numbers.nvim": { "branch": "main", "commit": "31e2f9287b4491ad72defb9e0185eb2739983799" },
+  "flash.nvim": { "branch": "main", "commit": "fcea7ff883235d9024dc41e638f164a450c14ca2" },
   "fzf-lua": { "branch": "main", "commit": "db3ccffe79480543d8e0f7b0cac0d9b220f9486e" },
   "img-clip.nvim": { "branch": "main", "commit": "f33f3af9ba50f99d70f8fcb1a8575750ada4ea4a" },
   "lazy.nvim": { "branch": "main", "commit": "1ea3c4085785f460fb0e46d2fe1ee895f5f9e7c1" },
@@ -8,10 +9,10 @@
   "mini.basics": { "branch": "main", "commit": "6182df967709e3cd92b6e090c653cac4e872d6e3" },
   "mini.files": { "branch": "main", "commit": "51db5ded1b7ac4dd8ca4c22c66f156dac5309304" },
   "mini.indentscope": { "branch": "main", "commit": "e9fa0714fc753e1e737940577904e553ee340903" },
-  "mini.jump": { "branch": "main", "commit": "7574c48a707aedcf1ad428a9cdefb8fdf871a638" },
   "mini.move": { "branch": "main", "commit": "f33406ae7d95b931c6a0d3ba11e50983fe800afb" },
   "mini.pairs": { "branch": "main", "commit": "b9aada8c0e59f2b938e98fbf4eae0799eba96ad9" },
   "mini.splitjoin": { "branch": "main", "commit": "b0d57bb5d1ed154e5902ae2745f1a320a7642443" },
   "mini.surround": { "branch": "main", "commit": "444e155147e2b5159dd28a65f9736254c16cb817" },
-  "nvim-lspconfig": { "branch": "master", "commit": "3a274c38e53800cf1d72b79baeb6c73e03ef1db3" }
+  "nvim-lspconfig": { "branch": "master", "commit": "3a274c38e53800cf1d72b79baeb6c73e03ef1db3" },
+  "vim-tpipeline": { "branch": "master", "commit": "bc6dfc10e26a8dd1ec2f0512050a8a0afaa9d090" }
 }

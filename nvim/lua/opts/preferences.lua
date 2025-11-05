@@ -27,6 +27,8 @@ vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
 vim.opt.inccommand = 'split'
 vim.opt.scrolloff = 10
 vim.o.winborder = 'rounded'
+
+
 vim.cmd([[highlight ColorColumn ctermbg=0 guibg=#3c3c3c]])
 
 vim.api.nvim_create_autocmd("BufEnter", { pattern = "*.svelte", callback = function() vim.cmd("set syntax=html") end })

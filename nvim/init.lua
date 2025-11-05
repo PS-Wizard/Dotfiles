@@ -5,4 +5,4 @@ require ('opts.mappings.fullscreen')
 require ('opts.mappings.qf_lf')
 require('config.lazy')
 
-vim.cmd("colorscheme wizard")
+vim.cmd("colorscheme poimandres_darker")

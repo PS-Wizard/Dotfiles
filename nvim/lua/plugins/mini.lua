@@ -108,15 +108,4 @@ return {
             }
         }
     },
-
-    {
-        "echasnovski/mini.jump",    
-        version = false,
-        opts = {
-            delay = {
-                highlight = 20,
-            },
-            silent = true,
-        }
-    },
 }

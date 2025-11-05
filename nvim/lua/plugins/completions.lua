@@ -128,6 +128,18 @@ return {
                 capabilities = capabilities,
             })
 
+            vim.lsp.config('tinymist', {
+                cmd = { 'tinymist' },
+                filetypes = { 'typst' },
+                capabilities = capabilities,
+                settings = {
+                    formatterMode = "typstyle",
+                    exportPdf = "none",
+                    semanticTokens = "disable"
+
+                }
+            })
+
             vim.lsp.config('ts_ls', {
                 cmd = { 'bunx', 'typescript-language-server', '--stdio' },
                 filetypes = { 'typescript', 'typescriptreact', 'javascript', 'javascriptreact' },
@@ -145,15 +157,7 @@ return {
                 capabilities = capabilities,
             })
 
-            vim.lsp.config('marksman', {
-                cmd = { 'marksman', 'server' },
-                filetypes = { 'markdown' },
-                root_markers = { '.marksman.toml', '.git' },
-                capabilities = capabilities,
-            })
-
-            -- Enable LSP servers for appropriate filetypes
-            vim.lsp.enable({ 'gopls', 'rust_analyzer', 'ts_ls', 'svelte', 'marksman' })
+            vim.lsp.enable({ 'gopls', 'rust_analyzer', 'ts_ls', 'svelte', 'tinymist' })
 
             -- Set up LspAttach autocommand for keybindings
             vim.api.nvim_create_autocmd('LspAttach', {
