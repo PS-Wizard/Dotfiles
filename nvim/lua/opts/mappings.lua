@@ -12,7 +12,10 @@ vim.api.nvim_set_keymap('v', 'g#', '"+y', opts)
 vim.api.nvim_set_keymap('n', 'gp', '"+p', opts) 
 vim.api.nvim_set_keymap('n', '<C-q>', ':wq!<CR>', opts)
 vim.api.nvim_set_keymap('n', '<leader>m', ':Markview<CR>', opts)
+vim.api.nvim_set_keymap('n', '<leader>fm', ':FzfLua marks<CR>', opts)
 
--- Toggle fold with spacebar on current line
-vim.keymap.set("v", "<leader>f", "zf", { desc = "Toggle fold" })
-vim.keymap.set("n", "<CR>", "za", { desc = "Toggle fold" })
+vim.keymap.set("n", "<leader>t", ":lua require('todo').toggle()<CR>", { desc = "Toggle fold" })
+vim.keymap.set('n', '<leader>dm', function()
+    vim.cmd('delmarks a-zA-Z0-9')
+    vim.notify('All marks cleared', vim.log.levels.INFO)
+end, { noremap = true, silent = true, desc = "Delete all marks" })

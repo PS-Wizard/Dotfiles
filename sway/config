@@ -10,7 +10,7 @@ set $down j
 set $up k
 set $right l
 # Your preferred terminal emulator
-set $term foot
+set $term kitty
 
 # Wallpaper: 
 output * background /home/wizard/.config/sway/wallpaper.jpg fill
@@ -71,8 +71,8 @@ bindsym $mod+Shift+3 move container to workspace number 3
 bindsym $mod+Shift+4 move container to workspace number 4
 bindsym $mod+Shift+5 move container to workspace number 5
 
-bindsym $mod+b splith
-bindsym $mod+v splitv
+# bindsym $mod+b splith
+# bindsym $mod+v splitv
 
 # Layout Styles:
 bindsym $mod+s layout stacking
@@ -117,6 +117,7 @@ bindsym XF86AudioMute exec pactl set-sink-mute @DEFAULT_SINK@ toggle
 bindsym XF86AudioRaiseVolume exec pactl set-sink-volume @DEFAULT_SINK@ +5%
 bindsym XF86AudioLowerVolume exec pactl set-sink-volume @DEFAULT_SINK@ -5%
 bindsym $mod+g exec "gammastep -O 3000"
+bindsym $mod+b exec "gammastep -O 3000 -b 0.7"
 bindsym $mod+y exec "~/.config/sway/screenshot.sh"
 bindsym $mod+Shift+g exec "killall gammastep"
 bindsym $mod+p exec '[ "$(swaymsg -t get_bar_config bar-0 | jq -r ".mode")" = "dock" ] && swaymsg bar mode invisible || swaymsg bar mode dock'

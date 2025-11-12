@@ -4,5 +4,6 @@ require ('opts.appearances.status_bar')
 require ('opts.mappings.fullscreen')
 require ('opts.mappings.qf_lf')
 require('config.lazy')
+require('todo')
 
 vim.cmd("colorscheme poimandres_darker")

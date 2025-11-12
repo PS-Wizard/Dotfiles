@@ -58,6 +58,15 @@ return {
                 vim.keymap.set('n', '<leader>zz', vim.lsp.buf.format, { buffer = bufnr })
                 vim.keymap.set('n', '<leader>gr', vim.lsp.buf.references, { buffer = bufnr })
 
+                if client.supports_method("textDocument/inlayHint") then
+                    vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+                end
+
+                -- Optional: Toggle with <leader>hi
+                vim.keymap.set('n', '<leader>h', function()
+                    vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr }), { bufnr = bufnr })
+                end, { buffer = bufnr, desc = "Toggle inlay hints" })
+
                 -- helper for quickfix diagnostics
                 local function open_qflist_if_diagnostics()
                     vim.diagnostic.setqflist()

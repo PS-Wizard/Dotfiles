@@ -14,7 +14,6 @@ local function unzoom()
   vim.cmd('wincmd =')
 end
 
--- toggle fullscreen mode with <C-f>
 vim.keymap.set('n', '<C-f>', function()
   fullscreen_mode = not fullscreen_mode
   if fullscreen_mode then
