@@ -86,6 +86,18 @@ return {
                     vim.diagnostic.goto_next()
                     open_qflist_if_diagnostics()
                 end, { buffer = bufnr })
+
+                vim.keymap.set('n', '<leader>td', function()
+                    -- If diagnostics are enabled, disable them
+                    if vim.diagnostic.is_enabled() then
+                        vim.diagnostic.enable(false)
+                        print("Diagnostics Disabled")
+                    else
+                        -- Otherwise, enable them
+                        vim.diagnostic.enable(true)
+                        print("Diagnostics Enabled")
+                    end
+                end, { desc = "Toggle Diagnostics" })
             end
 
             -- Define the maximum line count
@@ -128,6 +140,19 @@ return {
                 filetypes = { 'go', 'gomod', 'gowork', 'gotmpl' },
                 root_markers = { 'go.mod', 'go.work', '.git' },
                 capabilities = capabilities,
+                settings = {
+                    gopls = {
+                        hints = {
+                            assignVariableTypes = true,
+                            compositeLiteralFields = true,
+                            compositeLiteralTypes = true,
+                            constantValues = true,
+                            functionTypeParameters = true,
+                            parameterNames = true,
+                            rangeVariableTypes = true,
+                        },
+                    },
+                },
             })
 
             vim.lsp.config('rust_analyzer', {

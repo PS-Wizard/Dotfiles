@@ -19,6 +19,7 @@ return {
                     bg = '-1',
                     gutter = '-1', -- I like this one too, try with and without
                 }
+
             })
             local opts = { noremap = true, silent = true }  -- define opts
 
@@ -27,8 +28,9 @@ return {
             -- changed the duplicate <leader>fc to <leader>fg for live_grep to avoid collision
             vim.api.nvim_set_keymap('n', '<leader>fg', ':FzfLua live_grep<CR>', opts)
             vim.api.nvim_set_keymap('n', '<leader>fd', ':FzfLua lsp_document_diagnostics<CR>', opts)
-            vim.api.nvim_set_keymap('n', '<leader>fs', ':FzfLua lsp_document_symbols<CR>', opts)
+            vim.api.nvim_set_keymap('n', '<leader>s', ':FzfLua lsp_document_symbols<CR>', opts)
             vim.api.nvim_set_keymap('n', '<leader>o', ':FzfLua buffers<CR>', opts)
+            vim.api.nvim_set_keymap('n', '<leader>gc', ':FzfLua git_commits<CR>', opts)
 
         end
     },
@@ -41,5 +43,5 @@ return {
             { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
             { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
         },
-    }
+    },
 }

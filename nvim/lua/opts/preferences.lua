@@ -23,7 +23,7 @@ vim.o.autoindent = true
 vim.o.linebreak = true
 vim.opt.list = false
 vim.opt.hlsearch = true
-vim.keymap.set('n', '<Esc>', '<cmd>nohlsearch<CR>')
+vim.keymap.set('n', '<C-c>', '<cmd>nohlsearch<CR>')
 vim.opt.inccommand = 'split'
 vim.opt.scrolloff = 10
 vim.o.winborder = 'rounded'
