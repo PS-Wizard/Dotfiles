@@ -1,7 +1,7 @@
 bar:
   location: bottom
-  height: 32
-  background: 1a1b26dd
+  height: 36
+  background: 11121dfa
   
   left:
     - script:
@@ -17,24 +17,36 @@ bar:
             done
         content:
           string:
-            text: " {temp}"
-            foreground: c0caf5ff
-    
+            text: "  {temp}"
+            foreground: 7dcfffff
+            font: JetBrainsMono Nerd Font:size=11
+          
     - mem:
         poll-interval: 5000
         content:
           string:
-            text: "  {percent_used}%"
-            foreground: c0caf5ff
-
-  center:
+            text: "    {percent_used}%"
+            foreground: c099ffff
+            font: JetBrainsMono Nerd Font:size=11
+    
     - cpu:
         poll-interval: 1000
         content:
           string:
-            text: "  {cpu}%"
-            foreground: c0caf5ff
-
+            text: "    {cpu}%"
+            foreground: c3e88dff
+            font: JetBrainsMono Nerd Font:size=11
+  
+  center:
+    - clock:
+        time-format: "%H:%M"
+        date-format: "%A, %d %B"
+        content:
+          string:
+            text: "{time}  {date}"
+            foreground: 82aaffff
+            font: JetBrainsMono Nerd Font:size=11:weight=semibold
+  
   right:
     - alsa:
         card: default
@@ -45,46 +57,19 @@ bar:
               ~muted:
                 string:
                   text: "  {percent}%"
-                  foreground: c0caf5ff
+                  foreground: ffc777ff
+                  font: JetBrainsMono Nerd Font:size=11
               muted:
                 string:
                   text: "  {percent}%"
-                  foreground: 7aa2f7ff
-    
-    - clock:
-        time-format: "%H:%M | %e %B"
-        content:
-          string:
-            text: " {time}"
-            foreground: c0caf5ff
+                  foreground: 697098ff
+                  font: JetBrainsMono Nerd Font:size=11
     
     - battery:
         name: BAT1
         poll-interval: 60000
         content:
-          map:
-            conditions:
-              state == charging:
-                string:
-                  text: "  {capacity}% Charging"
-                  foreground: 9ece6aff
-              state == discharging && capacity >= 50:
-                string:
-                  text: "  {capacity}% Discharging"
-                  foreground: c0caf5ff
-              state == discharging && capacity >= 20:
-                string:
-                  text: "  {capacity}% Discharging"
-                  foreground: e0af68ff
-              state == discharging:
-                string:
-                  text: "  {capacity}% Discharging"
-                  foreground: f7768eff
-              state == full:
-                string:
-                  text: "  {capacity}% Full"
-                  foreground: 9ece6aff
-              state == "not charging":
-                string:
-                  text: "  {capacity}% Idle"
-                  foreground: 7aa2f7ff
+          string:
+            text: "    {capacity}%"
+            foreground: ff757fff
+            font: JetBrainsMono Nerd Font:size=11
