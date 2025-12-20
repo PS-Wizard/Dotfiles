@@ -24,6 +24,7 @@ return {
             local opts = { noremap = true, silent = true }  -- define opts
 
             vim.api.nvim_set_keymap('n', '<leader>ff', ':FzfLua files<CR>', opts)
+            vim.api.nvim_set_keymap('n', '<leader>gb', ':FzfLua git_branches<CR>', opts)
             vim.api.nvim_set_keymap('n', '<leader>fc', ':FzfLua lgrep_curbuf<CR>', opts)
             -- changed the duplicate <leader>fc to <leader>fg for live_grep to avoid collision
             vim.api.nvim_set_keymap('n', '<leader>fg', ':FzfLua live_grep<CR>', opts)

@@ -7,11 +7,14 @@ setopt HIST_IGNORE_DUPS
 
 # Basic completion
 autoload -Uz compinit && compinit
+autoload edit-command-line
+zle -N edit-command-line
 zstyle ':completion:*' menu select
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 
 # Vi mode
 bindkey -v
+bindkey '^e' edit-command-line
 
 # Your aliases (converted from fish)
 alias ls='ls --color=auto'
@@ -23,7 +26,10 @@ alias cc='cargo check'
 alias cb='RUSTFLAGS="-C target-cpu=native" cargo build --release'
 alias mn='touch "$(date +%F).md" && echo "Created $(date +%F).md"'
 alias hs='hugo serve -D --ignoreCache --disableFastRender'
-alias sway='sway --unsupported-gpu'
+alias niri='niri-session'
+
+export LD_LIBRARY_PATH="/home/wizard/Projects/OopsMate/crates/nnueffi/assets/nnue-probe/src:$LD_LIBRARY_PATH"
+export NNUE_FILE="/home/wizard/Projects/OopsMate/crates/nnueffi/assets/nn-04cf2b4ed1da.nnue"
 
 # Git clone functions
 clone() {
@@ -159,7 +165,9 @@ gt() {
 }
 
 # Environment variables
-export EDITOR=nvim
+export EDITOR="nvim"
+export VISUAL="nvim"
+
 export BROWSER=zen-browser
 export GOPATH=$HOME/.config/go
 export GOBIN=$HOME/.config/go/bin

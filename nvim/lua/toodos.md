@@ -1,12 +1,16 @@
-# cloudlfare-warp-bin uninstall system
-# FYP
-- nnue parsing library
-    - What architecture am i working with
+
+# TODOS:
+- [] HPC Docs
+- [] Complex Submission
+- [] HPC Submission
+- [] OopsMate NNUE
+- [] OopsMate Artifact Report
 
 - Artifact Design
     - Usecase diagram
     - Activity Diagram
     - Sequence Diagram
+
 
 # Complex
     - Best First
@@ -15,3 +19,5 @@
     - local beam
     - genetic algorithms
     - intelligent / logical agent stuff
+
+    - Portfolio 1 build binary
