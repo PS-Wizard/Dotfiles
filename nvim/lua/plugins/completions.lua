@@ -43,6 +43,12 @@ return {
     {
         "neovim/nvim-lspconfig",
         config = function()
+            vim.filetype.add({
+                extension = {
+                    cu = 'cuda',
+                    cuh = 'cuda',
+                },
+            })
             vim.diagnostic.config({ 
                 virtual_text = false, 
                 virtual_lines = { current_line = true }, 
@@ -63,7 +69,7 @@ return {
                 end
 
                 -- Optional: Toggle with <leader>hi
-                vim.keymap.set('n', '<leader>h', function()
+                vim.keymap.set('n', '<leader>hh', function()
                     vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr }), { bufnr = bufnr })
                 end, { buffer = bufnr, desc = "Toggle inlay hints" })
 
@@ -87,7 +93,7 @@ return {
                     open_qflist_if_diagnostics()
                 end, { buffer = bufnr })
 
-                vim.keymap.set('n', '<leader>td', function()
+                vim.keymap.set('n', '<leader>hd', function()
                     -- If diagnostics are enabled, disable them
                     if vim.diagnostic.is_enabled() then
                         vim.diagnostic.enable(false)
@@ -191,7 +197,23 @@ return {
                 capabilities = capabilities,
             })
 
-            vim.lsp.enable({ 'gopls', 'rust_analyzer', 'ts_ls', 'svelte', 'tinymist' })
+            vim.lsp.config('clangd', {
+                cmd = { 
+                    'clangd',
+                    '--background-index',
+                    '--clang-tidy',
+                    '--header-insertion=iwyu',
+                    '--completion-style=detailed',
+                    '--query-driver=/opt/cuda/bin/nvcc,/usr/bin/gcc,/usr/bin/g++',
+                    '--pch-storage=memory',
+                    '--fallback-style=WebKit',  -- Add this
+                },
+                filetypes = { 'c', 'cpp', 'objc', 'objcpp', 'cuda', 'proto' },
+                root_markers = { '.clangd', '.git', 'compile_commands.json' },
+                capabilities = capabilities,
+            })
+
+            vim.lsp.enable({ 'gopls', 'rust_analyzer', 'ts_ls', 'svelte', 'tinymist' , 'clangd'})
 
             -- Set up LspAttach autocommand for keybindings
             vim.api.nvim_create_autocmd('LspAttach', {

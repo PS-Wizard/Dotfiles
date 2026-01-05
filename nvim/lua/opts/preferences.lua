@@ -1,6 +1,5 @@
 -- Basic Neovim settings
 vim.g.mapleader = ' '
-vim.opt.clipboard = "unnamedplus"
 vim.o.wrap = true
 vim.g.maplocalleader = ' '
 vim.g.have_nerd_font = true

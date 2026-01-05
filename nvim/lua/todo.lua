@@ -1,6 +1,6 @@
 local M = {}
 -- Todo file path
-local todo_file = vim.fn.expand("~/.config/nvim/lua/toodos.md")
+local todo_file = vim.fn.expand("~/.config/nvim/todos.md")
 local buf = nil
 local win = nil
 -- Function to create centered floating window

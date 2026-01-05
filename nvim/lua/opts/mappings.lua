@@ -16,7 +16,7 @@ vim.api.nvim_set_keymap('n', '<leader>m', ':Markview<CR>', opts)
 vim.api.nvim_set_keymap('n', '<leader>fm', ':FzfLua marks<CR>', opts)
 
 vim.keymap.set("n", "<leader>t", ":lua require('todo').toggle()<CR>", { desc = "Toggle fold" })
-vim.keymap.set("n", "<leader>T", ":e ~/.config/nvim/lua/toodos.md<CR>", { desc = "Toggle fold" })
+vim.keymap.set("n", "<leader>T", ":e ~/.config/nvim/todos.md<CR>", { desc = "Toggle fold" })
 vim.keymap.set('n', '<leader>dm', function()
     vim.cmd('delmarks a-zA-Z0-9')
     vim.notify('All marks cleared', vim.log.levels.INFO)

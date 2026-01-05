@@ -1,17 +1,4 @@
 
-# TODOS:
-- [] HPC Docs
-- [] Complex Submission
-- [] HPC Submission
-- [] OopsMate NNUE
-- [] OopsMate Artifact Report
-
-- Artifact Design
-    - Usecase diagram
-    - Activity Diagram
-    - Sequence Diagram
-
-
 # Complex
     - Best First
     - Breadth First
