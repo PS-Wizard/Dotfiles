@@ -1,13 +1,27 @@
 return {
     {
-        "HakonHarnes/img-clip.nvim",
-        event = "VeryLazy",
-        opts = {},
-        keys = {
-            -- suggested keymap
-            { "<leader>gp", "<cmd>PasteImage<cr>", desc = "Paste image from system clipboard" },
+        'stevearc/quicker.nvim',
+        ft = "qf",
+        ---@module "quicker"
+        ---@type quicker.SetupOptions
+        config = function()
 
-        },
+            require('quicker').setup{
+                opts = {
+                    -- number = true,
+                    relativenumber = true,
+                },
+            }
+
+            vim.keymap.set("n", "<leader>q", function() require("quicker").toggle() end, { desc = "Toggle quickfix"})
+        end,
+    },
+    {
+        "rose-pine/neovim",
+        name = "rose-pine",
+        config = function()
+            vim.cmd("colorscheme rose-pine")
+        end
     },
     {
         'vimpostor/vim-tpipeline',
@@ -33,5 +47,5 @@ return {
             { "<c-\\>", "<cmd><C-U>TmuxNavigatePrevious<cr>" },
         },
 
-    }
+    },
 }

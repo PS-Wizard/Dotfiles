@@ -73,4 +73,3 @@ function OpenQuickfixInVSplits()
     vim.cmd('wincmd h')
 end
 
-vim.keymap.set('n', '<leader>qq', OpenQuickfixInVSplits, { noremap = true, silent = true })

@@ -12,13 +12,21 @@ return {
                 keymap = {
                     builtin = {
                         ["<C-h>"] = "toggle-preview",
+                        ["<C-j>"] = "down",
+                        ["<C-k>"] = "up",
                     },
                 },
-                fzf_colors = {
-                    true, -- auto generate rest of fzf’s highlights?
-                    bg = '-1',
-                    gutter = '-1', -- I like this one too, try with and without
-                }
+
+                -- fzf_colors = {
+                --     true, -- auto generate rest of fzf’s highlights?
+                --     bg = '-1',
+                --     gutter = '-1', -- I like this one too, try with and without
+                -- }
+
+                oncreate= function()
+                    vim.keymap.set("t", "<C-j>", "<Down>", { silent = true, buffer = true })
+                    vim.keymap.set("t", "<C-k>", "<Up>", { silent = true, buffer = true })
+                end,
 
             })
             local opts = { noremap = true, silent = true }  -- define opts
@@ -34,15 +42,5 @@ return {
             vim.api.nvim_set_keymap('n', '<leader>gc', ':FzfLua git_commits<CR>', opts)
 
         end
-    },
-    {
-        "folke/flash.nvim",
-        event = "VeryLazy",
-        opts = {},
-        keys = {
-            { "<leader><leader>", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
-            { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
-            { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
-        },
     },
 }

@@ -64,11 +64,6 @@ return {
                 vim.keymap.set('n', '<leader>zz', vim.lsp.buf.format, { buffer = bufnr })
                 vim.keymap.set('n', '<leader>gr', vim.lsp.buf.references, { buffer = bufnr })
 
-                if client.supports_method("textDocument/inlayHint") then
-                    vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
-                end
-
-                -- Optional: Toggle with <leader>hi
                 vim.keymap.set('n', '<leader>hh', function()
                     vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = bufnr }), { bufnr = bufnr })
                 end, { buffer = bufnr, desc = "Toggle inlay hints" })
@@ -181,7 +176,7 @@ return {
             })
 
             vim.lsp.config('ts_ls', {
-                cmd = { 'bunx', 'typescript-language-server', '--stdio' },
+                cmd = { 'pnpm', 'exec', 'typescript-language-server', '--stdio' },
                 filetypes = { 'typescript', 'typescriptreact', 'javascript', 'javascriptreact' },
                 root_markers = { 'package.json', 'tsconfig.json', 'jsconfig.json', '.git' },
                 capabilities = capabilities,

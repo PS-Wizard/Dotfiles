@@ -8,12 +8,13 @@ vim.keymap.set("n", "<leader>pv", ":lua MiniFiles.open()<CR>", { desc = "Open Fi
 vim.api.nvim_set_keymap('n', '<leader>n', '<C-^>', opts)
 
 vim.keymap.set("n", "<leader>ab", function() vim.api.nvim_put({ "```", "", "```" }, "l", true, true) vim.api.nvim_feedkeys("k", "n", true) end, { desc = "Insert markdown code block" })
+
 -- yank / paste 
 vim.api.nvim_set_keymap('v', 'g#', '"+y', opts) 
 vim.api.nvim_set_keymap('n', 'gp', '"+p', opts) 
 vim.api.nvim_set_keymap('n', '<C-q>', ':wq!<CR>', opts)
-vim.api.nvim_set_keymap('n', '<leader>m', ':Markview<CR>', opts)
 vim.api.nvim_set_keymap('n', '<leader>fm', ':FzfLua marks<CR>', opts)
+vim.keymap.set('n', '<leader>l', '<cmd>edit<CR>', { desc = 'Reload current file' })
 
 vim.keymap.set("n", "<leader>t", ":lua require('todo').toggle()<CR>", { desc = "Toggle fold" })
 vim.keymap.set("n", "<leader>T", ":e ~/.config/nvim/todos.md<CR>", { desc = "Toggle fold" })

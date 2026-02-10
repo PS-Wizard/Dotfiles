@@ -1,5 +1,3 @@
-#!/bin/bash
-
 # Static list of languages you care about
 LANGUAGES=(
     "js"

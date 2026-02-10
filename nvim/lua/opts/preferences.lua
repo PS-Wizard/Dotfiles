@@ -25,11 +25,26 @@ vim.opt.list = false
 vim.opt.hlsearch = true
 vim.keymap.set('n', '<C-c>', '<cmd>nohlsearch<CR>')
 vim.opt.inccommand = 'split'
+vim.opt.cmdheight = 0
 vim.opt.scrolloff = 10
 vim.o.winborder = 'rounded'
 
-
 vim.cmd([[highlight ColorColumn ctermbg=0 guibg=#3c3c3c]])
+
+vim.o.autoread = true
+vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold" }, {
+    pattern = "*",
+    command = "checktime",
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
+    callback = function()
+        vim.opt_local.shiftwidth = 2
+        vim.opt_local.tabstop = 2
+        vim.opt_local.softtabstop = 2
+    end,
+})
 
 vim.api.nvim_create_autocmd("BufEnter", { pattern = "*.svelte", callback = function() vim.cmd("set syntax=html") end })
 vim.api.nvim_create_autocmd("LspAttach", {
@@ -41,3 +56,5 @@ vim.api.nvim_create_autocmd("LspAttach", {
         end
     end,
 })
+
+
