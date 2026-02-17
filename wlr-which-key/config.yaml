@@ -1,0 +1,66 @@
+# Theming
+font: JetBrainsMono Nerd Font 12
+background: "#282828d0"
+color: "#fbf1c7"
+border: "#8ec07c"
+separator: " ➜ "
+border_width: 2
+corner_r: 10
+padding: 15
+anchor: center
+inhibit_compositor_keyboard_shortcuts: true
+
+menu:
+  - key: "f"
+    desc: Zen Browser
+    cmd: zen-browser
+  
+  - key: "s"
+    desc: Screenshot
+    cmd: ~/.config/sway/screenshot.sh
+  
+  - key: "g"
+    desc: Gammastep
+    submenu:
+      - key: "1"
+        desc: Warm (4500K)
+        cmd: killall gammastep; gammastep -O 4500
+      - key: "2"
+        desc: Warmer (3500K)
+        cmd: killall gammastep; gammastep -O 3500
+      - key: "3"
+        desc: Warmest (3000K)
+        cmd: killall gammastep; gammastep -O 3000
+      - key: "4"
+        desc: Warmest + Dim (3000K 70%)
+        cmd: killall gammastep; gammastep -O 3000 -b 0.7
+      - key: "0"
+        desc: Off
+        cmd: killall gammastep
+  
+  - key: "w"
+    desc: Waybar
+    submenu:
+      - key: "r"
+        desc: Reload
+        cmd: killall waybar && waybar -c ~/.config/waybar/config.json -s ~/.config/waybar/style.css
+  
+  - key: "m"
+    desc: Mirror Display
+    cmd: wl-mirror $(swaymsg -t get_outputs | jq -r '.[] | select(.focused) | .name')
+  
+  - key: "p"
+    desc: Power
+    submenu:
+      - key: "s"
+        desc: Suspend
+        cmd: systemctl suspend
+      - key: "r"
+        desc: Reboot
+        cmd: systemctl reboot
+      - key: "o"
+        desc: Power Off
+        cmd: systemctl poweroff
+      - key: "e"
+        desc: Exit Sway
+        cmd: swaymsg exit

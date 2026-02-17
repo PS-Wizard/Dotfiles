@@ -13,15 +13,12 @@ return {
                 },
             }
 
-            vim.keymap.set("n", "<leader>q", function() require("quicker").toggle() end, { desc = "Toggle quickfix"})
+            vim.keymap.set("n", "<leader>q", function() 
+                require("quicker").toggle()
+                -- Focus on quickfix window after opening
+                vim.cmd("wincmd j")  -- Move down to quickfix (it usually opens at bottom)
+            end, { desc = "Toggle quickfix"})
         end,
-    },
-    {
-        "rose-pine/neovim",
-        name = "rose-pine",
-        config = function()
-            vim.cmd("colorscheme rose-pine")
-        end
     },
     {
         'vimpostor/vim-tpipeline',

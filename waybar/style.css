@@ -2,120 +2,123 @@
     border: none;
     border-radius: 0;
     font-family: "JetBrains Mono", monospace;
-    font-size: 14px;
     font-weight: normal;
     font-style: normal;
     min-height: 0;
 }
-
 window#waybar {
-  background-color: transparent;
-  color: #e0def4;
+    background-color: transparent;
+    color: #b5bcc9;
 }
 
-/* Minimal pill container */
+#workspaces {
+    background: transparent;
+    margin: 0;
+    padding: 0;
+    border-radius: 0;
+}
+#workspaces button {
+    padding: 0px 8px;
+    margin: 0;
+    border-radius: 0;
+    background-color: transparent;
+    min-width: 20px;
+    min-height: 0;
+    color: #4e555c;
+    font-family: "JetBrains Mono", monospace;
+    border-bottom: 2px solid transparent;
+}
+#workspaces button.focused {
+    background-color: transparent;
+    color: #b5bcc9;
+    border-bottom: 2px solid #99aee5;
+}
+#workspaces button.urgent {
+    background-color: #ef8891;
+    color: #0F141A;
+}
+/* All modules same background */
 #clock,
-#custom-uptime,
 #temperature,
 #cpu,
 #memory,
 #pulseaudio,
 #network,
 #battery {
-  background-color: #26233a;
-  padding: 6px 16px;
-  margin: 0 4px;
-  border-radius: 16px;
-  color: #e0def4;
+    background-color: transparent;
+    padding: 0px 10px;
+    margin: 0;
+    border-radius: 0;
+    color: #b5bcc9;
 }
 
-/* Left side */
-#custom-uptime {
-  margin-left: 0;
-}
-
-/* Center clock - larger and more prominent */
+/* Clock with uptime */
 #clock {
-  padding: 6px 24px;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  font-size: 14px;
+    padding: 0px 12px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: #b5bcc9;
 }
-
-/* Right side */
-#battery {
-  margin-right: 0;
-}
-
-/* Make modules with icons larger */
+/* Icon modules - keep icons and text aligned */
 #cpu,
-#memory,
+#memory {
+    font-size: 13px;
+}
 #temperature,
 #pulseaudio,
 #network,
 #battery {
-  font-size: 16px;
+    font-size: 13px;
 }
-
 /* Temperature states */
 #temperature.critical {
-  color: #eb6f92;
-  animation: blink 1s linear infinite;
+    color: #ef8891;
+    animation: blink 1s linear infinite;
 }
-
 /* Battery states */
 #battery.charging,
 #battery.plugged {
-  color: #31748f;
+    color: #9fe8c3;
 }
-
 #battery.warning:not(.charging) {
-  color: #f6c177;
+    color: #fbdf90;
 }
-
 #battery.critical:not(.charging) {
-  color: #eb6f92;
-  animation: blink 1s linear infinite;
+    color: #ef8891;
+    animation: blink 1s linear infinite;
 }
-
 @keyframes blink {
-  50% {
-    opacity: 0.5;
-  }
+    50% {
+        opacity: 0.5;
+    }
 }
-
 /* Audio states */
 #pulseaudio.muted {
-  color: #6e6a86;
+    color: #4e555c;
 }
-
 /* Network states */
 #network.disconnected,
 #network.linked {
-  color: #eb6f92;
+    color: #ef8891;
 }
-
 /* Hover effect */
 #clock:hover,
-#custom-uptime:hover,
 #temperature:hover,
 #cpu:hover,
 #memory:hover,
 #pulseaudio:hover,
 #network:hover,
 #battery:hover {
-  background-color: #403d52;
+    background-color: #1e252c;
 }
-
-/* Tooltip styling - much larger text */
+/* Tooltip styling */
 tooltip {
-  background-color: #191724;
-  border: 1px solid #403d52;
-  border-radius: 12px;
-  padding: 12px 16px;
+    background-color: #131a21;
+    border: 1px solid #363d44;
+    border-radius: 8px;
+    padding: 12px 16px;
 }
-
 tooltip label {
-  color: #e0def4;
-  font-size: 14px;
+    color: #b5bcc9;
+    font-size: 14px;
 }

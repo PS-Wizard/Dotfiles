@@ -1,89 +1,90 @@
 {
-  "layer": "bottom",
-  "exclusive": true,
-  "position": "top",
-  "height": 32,
-  "spacing": 0,
-  "margin": "8 12 8 12",
-  "modules-left": [
-    "cpu",
-    "memory",
-    "temperature"
-  ],
-  "modules-center": [
-    "clock",
-    "custom/uptime",
-  ],
-  "modules-right": [
-    "network",
-    "pulseaudio",
-    "battery"
-  ],
-  
-  "clock": {
-      "interval": 60,
-      "format": "<b>{:%H:%M}</b>",
-      "format-alt": "{:%A, %B %d, %Y}",
-      "tooltip": false
-  },
+    "layer": "top",
+    "exclusive": true,
+    "position": "bottom",
+    "height": 32,
+    "spacing": 0,
+    "margin": 0,
+    "modules-right": [
+        "cpu",
+        "memory",
+        "temperature",
+        "pulseaudio",
+        "network",
+        "battery"
+    ],
+    "modules-center": [
+        "clock",
+        "custom/uptime"
+    ],
 
-  "custom/uptime": {
-      "exec": "awk '{d=int($1/86400);h=int(($1%86400)/3600);m=int(($1%3600)/60); printf \"%d:%02d\", h+(d*24), m}' /proc/uptime",
-      "interval": 60,
-      "format": "<b>{}</b>",
-      "tooltip": false
-  },
-  
-  "temperature": {
-    "hwmon-path": "/sys/class/hwmon/hwmon1/temp1_input",
-    "critical-threshold": 80,
-    "format": "{temperatureC}°C",
-    "format-critical": "{temperatureC}°C",
-    "interval": 5,
-    "tooltip": false
-  },
-  
-  "cpu": {
-    "interval": 1,
-    "format": "<span font='20px'> </span>{usage}%",
-    "tooltip-format": "CPU Usage:\nCore 0: {load0}%\nCore 1: {load1}%\nCore 2: {load2}%\nCore 3: {load3}%\nCore 4: {load4}%\nCore 5: {load5}%\nCore 6: {load6}%\nCore 7: {load7}%\nCore 8: {load8}%\nCore 9: {load9}%\nCore 10: {load10}%\nCore 11: {load11}%\nCore 12: {load12}%\nCore 13: {load13}%\nCore 14: {load14}%\nCore 15: {load15}%"
-  },
-  
-  "memory": {
-    "interval": 5,
-    "format": "<span font='20px'> </span>{used:0.1f}G",
-    "tooltip-format": "RAM:\n  Used: {used:0.1f}G / {total:0.1f}G ({percentage}%)\n  Available: {avail:0.1f}G\n\nSwap:\n  Used: {swapUsed:0.1f}G / {swapTotal:0.1f}G ({swapPercentage}%)"
-  },
-  
-  "pulseaudio": {
-    "format": "<span font='20px'>󰕾</span>",
-    "format-muted": "<span font='20px'>󰝟</span>",
-    "on-click": "pavucontrol",
-    "tooltip-format": "Volume: {volume}%"
-  },
-  
-  "network": {
-    "interval": 5,
-    "format-wifi": "<span font='20px'>󰤨</span>",
-    "format-ethernet": "<span font='20px'>󰈀</span>",
-    "format-disconnected": "<span font='20px'>󰤭</span>",
-    "format-linked": "<span font='20px'>󰤩</span>",
-    "tooltip-format-wifi": "Network: {essid}\nSignal: {signalStrength}%\nIP: {ipaddr}/{cidr}\nSpeed: ↓ {bandwidthDownBytes} ↑ {bandwidthUpBytes}",
-    "tooltip-format-ethernet": "Ethernet\nIP: {ipaddr}/{cidr}\nSpeed: ↓ {bandwidthDownBytes} ↑ {bandwidthUpBytes}",
-    "tooltip-format-disconnected": "Disconnected",
-  },
-  
-  "battery": {
-    "bat": "BAT1",
-    "interval": 60,
-    "states": {
-      "warning": 30,
-      "critical": 15
+    "modules-left": [
+        "sway/workspaces"
+    ],
+
+    "sway/workspaces": {
+        "disable-scroll": false,
+        "all-outputs": false,
+        "format": "{name}"
     },
-    "format": "<span font='20px'>{icon}</span> {capacity}%",
-    "format-charging": "<span font='20px'>󰂄</span> {capacity}%",
-    "format-plugged": "<span font='20px'>󰚥</span> {capacity}%",
-    "format-icons": ["󰂎","󰁻", "󰁽 ", "󰁿", "󰂁"],
-    "tooltip-format": "{capacity}% - {timeTo}"
-  }
+
+    "clock": {
+        "interval": 60,
+        "format": "<b>{:%H:%M}</b>",
+        "format-alt": "{:%A, %B %d, %Y}",
+        "tooltip": false
+    },
+
+    "custom/uptime": {
+        "exec": "awk '{d=int($1/86400);h=int(($1%86400)/3600);m=int(($1%3600)/60); printf \"%d:%02d\", h+(d*24), m}' /proc/uptime",
+        "interval": 60,
+        "format": "<b>{}</b> ",
+        "tooltip": false
+    },
+    "temperature": {
+        "hwmon-path": "/sys/class/hwmon/hwmon1/temp1_input",
+        "critical-threshold": 80,
+        "format": "{temperatureC}°C",
+        "format-critical": "{temperatureC}°C",
+        "interval": 5,
+        "tooltip": false
+    },
+    "cpu": {
+        "interval": 5,
+        "format": "{usage}%",
+        "tooltip-format": "CPU Usage:\nCore 0: {load0}%\nCore 1: {load1}%\nCore 2: {load2}%\nCore 3: {load3}%\nCore 4: {load4}%\nCore 5: {load5}%\nCore 6: {load6}%\nCore 7: {load7}%\nCore 8: {load8}%\nCore 9: {load9}%\nCore 10: {load10}%\nCore 11: {load11}%\nCore 12: {load12}%\nCore 13: {load13}%\nCore 14: {load14}%\nCore 15: {load15}%"
+    },
+    "memory": {
+        "interval": 5,
+        "format": "{used:0.1f}G",
+        "tooltip-format": "RAM:\n  Used: {used:0.1f}G / {total:0.1f}G ({percentage}%)\n  Available: {avail:0.1f}G\n\nSwap:\n  Used: {swapUsed:0.1f}G / {swapTotal:0.1f}G ({swapPercentage}%)"
+    },
+    "pulseaudio": {
+        "format": "<span font='20px'>󰕾</span>",
+        "format-muted": "<span font='20px'>󰝟</span>",
+        "on-click": "pavucontrol",
+        "tooltip-format": "Volume: {volume}%"
+    },
+    "network": {
+        "interval": 5,
+        "format-wifi": "<span font='20px'>󰤨</span>",
+        "format-ethernet": "<span font='20px'>󰈀</span>",
+        "format-disconnected": "<span font='20px'>󰤭</span>",
+        "format-linked": "<span font='20px'>󰤩</span>",
+        "tooltip-format-wifi": "Network: {essid}\nSignal: {signalStrength}%\nIP: {ipaddr}/{cidr}\nSpeed: ↓ {bandwidthDownBytes} ↑ {bandwidthUpBytes}",
+        "tooltip-format-ethernet": "Ethernet\nIP: {ipaddr}/{cidr}\nSpeed: ↓ {bandwidthDownBytes} ↑ {bandwidthUpBytes}",
+        "tooltip-format-disconnected": "Disconnected"
+    },
+    "battery": {
+        "bat": "BAT1",
+        "interval": 60,
+        "states": {
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "BAT: {capacity}%",
+        "format-charging": "CHR: {capacity}%",
+        "format-plugged": "PLU: {capacity}%",
+        "tooltip-format": "{capacity}% - {timeTo}"
+    }
 }

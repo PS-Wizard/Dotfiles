@@ -1,0 +1,17 @@
+* {
+    --base:           #0F141A;
+    --surface:        #131a21;
+    --overlay:        #1e252c;
+    --muted:          #4e555c;
+    --subtle:         #363d44;
+    --text:           #b5bcc9;
+    --love:           #ef8891;
+    --gold:           #fbdf90;
+    --rose:           #fca2aa;
+    --pine:           #92dbb6;
+    --foam:           #b5c3ea;
+    --iris:           #c2a2e3;
+    --highlightLow:   #131a21;
+    --highlightMed:   #1e252c;
+    --highlightHigh:  #31383f;
+}

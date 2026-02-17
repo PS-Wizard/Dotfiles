@@ -1,5 +1,4 @@
 local opts = { noremap = true, silent = true }
-
 -- Quickfix navigation with wrapping
 local function smart_qf_loc_next()
     if vim.fn.getloclist(0, { winid = 0 }).winid ~= 0 then
@@ -37,11 +36,8 @@ local function smart_qf_loc_prev()
     end
     vim.cmd("normal! zz")
 end
-
 vim.keymap.set('n', '<C-n>', smart_qf_loc_next, { noremap = true, silent = true })
 vim.keymap.set('n', '<C-p>', smart_qf_loc_prev, { noremap = true, silent = true })
-
-
 function OpenQuickfixInVSplits()
     -- Get all quickfix items
     local qf_list = vim.fn.getqflist()
@@ -72,4 +68,3 @@ function OpenQuickfixInVSplits()
     -- Move cursor to first window
     vim.cmd('wincmd h')
 end
-
