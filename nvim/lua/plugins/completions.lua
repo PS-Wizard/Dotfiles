@@ -176,9 +176,9 @@ return {
             })
 
             vim.lsp.config('ts_ls', {
-                cmd = { 'pnpm', 'exec', 'typescript-language-server', '--stdio' },
+                cmd = { 'bunx', 'typescript-language-server', '--stdio' },
                 filetypes = { 'typescript', 'typescriptreact', 'javascript', 'javascriptreact' },
-                root_markers = { 'package.json', 'tsconfig.json', 'jsconfig.json', '.git' },
+                root_markers = {'vite.config.js', 'package.json', 'tsconfig.json', 'jsconfig.json', '.git' },
                 capabilities = capabilities,
                 settings = {
                     maxTsServerMemory = 2048

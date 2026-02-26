@@ -1,25 +1,51 @@
 # Theming
 font: JetBrainsMono Nerd Font 12
-background: "#282828d0"
-color: "#fbf1c7"
-border: "#8ec07c"
-separator: " ➜ "
-border_width: 2
+background: "#000000b0"
+color: "#e0def4"
+border: "#c4a7e7"
+separator: " - "
+border_width: 1
 corner_r: 10
 padding: 15
 anchor: center
 inhibit_compositor_keyboard_shortcuts: true
-
 menu:
   - key: "f"
     desc: Zen Browser
     cmd: zen-browser
-  
+
   - key: "s"
     desc: Screenshot
     cmd: ~/.config/sway/screenshot.sh
-  
+
+  - key: "t"
+    desc: Google Tasks
+    cmd: zen-browser https://tasks.google.com
+
   - key: "g"
+    desc: GitHub
+    submenu:
+      - key: "p"
+        desc: My Profile (PS-Wizard)
+        cmd: zen-browser https://github.com/PS-Wizard/
+      - key: "g"
+        desc: GitHub Home
+        cmd: zen-browser https://github.com
+
+  - key: "l"
+    desc: AI
+    submenu:
+      - key: "1"
+        desc: Claude
+        cmd: zen-browser https://claude.ai
+      - key: "2"
+        desc: ChatGPT
+        cmd: zen-browser https://chatgpt.com
+      - key: "3"
+        desc: Gemini
+        cmd: zen-browser https://gemini.google.com
+
+  - key: "n"
     desc: Gammastep
     submenu:
       - key: "1"
@@ -37,30 +63,27 @@ menu:
       - key: "0"
         desc: Off
         cmd: killall gammastep
-  
+
   - key: "w"
     desc: Waybar
     submenu:
       - key: "r"
         desc: Reload
         cmd: killall waybar && waybar -c ~/.config/waybar/config.json -s ~/.config/waybar/style.css
-  
+
   - key: "m"
     desc: Mirror Display
-    cmd: wl-mirror $(swaymsg -t get_outputs | jq -r '.[] | select(.focused) | .name')
-  
-  - key: "p"
-    desc: Power
+    cmd: wl-mirror $(niri msg --json outputs | jq -r '.[] | select(.logical.x == 0 and .logical.y == 0) | .name')
+
+  - key: "r"
+    desc: Recording
     submenu:
-      - key: "s"
-        desc: Suspend
-        cmd: systemctl suspend
       - key: "r"
-        desc: Reboot
-        cmd: systemctl reboot
-      - key: "o"
-        desc: Power Off
-        cmd: systemctl poweroff
-      - key: "e"
-        desc: Exit Sway
-        cmd: swaymsg exit
+        desc: Record Screen (no audio)
+        cmd: gpu-screen-recorder -w portal -f 30 -o ~/recording.mp4
+      - key: "a"
+        desc: Record Screen (with audio)
+        cmd: gpu-screen-recorder -w portal -f 30 -a default_output -o ~/recording.mp4
+      - key: "q"
+        desc: Stop Recording
+        cmd: killall gpu-screen-recorder

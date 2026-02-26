@@ -32,19 +32,20 @@ vim.o.winborder = 'rounded'
 vim.cmd([[highlight ColorColumn ctermbg=0 guibg=#3c3c3c]])
 
 vim.o.autoread = true
-vim.api.nvim_create_autocmd({ "FocusGained", "BufEnter", "CursorHold" }, {
+
+vim.api.nvim_create_autocmd("FocusGained", {
+    desc = "Reload files from disk when we focus vim",
     pattern = "*",
-    command = "checktime",
+    command = "if getcmdwintype() == '' | checktime | endif",
+    group = aug,
+})
+vim.api.nvim_create_autocmd("BufEnter", {
+    desc = "Every time we enter an unmodified buffer, check if it changed on disk",
+    pattern = "*",
+    command = "if &buftype == '' && !&modified && expand('%') != '' | exec 'checktime ' . expand('<abuf>') | endif",
+    group = aug,
 })
 
-vim.api.nvim_create_autocmd("FileType", {
-    pattern = { "typescript", "typescriptreact", "javascript", "javascriptreact" },
-    callback = function()
-        vim.opt_local.shiftwidth = 2
-        vim.opt_local.tabstop = 2
-        vim.opt_local.softtabstop = 2
-    end,
-})
 
 vim.api.nvim_create_autocmd("BufEnter", { pattern = "*.svelte", callback = function() vim.cmd("set syntax=html") end })
 vim.api.nvim_create_autocmd("LspAttach", {

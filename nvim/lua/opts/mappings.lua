@@ -1,7 +1,9 @@
 local opts = { noremap = true, silent = true }
-vim.wo.signcolumn = 'yes'
--- Toggle between the latest buffers
 
+local typst = require("typst-preview")
+vim.api.nvim_create_user_command("TypstPreview", typst.preview, {})
+
+-- vim.wo.signcolumn = 'yes'
 
 vim.keymap.set("n", "<leader>pv", ":lua MiniFiles.open()<CR>", { desc = "Open File Explorer" })
 
@@ -22,4 +24,5 @@ vim.keymap.set('n', '<leader>dm', function()
     vim.cmd('delmarks a-zA-Z0-9')
     vim.notify('All marks cleared', vim.log.levels.INFO)
 end, { noremap = true, silent = true, desc = "Delete all marks" })
+
 

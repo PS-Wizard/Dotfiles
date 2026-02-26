@@ -1,7 +1,7 @@
 {
     "layer": "top",
     "exclusive": true,
-    "position": "bottom",
+    "position": "top",
     "height": 32,
     "spacing": 0,
     "margin": 0,
@@ -19,13 +19,13 @@
     ],
 
     "modules-left": [
-        "sway/workspaces"
+        "niri/workspaces"
     ],
 
-    "sway/workspaces": {
+    "niri/workspaces": {
         "disable-scroll": false,
-        "all-outputs": false,
-        "format": "{name}"
+        "all-outputs": true,
+        "format": "{index}"
     },
 
     "clock": {

@@ -8,12 +8,7 @@ end
 local function unzoom()
   vim.cmd('wincmd =')
 end
--- Auto-zoom on window enter (except quickfix/loclist)
-vim.api.nvim_create_autocmd("WinEnter", {
-  callback = function()
-    zoom()
-  end,
-})
+
 vim.keymap.set('n', '<C-f>', function()
   unzoom()  -- Just unzoom to show all splits equally
 end, { noremap = true, silent = true })
