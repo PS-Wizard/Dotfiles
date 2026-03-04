@@ -45,6 +45,13 @@ menu:
         desc: Gemini
         cmd: zen-browser https://gemini.google.com
 
+  - key: "u"
+    desc: Usage Limits Codex
+    submenu:
+      - key: "l"
+        desc: Chatgpt Codex Usage Limits
+        cmd: zen-browser https://chatgpt.com/codex/settings/usage      
+
   - key: "n"
     desc: Gammastep
     submenu:

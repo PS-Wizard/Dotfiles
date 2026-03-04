@@ -15,17 +15,19 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 bindkey -v
 
 # Your aliases (converted from fish)
+alias rm='trash-put'
+alias dcup="docker compose down && docker compose build && docker compose up -d && docker image prune -f"
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 alias lz='lazygit'
 alias n='nvim'
 alias oc='opencode'
+alias gc='gemini'
 alias t='tmux'
 alias cc='cargo check'
 alias cb='RUSTFLAGS="-C target-cpu=native" cargo build --release'
 alias mn='touch "$(date +%F).md" && echo "Created $(date +%F).md"'
 alias hs='hugo serve -D --ignoreCache --disableFastRender'
-alias sway='sway --unsupported-gpu'
 
 # Git clone functions
 clone() {
@@ -209,3 +211,6 @@ PROMPT='[%F{green}%n%f@%F{blue}%m%f %F{yellow}%~%f] -> '
 
 # bun completions
 [ -s "/home/wizard/.bun/_bun" ] && source "/home/wizard/.bun/_bun"
+
+# opencode
+export PATH=/home/wizard/.opencode/bin:$PATH

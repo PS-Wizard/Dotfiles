@@ -12,7 +12,7 @@ return {
             },
             sources = {
                 default = {
-                    'lsp', 'path', 'snippets', 'buffer',
+                    'snippets', 'lsp', 'path', 'buffer',
                 },
             },
             cmdline = {
@@ -208,7 +208,8 @@ return {
                 capabilities = capabilities,
             })
 
-            vim.lsp.enable({ 'gopls', 'rust_analyzer', 'ts_ls', 'svelte', 'tinymist' , 'clangd'})
+
+            vim.lsp.enable({ 'gopls', 'rust_analyzer', 'ts_ls', 'svelte', 'tinymist', 'clangd' })
 
             -- Set up LspAttach autocommand for keybindings
             vim.api.nvim_create_autocmd('LspAttach', {
