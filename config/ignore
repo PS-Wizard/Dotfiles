@@ -1,0 +1,7 @@
+.local/
+.cargo/
+.rustup/
+.npm/
+.cache/
+node_modules/
+.zen/

@@ -1,0 +1,169 @@
+{
+    "Document Header": {
+        "prefix": "hetvid",
+        "body": [
+            "#import \"@preview/hetvid:0.1.0\": *",
+            "#show: hetvid.with(",
+                "  title: [${1:Title}],",
+                "  author: \"${2:Swoyam Pokharel}\",",
+                "  affiliation: \"${3:Shiv Kumar Yadav}\",",
+                "  header: \"${4:Header}\",",
+                "  date-created: \"${5:2026-01-01}\",",
+                "  date-modified: \"${6:2026-01-01}\",",
+                "  toc: true,",
+                ")"
+        ]
+    },
+    "Fraction": {
+        "prefix": "ff",
+        "body": ["frac(${1:num}, ${2:den})$0"]
+    },
+    "Total Derivative": {
+        "prefix": "dd",
+        "body": ["frac(dif ${1:f}, dif ${2:x})$0"]
+    },
+    "Partial Derivative": {
+        "prefix": "pd",
+        "body": ["frac(partial ${1:f}, partial ${2:x})$0"]
+    },
+    "Sum": {
+        "prefix": "ssum",
+        "body": ["sum_(${1:i}=${2:0})^(${3:n}) $0"]
+    },
+    "Integral": {
+        "prefix": "iint",
+        "body": ["integral_(${1:-oo})^(${2:oo}) ${3:f(x)} dif ${4:x}$0"]
+    },
+    "Limit": {
+        "prefix": "llim",
+        "body": ["lim_(${1:x} -> ${2:oo}) $0"]
+    },
+    "Matrix": {
+        "prefix": "mat",
+        "body": ["mat(delim: \"[\", $0)"]
+    },
+    "Cases": {
+        "prefix": "cases",
+        "body": ["cases($0)"]
+    },
+    "Vector": {
+        "prefix": "vv",
+        "body": ["bold(${1:v})$0"]
+    },
+    "Norm": {
+        "prefix": "norm",
+        "body": ["||${1:x}||$0"]
+    },
+    "Set Builder": {
+        "prefix": "set",
+        "body": ["{ ${1:x} in ${2:RR} : ${3:cond} }$0"]
+    },
+    "Implies": {
+        "prefix": "impl",
+        "body": ["==>"]
+    },
+    "Iff": {
+        "prefix": "iff",
+        "body": ["<==>"]
+    },
+    "For All": {
+        "prefix": "fall",
+        "body": ["forall $0"]
+    },
+    "Exists": {
+        "prefix": "tex",
+        "body": ["exists $0"]
+    },
+    "Infinity": {
+        "prefix": "oo",
+        "body": ["oo"]
+    },
+    "Reals": {
+        "prefix": "RR",
+        "body": ["RR"]
+    },
+    "Naturals": {
+        "prefix": "NN",
+        "body": ["NN"]
+    },
+    "Integers": {
+        "prefix": "ZZ",
+        "body": ["ZZ"]
+    },
+    "Divider": {
+        "prefix": "line",
+        "body": ["#line(length: 100%, stroke: 0.4pt + luma(160))"]
+    },
+    "Transpose": {
+        "prefix": "TT",
+        "body": ["^(TT)$0"]
+    },
+    "Inverse": {
+        "prefix": "inv",
+        "body": ["^(-1)$0"]
+    },
+    "Dot product": {
+        "prefix": "dot",
+        "body": ["dot(${1:a}, ${2:b})$0"]
+    },
+    "Gradient": {
+        "prefix": "grad",
+        "body": ["nabla ${1:f}$0"]
+    },
+    "Gradient wrt": {
+        "prefix": "grw",
+        "body": ["frac(partial ${1:L}, partial ${2:W})$0"]
+    },
+    "Expectation": {
+        "prefix": "EE",
+        "body": ["bb(E)[${1:X}]$0"]
+    },
+    "Probability": {
+        "prefix": "PP",
+        "body": ["P(${1:X})$0"]
+    },
+    "Argmin": {
+        "prefix": "argmin",
+        "body": ["limits(\"argmin\")_(${1:theta}) $0"]
+    },
+    "Argmax": {
+        "prefix": "argmax",
+        "body": ["limits(\"argmax\")_(${1:theta}) $0"]
+    },
+    "Sigmoid": {
+        "prefix": "sig",
+        "body": ["sigma(${1:z})$0"]
+    },
+    "Cross entropy loss": {
+        "prefix": "cel",
+        "body": ["-sum_(${1:i}=1)^(${2:n}) ${3:y_i} log(${4:hat(y)_i})$0"]
+    },
+    "MSE loss": {
+        "prefix": "mse",
+        "body": ["frac(1, ${1:n}) sum_(${2:i}=1)^(${3:n}) (${4:y_i} - ${5:hat(y)_i})^2$0"]
+    },
+    "Hat": {
+        "prefix": "hat",
+        "body": ["hat(${1:y})$0"]
+    },
+    "Weight matrix": {
+        "prefix": "WW",
+        "body": ["bold(W)^(${1:l})$0"]
+    },
+    "Bias vector": {
+        "prefix": "bb",
+        "body": ["bold(b)^(${1:l})$0"]
+    },
+    "Layer activation": {
+        "prefix": "aa",
+        "body": ["bold(a)^(${1:l})$0"]
+    },
+    "Softmax": {
+        "prefix": "sfx",
+        "body": ["frac(e^(${1:z_i}), sum_(${2:j}) e^(${3:z_j}))$0"]
+    },
+    "Element wise": {
+        "prefix": "ewp",
+        "body": ["circle.small $0"]
+    }
+}

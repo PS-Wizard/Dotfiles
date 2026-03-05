@@ -1,0 +1,90 @@
+# Theming
+font: JetBrainsMono Nerd Font 12
+background: "#1d2021b0"
+color: "#cbb382"
+border: "#cbb382"
+separator: " - "
+border_width: 1
+corner_r: 10
+padding: 15
+anchor: center
+inhibit_compositor_keyboard_shortcuts: true
+menu:
+  - key: "f"
+    desc: Zen Browser
+    cmd: zen
+  - key: "s"
+    desc: Screenshot
+    cmd: ~/.config/sway/screenshot.sh
+  - key: "t"
+    desc: Google Tasks
+    cmd: zen https://tasks.google.com
+  - key: "g"
+    desc: GitHub
+    submenu:
+      - key: "p"
+        desc: Profile (PS-Wizard)
+        cmd: zen https://github.com/PS-Wizard/
+      - key: "d"
+        desc: Dotfiles
+        cmd: zen https://github.com/PS-Wizard/Dotfiles
+      - key: "s"
+        desc: School
+        cmd: zen https://github.com/PS-Wizard/School
+  - key: "l"
+    desc: AI
+    submenu:
+      - key: "1"
+        desc: Claude
+        cmd: zen https://claude.ai
+      - key: "2"
+        desc: ChatGPT
+        cmd: zen https://chatgpt.com
+      - key: "3"
+        desc: Gemini
+        cmd: zen https://gemini.google.com
+  - key: "u"
+    desc: Usage Limits Codex
+    submenu:
+      - key: "l"
+        desc: Chatgpt Codex Usage Limits
+        cmd: zen https://chatgpt.com/codex/settings/usage
+  - key: "n"
+    desc: Gammastep
+    submenu:
+      - key: "1"
+        desc: Warm (4500K)
+        cmd: pkill gammastep; gammastep -O 4500
+      - key: "2"
+        desc: Warmer (3500K)
+        cmd: pkill gammastep; gammastep -O 3500
+      - key: "3"
+        desc: Warmest (3000K)
+        cmd: pkill gammastep; gammastep -O 3000
+      - key: "4"
+        desc: Warmest + Dim (3000K 70%)
+        cmd: pkill gammastep; gammastep -O 3000 -b 0.7
+      - key: "0"
+        desc: Off
+        cmd: pkill gammastep
+  - key: "w"
+    desc: Waybar
+    submenu:
+      - key: "r"
+        desc: Reload
+        cmd: pkill waybar && waybar -c ~/.config/waybar/config.json -s ~/.config/waybar/style.css
+  - key: "m"
+    desc: Mirror Display
+    cmd: wl-mirror $(niri msg --json outputs | jq -r '.[] | select(.logical.x == 0 and .logical.y == 0) | .name')
+  - key: "r"
+    desc: Recording
+    submenu:
+      - key: "r"
+        desc: Record Screen (no audio)
+        cmd: gpu-screen-recorder -w portal -f 30 -o ~/recording.mp4
+      - key: "a"
+        desc: Record Screen (with audio)
+        cmd: gpu-screen-recorder -w portal -f 30 -a default_output -o ~/recording.mp4
+      - key: "q"
+        desc: Stop Recording
+        cmd: pkill gpu-screen-recorder

@@ -1,0 +1,17 @@
+{
+    "LLM Prompt Template": {
+        "prefix": "prompt",
+        "body": [
+            "# PERSONA",
+            "",
+            "# CONTEXT",
+            "",
+            "# YOUR TASK",
+            "",
+            "# ASSETS",
+            "",
+            "# OTHER NOTES"
+        ],
+        "description": "LLM prompt template"
+    }
+}
