@@ -8,9 +8,8 @@
 }
 window#waybar {
     background-color: rgba(0, 0, 0, 0.85);
-    color: #b5bcc9;
+    color: #cbb382;
 }
-
 #workspaces {
     background: transparent;
     margin: 0;
@@ -24,20 +23,19 @@ window#waybar {
     background-color: transparent;
     min-width: 20px;
     min-height: 0;
-    color: #4e555c;
+    color: #665c54;
     font-family: "JetBrains Mono", monospace;
     border-bottom: 2px solid transparent;
 }
 #workspaces button.focused {
     background-color: transparent;
-    color: #b5bcc9;
-    border-bottom: 2px solid #99aee5;
+    color: #cbb382;
+    border-bottom: 2px solid #cbb382;
 }
 #workspaces button.urgent {
-    background-color: #ef8891;
-    color: #0F141A;
+    background-color: #fb4934;
+    color: #1d2021;
 }
-/* All modules same background */
 #clock,
 #temperature,
 #cpu,
@@ -49,17 +47,14 @@ window#waybar {
     padding: 0px 10px;
     margin: 0;
     border-radius: 0;
-    color: #b5bcc9;
+    color: #cbb382;
 }
-
-/* Clock with uptime */
 #clock {
     padding: 0px 12px;
     font-weight: 700;
     letter-spacing: 0.5px;
-    color: #b5bcc9;
+    color: #cbb382;
 }
-/* Icon modules - keep icons and text aligned */
 #cpu,
 #memory {
     font-size: 13px;
@@ -70,21 +65,19 @@ window#waybar {
 #battery {
     font-size: 13px;
 }
-/* Temperature states */
 #temperature.critical {
-    color: #ef8891;
+    color: #fb4934;
     animation: blink 1s linear infinite;
 }
-/* Battery states */
 #battery.charging,
 #battery.plugged {
-    color: #9fe8c3;
+    color: #b8bb26;
 }
 #battery.warning:not(.charging) {
-    color: #fbdf90;
+    color: #fabd2f;
 }
 #battery.critical:not(.charging) {
-    color: #ef8891;
+    color: #fb4934;
     animation: blink 1s linear infinite;
 }
 @keyframes blink {
@@ -92,16 +85,13 @@ window#waybar {
         opacity: 0.5;
     }
 }
-/* Audio states */
 #pulseaudio.muted {
-    color: #4e555c;
+    color: #665c54;
 }
-/* Network states */
 #network.disconnected,
 #network.linked {
-    color: #ef8891;
+    color: #fb4934;
 }
-/* Hover effect */
 #clock:hover,
 #temperature:hover,
 #cpu:hover,
@@ -109,16 +99,15 @@ window#waybar {
 #pulseaudio:hover,
 #network:hover,
 #battery:hover {
-    background-color: #1e252c;
+    background-color: #282828;
 }
-/* Tooltip styling */
 tooltip {
-    background-color: #131a21;
-    border: 1px solid #363d44;
+    background-color: #1d2021;
+    border: 1px solid #3c3836;
     border-radius: 8px;
     padding: 12px 16px;
 }
 tooltip label {
-    color: #b5bcc9;
+    color: #cbb382;
     font-size: 14px;
 }
