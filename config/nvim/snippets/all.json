@@ -2,15 +2,17 @@
     "LLM Prompt Template": {
         "prefix": "prompt",
         "body": [
-            "# PERSONA",
+            "<context>",
             "",
-            "# CONTEXT",
+            "</context>",
             "",
-            "# YOUR TASK",
+            "<instructions>",
             "",
-            "# ASSETS",
+            "</instructions>",
             "",
-            "# OTHER NOTES"
+            "<task>",
+            "",
+            "</task>"
         ],
         "description": "LLM prompt template"
     }

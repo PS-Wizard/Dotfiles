@@ -22,7 +22,6 @@ alias grep='grep --color=auto'
 alias lz='lazygit'
 alias n='nvim'
 alias oc='opencode'
-alias gc='gemini'
 alias t='tmux'
 alias cc='cargo check'
 alias cb='RUSTFLAGS="-C target-cpu=native" cargo build --release'
@@ -177,8 +176,13 @@ export PATH=$PNPM_HOME:$PATH
 export BUN_INSTALL="$HOME/.bun"
 export PATH=$BUN_INSTALL/bin:$PATH
 
+
 # Cargo
 export PATH=$HOME/.cargo/bin:$PATH
+
+# Faster mirrors
+export RUSTUP_DIST_SERVER=https://mirrors.tuna.tsinghua.edu.cn/rustup
+export RUSTUP_UPDATE_ROOT=https://mirrors.tuna.tsinghua.edu.cn/rustup/rustup
 
 # Turso (your DB stuff)
 export PATH=$PATH:/home/wizard/.turso
@@ -214,3 +218,5 @@ PROMPT='[%F{green}%n%f@%F{blue}%m%f %F{yellow}%~%f] -> '
 
 # opencode
 export PATH=/home/wizard/.opencode/bin:$PATH
+
+if command -v wt >/dev/null 2>&1; then eval "$(command wt config shell init zsh)"; fi

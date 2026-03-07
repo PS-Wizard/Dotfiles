@@ -223,10 +223,10 @@ binds {
 
     Mod+Shift+Q repeat=false { close-window; }
 
-    Mod+H     { focus-column-left; }
-    Mod+J     { focus-window-down; }
-    Mod+K     { focus-window-up; }
-    Mod+L     { focus-column-right; }
+    Mod+H {focus-column-left;}
+    Mod+J { focus-window-down; }
+    Mod+K { focus-window-up; }
+    Mod+L { focus-column-right; }
 
     Mod+Shift+H     {  consume-or-expel-window-left;  }
     Mod+Shift+J     { move-window-down; }

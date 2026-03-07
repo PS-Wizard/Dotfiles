@@ -13,9 +13,6 @@ menu:
   - key: "f"
     desc: Zen Browser
     cmd: zen
-  - key: "s"
-    desc: Screenshot
-    cmd: ~/.config/sway/screenshot.sh
   - key: "t"
     desc: Google Tasks
     cmd: zen https://tasks.google.com
@@ -81,10 +78,10 @@ menu:
     submenu:
       - key: "r"
         desc: Record Screen (no audio)
-        cmd: gpu-screen-recorder -w portal -f 30 -o ~/recording.mp4
+        cmd: nvidia-offload gpu-screen-recorder -w portal -f 30 -o ~/recording.mp4
       - key: "a"
         desc: Record Screen (with audio)
-        cmd: gpu-screen-recorder -w portal -f 30 -a default_output -o ~/recording.mp4
+        cmd: nvidia-offload gpu-screen-recorder -w portal -f 30 -a default_output -o ~/recording.mp4
       - key: "q"
         desc: Stop Recording
-        cmd: pkill gpu-screen-recorder
+        cmd: killall gpu-screen-recorder

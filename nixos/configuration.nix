@@ -39,7 +39,12 @@
         experimental-features = [ "nix-command" "flakes" ];
         substituters = [
             "https://cache.nixos.org"
-            "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store"
+                "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store"
+                "https://nix-community.cachix.org"
+        ];
+        trusted-public-keys = [
+            "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+                "nix-community.cachix.org-1:mB9FSh9qf2dyde2FqRtLB1ynkLCGKMfT+2sMRpDC7kU="
         ];
     };
 
@@ -85,6 +90,7 @@
         neovim
         kitty
         git
+        delta
         fzf
         zoxide
         tmux
@@ -95,6 +101,10 @@
         bemenu
         brightnessctl
         typst
+        rustup
+        gcc
+        zip
+        unzip
         tokei
         gammastep
         pavucontrol
@@ -119,6 +129,21 @@
         };
     };
 
+    services.xserver.videoDrivers = [ "nvidia" ];
 
+    hardware.nvidia = {
+        modesetting.enable = true;
+        open = false;
+        prime = {
+            offload = {
+                enable = true;
+                enableOffloadCmd = true;
+            };
+            amdgpuBusId = "PCI:100:0:0";
+            nvidiaBusId = "PCI:1:0:0";
+        };
+    };
+
+    services.speechd.enable = false;
     system.stateVersion = "25.11";
 }

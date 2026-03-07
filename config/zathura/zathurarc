@@ -1,6 +1,6 @@
 set recolor "true"
 set default-bg "#cbb382"
-set recolor-lightcolor "#cbb382"
+set recolor-lightcolor "#CFB98C"
 set recolor-darkcolor  "#1d2021"
 
 set zoom-max 10000

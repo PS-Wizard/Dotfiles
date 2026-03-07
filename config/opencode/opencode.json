@@ -10,10 +10,9 @@
             },
             "enabled": true
         },
-        "shadcn": {
-            "type": "local",
-            "command": ["bunx", "--bun", "shadcn@latest", "mcp"],
-            "enabled": true
-        }
+        "svelte": {
+          "type": "remote",
+          "url": "https://mcp.svelte.dev/mcp"
+        },
     }
 }

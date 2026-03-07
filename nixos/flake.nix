@@ -1,26 +1,20 @@
 {
     description = "NixOS configuration";
-
     inputs = {
         nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-        opencode.url = "github:anomalyco/opencode";
-
-        # Zen browser from its dedicated flake.
         zen-browser.url = "github:youwen5/zen-browser-flake";
-
-        # Optional but recommended when following nixos-unstable.
         zen-browser.inputs.nixpkgs.follows = "nixpkgs";
+        opencode.url = "github:anomalyco/opencode";
     };
-
-    outputs = { self, nixpkgs, opencode, zen-browser, ... }: {
+    outputs = { self, nixpkgs, zen-browser, opencode, ... }: {
         nixosConfigurations.nixos = nixpkgs.lib.nixosSystem {
             system = "x86_64-linux";
             modules = [
                 ./configuration.nix
                 {
                     environment.systemPackages = [
-                        opencode.packages.x86_64-linux.default
                         zen-browser.packages.x86_64-linux.default
+                        opencode.packages.x86_64-linux.default
                     ];
                 }
             ];
