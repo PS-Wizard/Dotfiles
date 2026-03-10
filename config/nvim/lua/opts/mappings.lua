@@ -1,8 +1,5 @@
 local opts = { noremap = true, silent = true }
 
-local typst = require("typst-preview")
-vim.api.nvim_create_user_command("TypstPreview", typst.preview, {})
-
 -- vim.wo.signcolumn = 'yes'
 
 vim.keymap.set("n", "<leader>pv", ":lua MiniFiles.open()<CR>", { desc = "Open File Explorer" })

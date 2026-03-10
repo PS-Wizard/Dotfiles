@@ -175,13 +175,20 @@ return {
                 }
             })
 
-            vim.lsp.config('ts_ls', {
-                cmd = { 'bunx', 'typescript-language-server', '--stdio' },
+            vim.lsp.config('vtsls', {
+                cmd = { 'bunx', 'vtsls', '--stdio' },
                 filetypes = { 'typescript', 'typescriptreact', 'javascript', 'javascriptreact' },
-                root_markers = {'vite.config.js', 'package.json', 'tsconfig.json', 'jsconfig.json', '.git' },
+                root_markers = { 'vite.config.js', 'package.json', 'tsconfig.json', 'jsconfig.json', '.git' },
                 capabilities = capabilities,
                 settings = {
-                    maxTsServerMemory = 2048
+                    typescript = {
+                        inlayHints = {
+                            parameterNames = { enabled = 'all' },
+                            parameterTypes = { enabled = true },
+                            variableTypes = { enabled = true },
+                            returnTypes = { enabled = true },
+                        },
+                    },
                 },
             })
 
@@ -209,7 +216,7 @@ return {
             })
 
 
-            vim.lsp.enable({ 'gopls', 'rust_analyzer', 'ts_ls', 'svelte', 'tinymist', 'clangd' })
+            vim.lsp.enable({ 'gopls', 'rust_analyzer', 'vtsls', 'svelte', 'tinymist', 'clangd' })
 
             -- Set up LspAttach autocommand for keybindings
             vim.api.nvim_create_autocmd('LspAttach', {
