@@ -17,6 +17,7 @@ bindkey -v
 # Your aliases (converted from fish)
 alias rm='trash-put'
 alias dcup="docker compose down && docker compose build && docker compose up -d && docker image prune -f"
+alias dclean="docker system prune -a --volumes"
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 alias lz='lazygit'
@@ -24,18 +25,14 @@ alias n='nvim'
 alias oc='opencode'
 alias t='tmux'
 alias cc='cargo check'
-alias cb='RUSTFLAGS="-C target-cpu=native" cargo build --release'
+alias cb='cargo build --release'
 alias mn='touch "$(date +%F).md" && echo "Created $(date +%F).md"'
 alias hs='hugo serve -D --ignoreCache --disableFastRender'
 
-# Git clone functions
-clone() {
-    git clone "https://github.com/$1.git"
-}
-
-mclone() {
-    git clone "https://github.com/PS-Wizard/$1.git"
-}
+# Git Diff
+gds() { git diff "${1:-main}" | delta --side-by-side }
+_gds() { compadd $(git branch --format='%(refname:short)' 2>/dev/null) }
+compdef _gds gds
 
 # Cargo test function
 ct() {
@@ -107,60 +104,6 @@ ct() {
     eval $cmd
 }
 
-# Test chess engine
-test_mah_engine() {
-    cchess -engine cmd=stockfish name=Stockfish option."UCI_LimitStrength"=true option."UCI_Elo"=1320 \
-           -engine cmd=./engine name=OopsMate \
-           -each tc=1+0 -games 100 -repeat -concurrency 1
-}
-
-# Go test function
-gt() {
-    local flags=""
-    local verbose=false
-    local run_pattern=""
-    local package=""
-    
-    # Parse first argument for flags
-    if [[ $# -gt 0 && "$1" =~ ^[v]+$ ]]; then
-        flags="$1"
-        shift
-        
-        [[ "$flags" == *v* ]] && verbose=true
-    fi
-    
-    # Parse remaining arguments
-    if [ $# -eq 1 ]; then
-        # Check if it's a package path
-        if [[ "$1" =~ ^\.\/ ]] || [[ "$1" =~ ^\.\. ]]; then
-            package="$1"
-        else
-            run_pattern="$1"
-        fi
-    elif [ $# -eq 2 ]; then
-        run_pattern="$1"
-        package="$2"
-    fi
-    
-    # Build command
-    local cmd="go test"
-    
-    if [ "$verbose" = true ]; then
-        cmd="$cmd -v"
-    fi
-    
-    if [ -n "$run_pattern" ]; then
-        cmd="$cmd -run $run_pattern"
-    fi
-    
-    if [ -n "$package" ]; then
-        cmd="$cmd $package"
-    fi
-    
-    # Execute
-    eval $cmd
-}
-
 # Environment variables
 export EDITOR=nvim
 export BROWSER=zen-browser
@@ -220,3 +163,48 @@ PROMPT='[%F{green}%n%f@%F{blue}%m%f %F{yellow}%~%f] -> '
 export PATH=/home/wizard/.opencode/bin:$PATH
 
 if command -v wt >/dev/null 2>&1; then eval "$(command wt config shell init zsh)"; fi
+
+# Created by `pipx` on 2026-03-16 11:26:28
+export PATH="$PATH:/home/wizard/.local/bin"
+
+# ── Prompt ────────────────────────────────────────────────────────────────────
+# Clean single-line prompt with git branch/worktree, cwd, and exit status.
+# Requires: zsh built-ins only, no plugins needed.
+
+autoload -Uz vcs_info
+zstyle ':vcs_info:*'    enable git
+zstyle ':vcs_info:git:*' formats '%b'          # branch name only
+
+# Called before each prompt draw
+precmd() {
+  vcs_info
+
+  # Detect if we're in a linked worktree and append --worktree to branch
+  local wt_suffix=""
+  local wt_path
+  wt_path=$(git rev-parse --git-dir 2>/dev/null)
+  if [[ -n "$wt_path" && "$wt_path" != ".git" && "$wt_path" != *"/.git" ]]; then
+    wt_suffix="--worktree"
+  fi
+
+  # Store for use in PROMPT
+  _git_branch="${vcs_info_msg_0_}${wt_suffix:+ $wt_suffix}"
+}
+
+setopt PROMPT_SUBST
+
+# Colors (tweak these to your taste)
+local _c_dir="%F{cyan}"
+local _c_branch="%F{green}"
+local _c_wt="%F{yellow}"
+local _c_err="%F{red}"
+local _c_ok="%F{green}"
+local _c_dim="%F{240}"
+local _c_reset="%f"
+
+PROMPT='${_c_dim}┌ ${_c_dir}%~${_c_reset}\
+$([ -n "$_git_branch" ] && echo " ${_c_dim}on${_c_reset} ${_c_branch}$_git_branch${_c_reset}")
+${_c_dim}└ %(?.${_c_ok}❯${_c_reset}.${_c_err}❯${_c_reset}) '
+
+# Optional right-side prompt: show time
+RPROMPT='${_c_dim}$(tmux display-message -p "#I" 2>/dev/null)${_c_reset}'
