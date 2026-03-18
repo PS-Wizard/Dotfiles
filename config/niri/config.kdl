@@ -35,7 +35,7 @@ input {
 
 
 
-spawn-at-startup "swaybg" "-i" "/home/wizard/.config/niri/walls/wallpaper.jpg" "-m" "fill"
+spawn-at-startup "swaybg" "-o" "*" "-i" "/home/wizard/.config/niri/walls/wallpaper.jpg" "-m" "fill"
 spawn-at-startup "trash-empty" "-f" "10" 
 
 
@@ -172,8 +172,8 @@ window-rule {
 }
 
 // You can also set this to null to disable saving screenshots to disk.
-screenshot-path null
-// screenshot-path "~/Screenshot from %Y-%m-%d %H-%M-%S.png"
+// screenshot-path null
+screenshot-path "~/Screenshot from %Y-%m-%d %H-%M-%S.png"
 
 animations {
     // Uncomment to turn off all animations.
