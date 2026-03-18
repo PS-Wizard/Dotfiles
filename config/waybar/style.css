@@ -7,8 +7,8 @@
     min-height: 0;
 }
 window#waybar {
-    background-color: rgba(0, 0, 0, 0.85);
-    color: #cbb382;
+    background-color: #191724;
+    color: #e0def4;
 }
 #workspaces {
     background: transparent;
@@ -23,18 +23,18 @@ window#waybar {
     background-color: transparent;
     min-width: 20px;
     min-height: 0;
-    color: #665c54;
+    color: #6e6a86;
     font-family: "JetBrains Mono", monospace;
     border-bottom: 2px solid transparent;
 }
 #workspaces button.focused {
     background-color: transparent;
-    color: #cbb382;
-    border-bottom: 2px solid #cbb382;
+    color: #e0def4;
+    border-bottom: 1px solid #ebbcba;
 }
 #workspaces button.urgent {
-    background-color: #fb4934;
-    color: #1d2021;
+    background-color: #eb6f92;
+    color: #191724;
 }
 #clock,
 #temperature,
@@ -47,13 +47,13 @@ window#waybar {
     padding: 0px 10px;
     margin: 0;
     border-radius: 0;
-    color: #cbb382;
+    color: #908caa;
 }
 #clock {
     padding: 0px 12px;
     font-weight: 700;
     letter-spacing: 0.5px;
-    color: #cbb382;
+    color: #f6c177;
 }
 #cpu,
 #memory {
@@ -66,18 +66,18 @@ window#waybar {
     font-size: 13px;
 }
 #temperature.critical {
-    color: #fb4934;
+    color: #eb6f92;
     animation: blink 1s linear infinite;
 }
 #battery.charging,
 #battery.plugged {
-    color: #b8bb26;
+    color: #9ccfd8;
 }
 #battery.warning:not(.charging) {
-    color: #fabd2f;
+    color: #f6c177;
 }
 #battery.critical:not(.charging) {
-    color: #fb4934;
+    color: #eb6f92;
     animation: blink 1s linear infinite;
 }
 @keyframes blink {
@@ -86,11 +86,11 @@ window#waybar {
     }
 }
 #pulseaudio.muted {
-    color: #665c54;
+    color: #6e6a86;
 }
 #network.disconnected,
 #network.linked {
-    color: #fb4934;
+    color: #eb6f92;
 }
 #clock:hover,
 #temperature:hover,
@@ -99,15 +99,15 @@ window#waybar {
 #pulseaudio:hover,
 #network:hover,
 #battery:hover {
-    background-color: #282828;
+    background-color: #26233a;
 }
 tooltip {
-    background-color: #1d2021;
-    border: 1px solid #3c3836;
+    background-color: #1f1d2e;
+    border: 1px solid #403d52;
     border-radius: 8px;
     padding: 12px 16px;
 }
 tooltip label {
-    color: #cbb382;
+    color: #e0def4;
     font-size: 14px;
 }

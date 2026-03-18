@@ -1,18 +1,5 @@
 return {
     {
-        'echasnovski/mini.diff',
-        version = false,
-        config = function()
-            require('mini.diff').setup({
-                view = {
-                    style = 'sign',
-                }
-            })
-            vim.keymap.set('n', '<leader><leader>', ':lua MiniDiff.toggle_overlay()<CR>', { noremap = true, silent = true })
-        end,
-    },
-
-    {
         'nvim-mini/mini.jump',
         version = false,
         opts = function()

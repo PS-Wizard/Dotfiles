@@ -163,6 +163,12 @@ return {
                 capabilities = capabilities,
             })
 
+            vim.lsp.config('marksman', {
+                cmd = { 'marksman' },
+                filetypes = { 'markdown' },
+                capabilities = capabilities,
+            })
+
             vim.lsp.config('tinymist', {
                 cmd = { 'tinymist' },
                 filetypes = { 'typst' },
@@ -216,7 +222,7 @@ return {
             })
 
 
-            vim.lsp.enable({ 'gopls', 'rust_analyzer', 'vtsls', 'svelte', 'tinymist', 'clangd' })
+            vim.lsp.enable({ 'marksman','gopls', 'rust_analyzer', 'vtsls', 'svelte', 'tinymist', 'clangd' })
 
             -- Set up LspAttach autocommand for keybindings
             vim.api.nvim_create_autocmd('LspAttach', {

@@ -3,6 +3,7 @@ local opts = { noremap = true, silent = true }
 -- vim.wo.signcolumn = 'yes'
 
 vim.keymap.set("n", "<leader>pv", ":lua MiniFiles.open()<CR>", { desc = "Open File Explorer" })
+vim.keymap.set("n", "<leader><leader>", ":RenderMarkdown toggle<CR>", { desc = "Toggle markdown" })
 
 vim.api.nvim_set_keymap('n', '<leader>n', '<C-^>', opts)
 

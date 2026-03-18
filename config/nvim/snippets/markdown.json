@@ -56,10 +56,9 @@
             "title = '$1'",
             "tags = [$2]",
             "date = ${CURRENT_YEAR}-${CURRENT_MONTH}-${CURRENT_DATE}",
-            "description = '$3'",
             "+++",
             "",
-            "# $4",
+            "# $3",
             ""
         ],
         "description": "Markdown frontmatter block"

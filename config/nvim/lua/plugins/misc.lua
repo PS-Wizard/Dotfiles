@@ -45,63 +45,95 @@ return {
         },
     },
     {
+        "rose-pine/neovim",
+        name = "rose-pine",
+        config = function()
+            require("rose-pine").setup({
+                dim_inactive_windows = false,
+                extend_background_behind_borders = true,
+
+                enable = {
+                    terminal = true,
+                    migrations = true, -- Handle deprecated options automatically
+                },
+
+                styles = {
+                    bold = true,
+                    italic = true,
+                    transparency = false,
+                },
+
+                groups = {
+                    border = "muted",
+                    link = "iris",
+                    panel = "surface",
+
+                    error = "love",
+                    hint = "iris",
+                    info = "foam",
+                    note = "pine",
+                    todo = "rose",
+                    warn = "gold",
+
+                    git_add = "foam",
+                    git_change = "rose",
+                    git_delete = "love",
+                    git_dirty = "rose",
+                    git_ignore = "muted",
+                    git_merge = "iris",
+                    git_rename = "pine",
+                    git_stage = "iris",
+                    git_text = "rose",
+                    git_untracked = "subtle",
+
+                    h1 = "iris",
+                    h2 = "foam",
+                    h3 = "rose",
+                    h4 = "gold",
+                    h5 = "pine",
+                    h6 = "foam",
+                },
+
+                palette = {
+                    -- Override the builtin palette per variant
+                    -- moon = {
+                        --     base = '#18191a',
+                        --     overlay = '#363738',
+                        -- },
+                    },
+                })
+
+                vim.cmd("colorscheme rose-pine")
+        end
+    },
+    {
         'MeanderingProgrammer/render-markdown.nvim',
         opts = {
+            anti_conceal = {
+                enabled = false,
+            },
             heading = {
                 sign = false,
                 position = 'inline',
-                width = 'block',
-                left_margin = 0.5,   -- centers it
-                left_pad = 1,
-                right_pad = 2,
+                left_margin = 0,   -- centers it
                 border = true,
                 border_virtual = true,
                 border_prefix = false,
-                above = '─',
-                below = '─',
-                icons = { '󰎤 ', '󰎧 ', '󰎪 ', '󰎭 ', '󰎱 ', '󰎳 ' },
+                above = '-',
+                below = '-',
+                icons = { '# ', '## ', '### ', '#### ', '##### ', '###### ' },
             },
             code = {
                 sign = false,
                 width = 'block',
-                left_margin = 2,
-                left_pad = 1,
-                right_pad = 2,
+                left_margin = 0,
+                left_pad = 0,
+                right_pad = 0,
                 border = 'thin',
                 above = '▄',
                 below = '▀',
-                highlight = 'RenderMarkdownCode',
-                highlight_border = 'RenderMarkdownCodeBorder',
-                highlight_inline = 'RenderMarkdownCodeInline',
             },
         },
-        config = function(_, opts)
-            require('render-markdown').setup(opts)
-
-            vim.schedule(function()
-                -- Headings: dark bg, readable fg
-                local shades = {
-                    '#c8e6c4', '#b8d6b4', '#a8c6a4',
-                    '#98b694', '#88a684', '#789674',
-                }
-                for i = 1, 6 do
-                    vim.api.nvim_set_hl(0, 'RenderMarkdownH' .. i,
-                    { fg = shades[i], bold = true })
-                    vim.api.nvim_set_hl(0, 'RenderMarkdownH' .. i .. 'Bg',
-                    { fg = shades[i], bg = '#1e3320' })
-                end
-
-                -- Multi-line code block: dark olive bg, colored border
-                vim.api.nvim_set_hl(0, 'RenderMarkdownCode',
-                { bg = '#161d12' })
-                vim.api.nvim_set_hl(0, 'RenderMarkdownCodeBorder',
-                { fg = '#4a6741', bg = '#161d12' })
-
-                -- Inline code: slightly lighter, distinct
-                vim.api.nvim_set_hl(0, 'RenderMarkdownCodeInline',
-                { fg = '#91ba88', bg = '#243320' })
-            end)
-        end,
     },
 
 }

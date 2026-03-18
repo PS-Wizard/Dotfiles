@@ -1,8 +1,8 @@
 # Theming
 font: JetBrainsMono Nerd Font 12
-background: "#1d2021b0"
-color: "#cbb382"
-border: "#cbb382"
+background: "#191724b0"
+color: "#e0def4"
+border: "#31748f"
 separator: " - "
 border_width: 1
 corner_r: 10
@@ -11,41 +11,41 @@ anchor: center
 inhibit_compositor_keyboard_shortcuts: true
 menu:
   - key: "f"
-    desc: Zen Browser
-    cmd: zen
+    desc: zen-browser 
+    cmd: zen-browser
   - key: "t"
     desc: Google Tasks
-    cmd: zen https://tasks.google.com
+    cmd: zen-browser https://tasks.google.com
   - key: "g"
     desc: GitHub
     submenu:
       - key: "p"
         desc: Profile (PS-Wizard)
-        cmd: zen https://github.com/PS-Wizard/
+        cmd: zen-browser https://github.com/PS-Wizard/
       - key: "d"
         desc: Dotfiles
-        cmd: zen https://github.com/PS-Wizard/Dotfiles
+        cmd: zen-browser https://github.com/PS-Wizard/Dotfiles
       - key: "s"
         desc: School
-        cmd: zen https://github.com/PS-Wizard/School
+        cmd: zen-browser https://github.com/PS-Wizard/School
   - key: "l"
     desc: AI
     submenu:
       - key: "1"
         desc: Claude
-        cmd: zen https://claude.ai
+        cmd: zen-browser https://claude.ai
       - key: "2"
         desc: ChatGPT
-        cmd: zen https://chatgpt.com
+        cmd: zen-browser https://chatgpt.com
       - key: "3"
         desc: Gemini
-        cmd: zen https://gemini.google.com
+        cmd: zen-browser https://gemini.google.com
   - key: "u"
     desc: Usage Limits Codex
     submenu:
       - key: "l"
         desc: Chatgpt Codex Usage Limits
-        cmd: zen https://chatgpt.com/codex/settings/usage
+        cmd: zen-browser https://chatgpt.com/codex/settings/usage
   - key: "n"
     desc: Gammastep
     submenu:
