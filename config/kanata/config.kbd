@@ -1,0 +1,21 @@
+(defcfg
+  process-unmapped-keys yes
+)
+
+
+(defsrc
+  caps spc
+)
+
+(defalias
+  capsctl (multi lctl (layer-while-held caps-layer))
+  capsspc (multi (release-key lctl) lmet)
+)
+
+(deflayer base
+  @capsctl spc
+)
+
+(deflayer caps-layer
+  _ @capsspc
+)
