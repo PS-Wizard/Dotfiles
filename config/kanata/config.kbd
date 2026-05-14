@@ -1,21 +1,24 @@
 (defcfg
   process-unmapped-keys yes
+  concurrent-tap-hold yes
 )
 
-
 (defsrc
-  caps spc
+  caps lalt
 )
 
 (defalias
   capsctl (multi lctl (layer-while-held caps-layer))
-  capsspc (multi (release-key lctl) lmet)
 )
 
 (deflayer base
-  @capsctl spc
+  @capsctl lalt
 )
 
 (deflayer caps-layer
-  _ @capsspc
+  _ _
+)
+
+(defchordsv2
+  (caps lalt) lmet 120 first-release ()
 )
