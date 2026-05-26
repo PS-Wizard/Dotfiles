@@ -19,15 +19,23 @@ alias rm='trash-put'
 alias dcup="docker compose down && docker compose build && docker compose up -d && docker image prune -f"
 alias dclean="docker system prune -a --volumes"
 alias ls='ls --color=auto'
+alias p='pi'
+alias pr='pi -r'
 alias grep='grep --color=auto'
 alias lz='lazygit'
 alias n='nvim'
-alias oc='opencode'
 alias t='tmux'
 alias cc='cargo check'
 alias cb='cargo build --release'
 alias mn='touch "$(date +%F).md" && echo "Created $(date +%F).md"'
 alias hs='hugo serve -D --ignoreCache --disableFastRender'
+
+# ── eza ───────────────────────────────────────────────────────────────────────
+alias ls='eza --icons --group-directories-first'
+alias la='eza --icons --group-directories-first -a'
+alias ll='eza --icons --group-directories-first -la --git'
+alias lt='eza --icons --tree --level=5 --group-directories-first'
+alias lta='eza --icons --tree --level=5 --group-directories-first -a'
 
 # Git Diff
 gds() { git diff "${1:-main}" | delta --side-by-side }
@@ -135,6 +143,8 @@ export TURSO_AUTH_TOKEN="eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3NTU2Nz
 # Node
 export NODE_OPTIONS="--dns-result-order=ipv4first"
 
+alias node='bun'
+
 # fzf
 export FZF_DEFAULT_COMMAND="fd --type f --hidden"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
@@ -202,9 +212,9 @@ local _c_ok="%F{green}"
 local _c_dim="%F{240}"
 local _c_reset="%f"
 
+
 PROMPT='${_c_dim}┌ ${_c_dir}%~${_c_reset}\
 $([ -n "$_git_branch" ] && echo " ${_c_dim}on${_c_reset} ${_c_branch}$_git_branch${_c_reset}")
 ${_c_dim}└ %(?.${_c_ok}❯${_c_reset}.${_c_err}❯${_c_reset}) '
 
-# Optional right-side prompt: show time
-RPROMPT='${_c_dim}$(tmux display-message -p "#I" 2>/dev/null)${_c_reset}'
+export PI_CODING_AGENT_DIR="$HOME/.config/pi"

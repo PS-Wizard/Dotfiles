@@ -19,7 +19,8 @@
     ],
 
     "modules-left": [
-        "niri/workspaces"
+        "niri/workspaces",
+        "custom/say"
     ],
 
     "niri/workspaces": {

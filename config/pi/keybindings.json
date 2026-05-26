@@ -1,7 +1,4 @@
 {
-  "tui.input.newLine": ["shift+enter"],
-  "tui.input.submit": ["enter"],
-  "app.message.followUp": ["alt+enter"],
   "app.thinking.cycle": ["ctrl+t"],
   "app.thinking.toggle": []
 }
