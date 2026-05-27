@@ -1,0 +1,13 @@
+{
+  "name": "personal-snippets",
+  "contributes": {
+    "snippets": [
+      { "language": "all", "path": "./all.json" },
+      { "language": "c", "path": "./c.json" },
+      { "language": "html", "path": "./html.json" },
+      { "language": "java", "path": "./java.json" },
+      { "language": "markdown", "path": "./markdown.json" },
+      { "language": "typst", "path": "./typst.json" }
+    ]
+  }
+}
