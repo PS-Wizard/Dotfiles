@@ -3,20 +3,62 @@
   concurrent-tap-hold yes
 )
 
+(defvar
+  tap-repress-timeout 150
+  hold-timeout 200
+
+  left-tap-keys (q w e r t a s g z x c v b)
+
+  ;; If one of these is already held, d/f should just be normal letters.
+  ;; This fixes Ctrl+d / Ctrl+f latency.
+  real-mods (lctl rctl lsft rsft lalt ralt lmet rmet)
+)
+
 (defsrc
-  caps lalt
+  caps lalt d f u i o p [ ] scln
 )
 
 (defalias
   capsctl (multi lctl (layer-while-held caps-layer))
+
+  draw (tap-hold-release-tap-keys-release
+          $tap-repress-timeout $hold-timeout
+          d
+          (multi lalt (layer-while-held d-num-layer) reverse-release-order)
+          $left-tap-keys
+          (f))
+
+  fraw (tap-hold-release-tap-keys-release
+          $tap-repress-timeout $hold-timeout
+          f
+          (multi lmet (layer-while-held f-num-layer) reverse-release-order)
+          $left-tap-keys
+          (d))
+
+  ;; Wrapper:
+  ;; If Ctrl/Alt/Super/Shift is already active, send d/f immediately.
+  ;; Otherwise use the tap-hold behavior.
+  dalt (fork @draw d $real-mods)
+  fsup (fork @fraw f $real-mods)
 )
 
 (deflayer base
-  @capsctl lalt
+  @capsctl lalt @dalt @fsup u i o p [ ] scln
 )
 
 (deflayer caps-layer
-  _ _
+  _ _ _ _ _ _ _ _ _ _ _
+)
+
+;; d + u/i/o/p/[ /] => Alt + 1/2/3/4/5/6
+(deflayer d-num-layer
+  _ _ _ _ 1 2 3 4 5 6 _
+)
+
+;; f + u/i/o/p/[ /] => Super + 1/2/3/4/5/6
+;; f + ; => Super + Tab
+(deflayer f-num-layer
+  _ _ _ _ 1 2 3 4 5 6 tab
 )
 
 (defchordsv2
