@@ -1,5 +1,5 @@
 {
-  "lastChangelogVersion": "0.75.5",
+  "lastChangelogVersion": "0.78.0",
   "defaultProvider": "openai-codex",
   "defaultModel": "gpt-5.4",
   "defaultThinkingLevel": "medium",
@@ -14,6 +14,8 @@
     "bun"
   ],
   "packages": [
-    "npm:@juicesharp/rpiv-ask-user-question"
+    "npm:@juicesharp/rpiv-ask-user-question",
+    "npm:pi-hashline-edit",
+    "npm:@tmustier/pi-usage-extension"
   ]
 }

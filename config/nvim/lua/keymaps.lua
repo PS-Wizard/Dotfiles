@@ -34,6 +34,17 @@ vim.keymap.set("n", "<leader>gc", function()
     require("mini.extra").pickers.git_commits()
 end, { desc = "Git commits" })
 
+-- HTTP client keymaps.
+vim.keymap.set("n", "<leader>rs", function()
+    require("kulala").run()
+end, { desc = "Send request" })
+vim.keymap.set("n", "<leader>ra", function()
+    require("kulala").run_all()
+end, { desc = "Send all requests" })
+vim.keymap.set("n", "<leader>rb", function()
+    require("kulala").scratchpad()
+end, { desc = "Open scratchpad" })
+
 -- Clipboard keymaps.
 vim.keymap.set("v", "gy", '"+y', silent)
 vim.keymap.set("n", "gp", '"+p', silent)

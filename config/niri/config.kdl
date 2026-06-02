@@ -170,8 +170,7 @@ prefer-no-csd
 
 blur {
     passes 4
-    noise 0.1
-    saturation 1
+    saturation 3
 }
 
 window-rule {

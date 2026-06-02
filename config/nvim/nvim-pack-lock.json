@@ -12,6 +12,14 @@
       "rev": "fea9eedc6894c44d44cbb772a5cd11c93b82d7a1",
       "src": "https://github.com/ibhagwan/fzf-lua"
     },
+    "http-client.nvim": {
+      "rev": "432bd77cb66c50d5869212baa9d4e6e341452232",
+      "src": "https://github.com/askfiy/http-client.nvim"
+    },
+    "kulala.nvim": {
+      "rev": "77e5e949276e0b247f8f67575c42446750d164fa",
+      "src": "https://github.com/mistweaverco/kulala.nvim"
+    },
     "mini.ai": {
       "rev": "4ce4c35e411ea329a15d4b15e9c89c2a3089e437",
       "src": "https://github.com/echasnovski/mini.ai"
@@ -44,9 +52,17 @@
       "rev": "1e37ade260e2b655c3a9b8407ba7e6b0fb995b28",
       "src": "https://github.com/echasnovski/mini.surround"
     },
+    "neocurl": {
+      "rev": "bc2b3c37c738ea54a4c2a5ec19a17a2b13a9cd87",
+      "src": "https://github.com/vartzy/neocurl"
+    },
     "nvim-lspconfig": {
       "rev": "a4ed4e761c400849e8c9f8bda33e5083f890268c",
       "src": "https://github.com/neovim/nvim-lspconfig"
+    },
+    "rest.nvim": {
+      "rev": "714d5512aaec5565d55652480c16c26f8d95645d",
+      "src": "https://github.com/rest-nvim/rest.nvim"
     },
     "vim-tpipeline": {
       "rev": "9c1fc6a9aed96a6ff5f5cb0420e3760e95dfb1c1",

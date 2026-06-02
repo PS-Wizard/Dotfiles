@@ -4,6 +4,7 @@ vim.pack.add({
     "https://github.com/neovim/nvim-lspconfig",
     "https://github.com/echasnovski/mini.nvim",
     "https://github.com/vimpostor/vim-tpipeline",
+    "https://github.com/mistweaverco/kulala.nvim",
 })
 
 -- Configure mini.files as the file explorer.
@@ -83,6 +84,13 @@ require("mini.pick").setup({
     },
 })
 require("mini.extra").setup()
+
+-- Configure Kulala as the in-editor REST client.
+require("kulala").setup({
+    global_keymaps = false,
+    global_keymaps_prefix = "<leader>R",
+    kulala_keymaps_prefix = "",
+})
 
 -- Build blink's native matcher, then configure completion.
 local blink_completion = require("blink.cmp")
