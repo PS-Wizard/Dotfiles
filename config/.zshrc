@@ -1,0 +1,217 @@
+# History
+HISTSIZE=50
+SAVEHIST=50
+HISTFILE=~/.zsh_history
+setopt SHARE_HISTORY
+setopt HIST_IGNORE_DUPS
+
+# Basic completion
+autoload -U compinit; compinit
+source ~/.config/fzf-tab/fzf-tab.plugin.zsh
+zstyle ':completion:*' menu select
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
+
+# Vi mode
+bindkey -v
+
+# Your aliases (converted from fish)
+alias rm='trash-put'
+alias dcup="docker compose down && docker compose build && docker compose up -d && docker image prune -f"
+alias dclean="docker system prune -a --volumes"
+alias ls='ls --color=auto'
+alias p='pi'
+alias pr='pi -r'
+alias grep='grep --color=auto'
+alias lz='lazygit'
+alias n='nvim'
+alias t='tmux'
+alias cc='cargo check'
+alias cb='cargo build --release'
+alias cr='cargo run'
+alias mn='touch "$(date +%F).md" && echo "Created $(date +%F).md"'
+alias hs='hugo serve -D --ignoreCache --disableFastRender'
+
+# ── eza ───────────────────────────────────────────────────────────────────────
+alias ls='eza --icons --group-directories-first'
+alias la='eza --icons --group-directories-first -a'
+alias ll='eza --icons --group-directories-first -la --git'
+alias lt='eza --icons --tree --level=5 --group-directories-first'
+alias lta='eza --icons --tree --level=5 --group-directories-first -a'
+
+# Git Diff
+gds() { git diff "${1:-main}" | delta --side-by-side }
+_gds() { compadd $(git branch --format='%(refname:short)' 2>/dev/null) }
+compdef _gds gds
+
+# Cargo test function
+ct() {
+    local flags=""
+    local ignored=false
+    local release=false
+    local nocapture=false
+    local crate=""
+    local test_name=""
+    
+    # Parse first argument for flags
+    # Flags:
+    # i - ignored tests (--ignored)
+    # r - release mode (--release)
+    # v - verbose/print (replaces 'p') (--nocapture)
+    if [[ $# -gt 0 && "$1" =~ ^[irv]+$ ]]; then
+        flags="$1"
+        shift
+        
+        [[ "$flags" == *i* ]] && ignored=true
+        [[ "$flags" == *r* ]] && release=true
+        # Changed 'p' to 'v' for nocapture/verbose output
+        [[ "$flags" == *v* ]] && nocapture=true
+    fi
+    
+    # Parse remaining arguments
+    if [ $# -eq 1 ]; then
+        # Check if it's a crate name or test name
+        if cargo metadata --no-deps --format-version 1 2>/dev/null | grep -q "\"name\":\"$1\""; then
+            crate="$1"
+        else
+            test_name="$1"
+        fi
+    elif [ $# -eq 2 ]; then
+        crate="$1"
+        test_name="$2"
+    fi
+    
+    # Build command
+    local cmd="cargo test"
+    
+    # Add RUSTFLAGS if release mode
+    if [ "$release" = true ]; then
+        cmd="RUSTFLAGS=\"-C target-cpu=native\" $cmd --release"
+    fi
+    
+    # Add package flag if crate specified
+    if [ -n "$crate" ]; then
+        cmd="$cmd -p $crate"
+    fi
+    
+    # Add test name if specified
+    if [ -n "$test_name" ]; then
+        cmd="$cmd $test_name"
+    fi
+    
+    # Add test arguments
+    cmd="$cmd --"
+    
+    if [ "$ignored" = true ]; then
+        cmd="$cmd --ignored"
+    fi
+    
+    if [ "$nocapture" = true ]; then
+        cmd="$cmd --nocapture"
+    fi
+    
+    # Execute
+    eval $cmd
+}
+
+# Environment variables
+export EDITOR=nvim
+export BROWSER=zen-browser
+export GOPATH=$HOME/.config/go
+export GOBIN=$HOME/.config/go/bin
+export PATH=$GOBIN:$PATH
+
+# pnpm
+export PNPM_HOME="$HOME/.pnpm/bin"
+export PATH=$PNPM_HOME:$PATH
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH=$BUN_INSTALL/bin:$PATH
+
+
+# Cargo
+export PATH=$HOME/.cargo/bin:$PATH
+
+# Faster mirrors
+export RUSTUP_DIST_SERVER=https://mirrors.tuna.tsinghua.edu.cn/rustup
+export RUSTUP_UPDATE_ROOT=https://mirrors.tuna.tsinghua.edu.cn/rustup/rustup
+
+# Node
+export NODE_OPTIONS="--dns-result-order=ipv4first"
+
+alias node='bun'
+
+# fzf
+export FZF_DEFAULT_COMMAND="fd --type f --hidden"
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_ALT_C_COMMAND="fd --type d --hidden"
+eval "$(fzf --zsh)"
+
+# zoxide - MUST come after compinit for tab completion
+# Using --cmd cd gives you inline completions instead of fzf
+eval "$(zoxide init --cmd cd zsh)"
+
+# Accept suggestions with right arrow or Ctrl+f
+bindkey '^f' forward-word  # Ctrl+f accepts one word
+bindkey '^[[C' forward-char  # Right arrow accepts one char
+
+autoload -Uz edit-command-line
+zle -N edit-command-line
+bindkey '^e' edit-command-line
+
+# Simple prompt (like your fish one)
+PROMPT='[%F{green}%n%f@%F{blue}%m%f %F{yellow}%~%f] -> '
+
+# bun completions
+[ -s "/home/wizard/.bun/_bun" ] && source "/home/wizard/.bun/_bun"
+
+# opencode
+export PATH=/home/wizard/.opencode/bin:$PATH
+
+if command -v wt >/dev/null 2>&1; then eval "$(command wt config shell init zsh)"; fi
+
+# Created by `pipx` on 2026-03-16 11:26:28
+export PATH="$PATH:/home/wizard/.local/bin"
+
+# ── Prompt ────────────────────────────────────────────────────────────────────
+# Clean single-line prompt with git branch/worktree, cwd, and exit status.
+# Requires: zsh built-ins only, no plugins needed.
+
+autoload -Uz vcs_info
+zstyle ':vcs_info:*'    enable git
+zstyle ':vcs_info:git:*' formats '%b'          # branch name only
+
+# Called before each prompt draw
+precmd() {
+  vcs_info
+
+  # Detect if we're in a linked worktree and append --worktree to branch
+  local wt_suffix=""
+  local wt_path
+  wt_path=$(git rev-parse --git-dir 2>/dev/null)
+  if [[ -n "$wt_path" && "$wt_path" != ".git" && "$wt_path" != *"/.git" ]]; then
+    wt_suffix="--worktree"
+  fi
+
+  # Store for use in PROMPT
+  _git_branch="${vcs_info_msg_0_}${wt_suffix:+ $wt_suffix}"
+}
+
+setopt PROMPT_SUBST
+
+# Colors (tweak these to your taste)
+local _c_dir="%F{cyan}"
+local _c_branch="%F{green}"
+local _c_wt="%F{yellow}"
+local _c_err="%F{red}"
+local _c_ok="%F{green}"
+local _c_dim="%F{240}"
+local _c_reset="%f"
+
+
+PROMPT='${_c_dim}┌ ${_c_dir}%~${_c_reset}\
+$([ -n "$_git_branch" ] && echo " ${_c_dim}on${_c_reset} ${_c_branch}$_git_branch${_c_reset}")
+${_c_dim}└ %(?.${_c_ok}❯${_c_reset}.${_c_err}❯${_c_reset}) '
+
+export PI_CODING_AGENT_DIR="$HOME/.config/pi"
+export KANBAN_FILE=boards.json
