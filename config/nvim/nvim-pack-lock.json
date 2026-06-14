@@ -24,6 +24,10 @@
       "rev": "4ce4c35e411ea329a15d4b15e9c89c2a3089e437",
       "src": "https://github.com/echasnovski/mini.ai"
     },
+    "mini.colors": {
+      "rev": "c40f49f3d41a3207f1b8f854919837c34acdc0c5",
+      "src": "https://github.com/nvim-mini/mini.colors"
+    },
     "mini.files": {
       "rev": "423d6b5afb7a94e658950d470957f830d43dd41e",
       "src": "https://github.com/echasnovski/mini.files"

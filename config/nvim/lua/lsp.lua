@@ -1,6 +1,45 @@
+-- Format diagnostics so virtual lines stay within the visible window.
+local function format_virtual_line_diagnostic(diagnostic)
+    local window_number = vim.api.nvim_get_current_win()
+    local gutter_width = vim.fn.getwininfo(window_number)[1].textoff
+    local line_text = vim.api.nvim_buf_get_lines(0, diagnostic.lnum, diagnostic.lnum + 1, false)[1] or ""
+    local diagnostic_column_text = vim.fn.strcharpart(line_text, 0, diagnostic.col)
+    local diagnostic_column_width = vim.fn.strdisplaywidth(diagnostic_column_text)
+    local available_width = vim.api.nvim_win_get_width(window_number) - gutter_width - diagnostic_column_width - 6
+    local maximum_message_width = math.max(20, available_width)
+    local wrapped_message_lines = vim.fn.split(vim.fn.trim(diagnostic.message), [[\s\+]], true)
+    local formatted_lines = {}
+    local current_line = ""
+
+    for _, word in ipairs(wrapped_message_lines) do
+        local next_line = current_line == "" and word or (current_line .. " " .. word)
+        if vim.fn.strdisplaywidth(next_line) <= maximum_message_width then
+            current_line = next_line
+        else
+            if current_line ~= "" then
+                table.insert(formatted_lines, current_line)
+            end
+            current_line = word
+        end
+    end
+
+    if current_line ~= "" then
+        table.insert(formatted_lines, current_line)
+    end
+
+    return table.concat(formatted_lines, "\n")
+end
+
 vim.diagnostic.config({
     virtual_text = false,
-    virtual_lines = { current_line = true },
+    virtual_lines = {
+        current_line = true,
+        format = format_virtual_line_diagnostic,
+    },
+    float = {
+        border = "rounded",
+        source = "if_many",
+    },
 })
 
 local blink_capabilities = require("blink.cmp").get_lsp_capabilities()
@@ -32,6 +71,7 @@ local function open_quickfix_if_diagnostics_exist()
         _G.open_quickfix_if_diagnostics_exist()
     end
 end
+
 
 -- Apply buffer-local LSP keymaps.
 local function set_lsp_keymaps(buffer_number)
@@ -91,8 +131,15 @@ vim.lsp.config("rust_analyzer", {
     filetypes = { "rust" },
     root_markers = { "Cargo.toml", "rust-project.json", ".git" },
     capabilities = blink_capabilities,
-})
 
+    settings = {
+        ["rust-analyzer"] = {
+            check = {
+                command = "clippy",
+            },
+        },
+    },
+})
 vim.lsp.config("marksman", {
     cmd = { "marksman" },
     filetypes = { "markdown" },
@@ -119,6 +166,58 @@ vim.lsp.config("ts_ls", {
     },
 })
 
+vim.lsp.config("vtsls", {
+	cmd = { "vtsls", "--stdio" },
+
+	filetypes = {
+		"typescript",
+		"typescriptreact",
+		"javascript",
+		"javascriptreact",
+		"svelte",
+	},
+
+	root_markers = {
+		"package.json",
+		"tsconfig.json",
+		"jsconfig.json",
+		"vite.config.ts",
+		"vite.config.js",
+		".git",
+	},
+
+	capabilities = blink_capabilities,
+
+	settings = {
+		typescript = {
+			inlayHints = {
+				parameterNames = { enabled = "all" },
+				parameterTypes = { enabled = true },
+				variableTypes = { enabled = true },
+				propertyDeclarationTypes = { enabled = true },
+				functionLikeReturnTypes = { enabled = true },
+				enumMemberValues = { enabled = true },
+			},
+		},
+
+		javascript = {
+			inlayHints = {
+				parameterNames = { enabled = "all" },
+				parameterTypes = { enabled = true },
+				variableTypes = { enabled = true },
+				propertyDeclarationTypes = { enabled = true },
+				functionLikeReturnTypes = { enabled = true },
+				enumMemberValues = { enabled = true },
+			},
+		},
+
+		vtsls = {
+			autoUseWorkspaceTsdk = true,
+		},
+	},
+})
+
+
 vim.lsp.config("svelte", {
     cmd = { "bunx", "svelteserver", "--stdio" },
     filetypes = { "svelte" },
@@ -126,7 +225,7 @@ vim.lsp.config("svelte", {
     capabilities = blink_capabilities,
 })
 
-vim.lsp.enable({ "gopls", "rust_analyzer", "marksman", "ts_ls", "svelte" })
+vim.lsp.enable({ "gopls", "marksman", "ts_ls", "svelte", "vtsls", "rust_analyzer"})
 
 vim.api.nvim_create_autocmd("LspAttach", {
     desc = "Set LSP keymaps and disable LSP for large buffers",
@@ -139,6 +238,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
         end
 
         set_lsp_keymaps(buffer_number)
+
 
         if is_buffer_too_big(buffer_number) then
             vim.defer_fn(function()

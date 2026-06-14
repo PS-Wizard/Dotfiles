@@ -56,7 +56,7 @@ vim.keymap.set("v", "gp", '"_d"+P', silent)
 vim.keymap.set("n", "<leader>t", function()
     require("todo").toggle()
 end, { desc = "Toggle todo float" })
-vim.keymap.set("n", "<leader>T", "<cmd>edit ~/.config/nvim/todos.md<CR>", { desc = "Open todo file" })
+vim.keymap.set("n", "<leader>T", "<cmd>edit ~/Projects/notes/todo.md<CR>", { desc = "Open todo file" })
 
 -- Editing helpers.
 vim.keymap.set("i", "<C-c>", "<Esc>")

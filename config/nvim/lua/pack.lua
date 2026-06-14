@@ -5,6 +5,7 @@ vim.pack.add({
     "https://github.com/echasnovski/mini.nvim",
     "https://github.com/vimpostor/vim-tpipeline",
     "https://github.com/mistweaverco/kulala.nvim",
+    "https://github.com/nvim-mini/mini.colors",
 })
 
 -- Configure mini.files as the file explorer.
