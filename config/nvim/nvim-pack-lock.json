@@ -16,10 +16,6 @@
       "rev": "432bd77cb66c50d5869212baa9d4e6e341452232",
       "src": "https://github.com/askfiy/http-client.nvim"
     },
-    "kulala.nvim": {
-      "rev": "77e5e949276e0b247f8f67575c42446750d164fa",
-      "src": "https://github.com/mistweaverco/kulala.nvim"
-    },
     "mini.ai": {
       "rev": "4ce4c35e411ea329a15d4b15e9c89c2a3089e437",
       "src": "https://github.com/echasnovski/mini.ai"

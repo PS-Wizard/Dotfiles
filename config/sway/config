@@ -1,0 +1,159 @@
+set $mod Mod4
+set $left h
+set $down j
+set $up k
+set $right l
+set $term kitty
+set $menu bemenu-run -b --binding vim
+set $wall /home/wizard/dotfiles/config/niri/walls/wallpaper.jpg
+
+font pango:JetBrainsMono Nerd Font Mono 10
+floating_modifier $mod normal
+
+# Minimal look
+default_border pixel 1
+default_floating_border pixel 1
+gaps inner 0
+gaps outer 0
+smart_borders on
+smart_gaps on
+hide_edge_borders smart
+client.focused #8a8a8a #111111 #f0f0f0 #8a8a8a #8a8a8a
+client.unfocused #2f2f2f #111111 #a8a8a8 #2f2f2f #2f2f2f
+client.focused_inactive #2f2f2f #111111 #a8a8a8 #2f2f2f #2f2f2f
+client.urgent #aa3333 #111111 #ffffff #aa3333 #aa3333
+
+focus_follows_mouse yes
+mouse_warping none
+workspace_auto_back_and_forth yes
+
+# Input
+input type:keyboard {
+    xkb_options caps:ctrl_modifier
+    xkb_numlock enabled
+}
+
+input type:touchpad {
+    tap enabled
+    natural_scroll enabled
+}
+
+# Output
+output eDP-2 {
+    pos 0 0
+    scale 1
+}
+
+# Startup
+exec_always --no-startup-id sh -c 'command -v swaybg >/dev/null 2>&1 && { pkill swaybg; swaybg -o "*" -i "$wall" -m fill; }'
+exec_always --no-startup-id sh -c 'command -v waybar >/dev/null 2>&1 && { pkill waybar; waybar -c /home/wizard/.config/waybar/config.json -s /home/wizard/.config/waybar/style.css; }'
+exec --no-startup-id sh -c 'command -v kanata >/dev/null 2>&1 && kanata -c /home/wizard/.config/kanata/config.kbd'
+exec --no-startup-id sh -c 'command -v trash-empty >/dev/null 2>&1 && trash-empty -f 10'
+exec --no-startup-id sh -c 'command -v brightnessctl >/dev/null 2>&1 && brightnessctl s 0'
+
+# Core binds
+bindsym $mod+Return exec $term
+bindsym $mod+d exec $menu
+bindsym $mod+p exec pkill -SIGUSR1 waybar
+bindsym $mod+Shift+q kill
+bindsym $mod+Shift+Return exit
+bindsym $mod+f fullscreen toggle
+bindsym $mod+space floating toggle
+bindsym $mod+Tab workspace back_and_forth
+bindsym $mod+Shift+p output * power off
+bindsym Mod1+w exec sh -c 'command -v wlr-which-key >/dev/null 2>&1 && wlr-which-key'
+bindsym Mod1+Shift+w exec sh -c 'command -v wayscriber >/dev/null 2>&1 && { pkill wayscriber; wayscriber --active --mode whiteboard; }'
+
+# Focus / move
+bindsym $mod+$left focus left
+bindsym $mod+$down focus down
+bindsym $mod+$up focus up
+bindsym $mod+$right focus right
+
+bindsym $mod+Shift+$left move left
+bindsym $mod+Shift+$down move down
+bindsym $mod+Shift+$up move up
+bindsym $mod+Shift+$right move right
+
+bindsym $mod+Ctrl+$left focus output left
+bindsym $mod+Ctrl+$down focus output down
+bindsym $mod+Ctrl+$up focus output up
+bindsym $mod+Ctrl+$right focus output right
+
+bindsym $mod+Shift+Ctrl+$left move container to output left
+bindsym $mod+Shift+Ctrl+$down move container to output down
+bindsym $mod+Shift+Ctrl+$up move container to output up
+bindsym $mod+Shift+Ctrl+$right move container to output right
+
+# Workspaces
+set $ws1 1
+set $ws2 2
+set $ws3 3
+set $ws4 4
+set $ws5 5
+set $ws6 6
+set $ws7 7
+set $ws8 8
+set $ws9 9
+
+bindsym $mod+1 workspace number $ws1
+bindsym $mod+2 workspace number $ws2
+bindsym $mod+3 workspace number $ws3
+bindsym $mod+4 workspace number $ws4
+bindsym $mod+5 workspace number $ws5
+bindsym $mod+6 workspace number $ws6
+bindsym $mod+7 workspace number $ws7
+bindsym $mod+8 workspace number $ws8
+bindsym $mod+9 workspace number $ws9
+
+bindsym $mod+Shift+1 move container to workspace number $ws1; workspace number $ws1
+bindsym $mod+Shift+2 move container to workspace number $ws2; workspace number $ws2
+bindsym $mod+Shift+3 move container to workspace number $ws3; workspace number $ws3
+bindsym $mod+Shift+4 move container to workspace number $ws4; workspace number $ws4
+bindsym $mod+Shift+5 move container to workspace number $ws5; workspace number $ws5
+bindsym $mod+Shift+6 move container to workspace number $ws6; workspace number $ws6
+bindsym $mod+Shift+7 move container to workspace number $ws7; workspace number $ws7
+bindsym $mod+Shift+8 move container to workspace number $ws8; workspace number $ws8
+bindsym $mod+Shift+9 move container to workspace number $ws9; workspace number $ws9
+
+# Scratchpad / layout-ish best effort
+bindsym $mod+s scratchpad show
+bindsym $mod+Shift+s move scratchpad
+bindsym $mod+w layout tabbed
+bindsym $mod+o layout toggle split
+bindsym $mod+m focus mode_toggle
+bindsym $mod+c focus parent
+
+# Width / height adjustments as a best-effort replacement for niri presets
+bindsym $mod+minus resize shrink width 40 px
+bindsym $mod+equal resize grow width 40 px
+bindsym $mod+Shift+minus resize shrink height 40 px
+bindsym $mod+Shift+equal resize grow height 40 px
+
+# Mouse workspace switching
+bindsym --whole-window $mod+button4 workspace prev_on_output
+bindsym --whole-window $mod+button5 workspace next_on_output
+
+# Media / brightness
+bindsym XF86AudioRaiseVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1+
+bindsym XF86AudioLowerVolume exec wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1-
+bindsym XF86AudioMute exec wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
+bindsym XF86AudioMicMute exec wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle
+bindsym XF86MonBrightnessUp exec brightnessctl --class=backlight set +10%
+bindsym XF86MonBrightnessDown exec brightnessctl --class=backlight set 10%-
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPause exec playerctl play-pause
+bindsym XF86AudioPlay exec playerctl play-pause
+bindsym XF86AudioPrev exec playerctl previous
+
+# Screenshot best effort
+bindsym $mod+y exec sh -c 'command -v grim >/dev/null 2>&1 && mkdir -p "$HOME/Pictures" && grim "$HOME/Pictures/Screenshot from $(date +"%Y-%m-%d %H-%M-%S").png"'
+
+# PiP
+for_window [app_id="firefox$" title="^Picture-in-Picture$"] floating enable
+
+
+# Some Screen Share Stuff and shi
+exec systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP XDG_SESSION_TYPE SWAYSOCK
+exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP XDG_SESSION_TYPE SWAYSOCK
+exec systemctl --user start sway-session.target
