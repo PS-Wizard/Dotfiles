@@ -1,0 +1,46 @@
+#!/bin/sh
+set -eu
+
+current_layout=$(mmsg get all-monitors | python3 -c '
+import json, sys
+layouts = [
+    "tile",
+    "scroller",
+    "grid",
+    "monocle",
+    "deck",
+    "center_tile",
+    "right_tile",
+    "vertical_scroller",
+    "vertical_tile",
+    "vertical_grid",
+    "vertical_deck",
+    "dwindle",
+    "fair",
+    "vertical_fair",
+]
+data = json.load(sys.stdin)
+mons = data.get("monitors", [])
+active = next((m for m in mons if m.get("active")), mons[0] if mons else None)
+if not active:
+    raise SystemExit(1)
+idx = active.get("layout_index")
+if not isinstance(idx, int) or idx < 0 or idx >= len(layouts):
+    raise SystemExit(1)
+print(layouts[idx])
+')
+
+case "$current_layout" in
+  dwindle)
+    mmsg dispatch setlayout,vertical_scroller
+    ;;
+  vertical_scroller)
+    mmsg dispatch setlayout,scroller
+    ;;
+  scroller)
+    mmsg dispatch setlayout,dwindle
+    ;;
+  *)
+    mmsg dispatch setlayout,dwindle
+    ;;
+esac

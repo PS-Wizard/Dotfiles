@@ -16,16 +16,11 @@
 )
 
 (defsrc
-  caps lalt f u i o scln
+  f
 )
 
 (defalias
-  capsctl (multi lctl (layer-while-held caps-layer))
-
-  ;; normal physical Alt still activates u/i/o -> 1/2/3
-  altnum (multi lalt (layer-while-held alt-num-layer) reverse-release-order)
-
-  ;; f = tap f, hold Super only
+  ;; f = tap f, hold Super
   fraw (tap-hold-release-tap-keys-release
           $tap-repress-timeout $hold-timeout
           f
@@ -33,22 +28,10 @@
           $left-tap-keys
           ())
 
+  ;; If Ctrl/Shift/Alt/Super is already held, f stays normal f.
   fsup (fork @fraw f $real-mods)
 )
 
 (deflayer base
-  @capsctl @altnum @fsup u i o scln
-)
-
-(deflayer caps-layer
-  _ _ _ _ _ _ _
-)
-
-;; physical Alt + u/i/o => Alt + 1/2/3
-(deflayer alt-num-layer
-  _ _ _ 1 2 3 _
-)
-
-(defchordsv2
-  (caps lalt) lmet 120 first-release ()
+  @fsup
 )

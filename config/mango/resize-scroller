@@ -1,0 +1,57 @@
+#!/bin/sh
+set -eu
+
+delta=${1:?usage: resize-scroller +/-0.1}
+
+python3 - "$delta" <<'PY'
+import json
+import subprocess
+import sys
+
+delta = float(sys.argv[1])
+layouts = [
+    "tile",
+    "scroller",
+    "grid",
+    "monocle",
+    "deck",
+    "center_tile",
+    "right_tile",
+    "vertical_scroller",
+    "vertical_tile",
+    "vertical_grid",
+    "vertical_deck",
+    "dwindle",
+    "fair",
+    "vertical_fair",
+]
+
+def run(*cmd):
+    return subprocess.check_output(cmd, text=True)
+
+mons = json.loads(run("mmsg", "get", "all-monitors")).get("monitors", [])
+active = next((m for m in mons if m.get("active")), None)
+if not active:
+    raise SystemExit(0)
+
+idx = active.get("layout_index")
+if not isinstance(idx, int) or idx < 0 or idx >= len(layouts):
+    raise SystemExit(0)
+layout = layouts[idx]
+if layout not in {"scroller", "vertical_scroller"}:
+    raise SystemExit(0)
+
+client = json.loads(run("mmsg", "get", "focusing-client"))
+monitor_name = client.get("monitor")
+if not monitor_name:
+    raise SystemExit(0)
+monitor = json.loads(run("mmsg", "get", "monitor", monitor_name))
+
+if layout == "scroller":
+    current = float(client.get("width", 0)) / float(monitor.get("width", 1))
+else:
+    current = float(client.get("height", 0)) / float(monitor.get("height", 1))
+
+new = max(0.1, min(1.0, current + delta))
+subprocess.check_call(["mmsg", "dispatch", f"set_proportion,{new:.3f}"])
+PY

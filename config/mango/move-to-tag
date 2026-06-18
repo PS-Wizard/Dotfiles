@@ -1,0 +1,11 @@
+#!/bin/sh
+set -eu
+
+tag=${1:?usage: move-to-tag <1-9>}
+case "$tag" in
+  1|2|3|4|5|6|7|8|9) ;;
+  *) echo "usage: $0 <1-9>" >&2; exit 1 ;;
+esac
+
+mmsg dispatch tag,"$tag",0
+mmsg dispatch view,"$tag",0
