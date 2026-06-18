@@ -1,0 +1,5 @@
+# API keys / secrets
+config/pi/auth.json
+
+# PI session logs
+config/pi/sessions/

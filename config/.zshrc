@@ -121,13 +121,8 @@ export GOBIN=$HOME/.config/go/bin
 export PATH=$GOBIN:$PATH
 
 # pnpm
-export PNPM_HOME="$HOME/.pnpm/bin"
-export PATH=$PNPM_HOME:$PATH
-
-# bun
-export BUN_INSTALL="$HOME/.bun"
-export PATH=$BUN_INSTALL/bin:$PATH
-
+export PNPM_HOME="$HOME/.pnpm"
+export PATH="$PNPM_HOME/bin:$PATH"
 
 # Cargo
 export PATH=$HOME/.cargo/bin:$PATH
@@ -138,8 +133,6 @@ export RUSTUP_UPDATE_ROOT=https://mirrors.tuna.tsinghua.edu.cn/rustup/rustup
 
 # Node
 export NODE_OPTIONS="--dns-result-order=ipv4first"
-
-alias node='bun'
 
 # fzf
 export FZF_DEFAULT_COMMAND="fd --type f --hidden"
@@ -161,9 +154,6 @@ bindkey '^e' edit-command-line
 
 # Simple prompt (like your fish one)
 PROMPT='[%F{green}%n%f@%F{blue}%m%f %F{yellow}%~%f] -> '
-
-# bun completions
-[ -s "/home/wizard/.bun/_bun" ] && source "/home/wizard/.bun/_bun"
 
 # opencode
 export PATH=/home/wizard/.opencode/bin:$PATH
@@ -215,3 +205,7 @@ ${_c_dim}└ %(?.${_c_ok}❯${_c_reset}.${_c_err}❯${_c_reset}) '
 
 export PI_CODING_AGENT_DIR="$HOME/.config/pi"
 export KANBAN_FILE=boards.json
+
+export XDG_CURRENT_DESKTOP=sway
+export XDG_SESSION_TYPE=wayland
+

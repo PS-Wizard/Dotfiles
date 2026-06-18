@@ -1,16 +1,23 @@
 {
-  "lastChangelogVersion": "0.79.3",
-  "defaultProvider": "openai-codex",
-  "defaultModel": "gpt-5.4",
-  "defaultThinkingLevel": "medium",
+  "lastChangelogVersion": "0.79.6",
+  "defaultProvider": "opencode-go",
+  "defaultModel": "deepseek-v4-flash",
+  "defaultThinkingLevel": "high",
   "hideThinkingBlock": false,
   "enabledModels": [
     "openai-codex/gpt-5.4",
     "openai-codex/gpt-5.5",
-    "openai-codex/gpt-5.4-mini"
+    "openai-codex/gpt-5.4-mini",
+    "openrouter/nex-agi/nex-n2-pro:free",
+    "opencode-go/deepseek-v4-pro",
+    "opencode-go/minimax-m3",
+    "opencode-go/kimi-k2.7-code",
+    "opencode-go/qwen3.7-max",
+    "opencode-go/deepseek-v4-flash"
   ],
   "packages": [
     "npm:@juicesharp/rpiv-ask-user-question",
     "npm:pi-hashline-edit"
-  ]
+  ],
+  "theme": "dark"
 }
