@@ -1,0 +1,10 @@
+{
+  "tui.editor.cursorDown": ["down", "ctrl+j"],
+  "tui.editor.cursorUp": ["up", "ctrl+k"],
+  "tui.select.down": ["down", "ctrl+j"],
+  "tui.select.up": ["up", "ctrl+k"],
+  "app.model.select": ["ctrl+p"],
+  "app.model.cycleForward": ["shift+ctrl+p"],
+  "app.thinking.cycle": ["ctrl+t"],
+  "app.thinking.toggle": []
+}

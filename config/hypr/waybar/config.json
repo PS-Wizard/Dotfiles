@@ -1,0 +1,69 @@
+{
+  "layer": "top",
+  "exclusive": true,
+  "position": "bottom",
+  "height": 24,
+  "spacing": 0,
+  "margin": 0,
+  "modules-left": ["clock", "custom/uptime"],
+  "modules-right": ["cpu", "memory", "temperature", "pulseaudio", "network", "battery"],
+
+  "clock": {
+    "interval": 60,
+    "format": "<b>{:%H:%M}</b>",
+    "format-alt": "{:%A, %B %d, %Y}",
+    "tooltip": false
+  },
+
+  "custom/uptime": {
+    "exec": "awk '{d=int($1/86400);h=int(($1%86400)/3600);m=int(($1%3600)/60); printf \"%d:%02d\", h+(d*24), m}' /proc/uptime",
+    "interval": 60,
+    "format": "<b>{}</b>",
+    "tooltip": false
+  },
+
+  "temperature": {
+    "critical-threshold": 80,
+    "format": "{temperatureC}°C",
+    "format-critical": "{temperatureC}°C",
+    "interval": 5,
+    "tooltip": false
+  },
+
+  "cpu": {
+    "interval": 5,
+    "format": "{usage}%"
+  },
+
+  "memory": {
+    "interval": 5,
+    "format": "{used:0.1f}G"
+  },
+
+  "pulseaudio": {
+    "format": "󰕾 {volume}%",
+    "format-muted": "󰝟",
+    "on-click": "pavucontrol",
+    "tooltip-format": "Volume: {volume}%"
+  },
+
+  "network": {
+    "interval": 5,
+    "format-wifi": "󰤨",
+    "format-ethernet": "󰈀",
+    "format-disconnected": "󰤭",
+    "format-linked": "󰤩"
+  },
+
+  "battery": {
+    "bat": "BAT1",
+    "interval": 60,
+    "states": {
+      "warning": 30,
+      "critical": 15
+    },
+    "format": "BAT {capacity}%",
+    "format-charging": "CHR {capacity}%",
+    "format-plugged": "PLU {capacity}%"
+  }
+}
