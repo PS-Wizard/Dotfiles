@@ -73,8 +73,7 @@ Transform tasks into verifiable success criteria. Loop until verified.
 
 Strong success criteria let you loop independently.
 Weak criteria ("make it work") require constant clarification and slow everything down.
-
-Don't reach for shortcuts or deferred fixes because of time pressure. An AI session is not time-constrained the way a human sprint is. Do it right.
+Don't reach for shortcuts or deferred fixes. An AI session is not time-constrained. Do it right.
 
 ---
 
@@ -87,15 +86,27 @@ Don't reach for shortcuts or deferred fixes because of time pressure. An AI sess
 
 ---
 
+## 6. Delegation
+ALWAYS Prefer spawning workers over implementing directly. Be precise and provide enough context when spawning and prompting them, you are to maximize their chances of getting that work done. 
+
+- Routine/straightforward tasks → `worker-flash`
+- Complex, cross-cutting, or subtle tasks → `worker-pro`
+- Default to flash. Escalate to pro only when flash is genuinely insufficient.
+- Verify their work, delegate to them again for any fixes.
+
+Workers inherit this AGENTS.md via `prompt_mode: append`. Do not re-explain conventions to them.
+
+---
+
 ## Output Format
 - Implementation done: one short line confirming what changed.
 - Presenting options: at most 3, let the user choose.
 - Something broke: state what broke and the fix. Nothing more.
 - No preamble once a plan is established.
-- Quick, concise, to the point, no blabbering much.
+- Quick, concise, to the point.
 
 ---
 
-# Other Notes
-- pnpm over npm 
-- you are working on a arch linux based system
+## Other Notes
+- `pnpm` over `npm`
+- Arch Linux

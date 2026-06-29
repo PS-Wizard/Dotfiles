@@ -1,0 +1,37 @@
+(defcfg
+  process-unmapped-keys yes
+  concurrent-tap-hold yes
+)
+
+(defvar
+  tap-repress-timeout 150
+  hold-timeout 200
+
+  ;; Same-hand keys for f.
+  ;; Normal left-hand rolls should resolve as typing.
+  left-tap-keys (q w e r t a s d g z x c v b)
+
+  ;; If a real modifier is already held, f should just be f.
+  real-mods (lctl rctl lsft rsft lalt ralt lmet rmet)
+)
+
+(defsrc
+  f
+)
+
+(defalias
+  ;; f = tap f, hold Super
+  fraw (tap-hold-release-tap-keys-release
+          $tap-repress-timeout $hold-timeout
+          f
+          lmet
+          $left-tap-keys
+          ())
+
+  ;; If Ctrl/Shift/Alt/Super is already held, f stays normal f.
+  fsup (fork @fraw f $real-mods)
+)
+
+(deflayer base
+  @fsup
+)

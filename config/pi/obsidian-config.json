@@ -1,0 +1,6 @@
+{
+  "vaultPath": "/home/wizard/Projects/notes",
+  "vaultName": "Personal Knowledge",
+  "noteTemplate": "# {{title}}\n\n## What it actually means\n\n## Mental model / analogy\n\n## Examples\n\n## Why it matters\nWhat changes when you know this?\n\n## Connected to\n- [[obsidian links]]\n- [[obsidian ...]]",
+  "philosophy": "Write in your own words as if explaining to a peer. Every note captures one durable insight. Prioritize understanding over completeness. Use active voice, concrete examples, and connect ideas freely. No fluff — every sentence should carry meaning. The note should reflect the user's actual understanding, not a textbook definition."
+}
