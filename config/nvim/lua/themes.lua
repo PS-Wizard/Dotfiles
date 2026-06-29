@@ -341,6 +341,8 @@ local function set_highlights()
     hl(0, "IndentBlanklineChar", { fg = c.line, bg = 'NONE' })
     hl(0, "IndentBlanklineSpaceChar", { fg = c.line, bg = 'NONE' })
     hl(0, "IndentBlanklineSpaceCharBlankline", { fg = c.sun, bg = 'NONE' })
+    hl(0, "MiniIndentScopeLine", { fg = c.grey, bg = 'NONE' })
+    hl(0, "MiniIndentScopeSymbol", { fg = c.grey, bg = 'NONE' })
 
     -- Dashboard
     hl(0, "DashboardHeader", { fg = c.blue, bg = 'NONE' })
