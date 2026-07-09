@@ -108,5 +108,5 @@ Workers inherit this AGENTS.md via `prompt_mode: append`. Do not re-explain conv
 ---
 
 ## Other Notes
-- `pnpm` over `npm`
+- `bun` over `npm`
 - Arch Linux

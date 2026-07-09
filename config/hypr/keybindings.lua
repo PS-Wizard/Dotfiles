@@ -67,8 +67,6 @@ hl.bind(M .. " + SHIFT + CTRL + L", hl.dsp.workspace.move({ monitor = "r" }))
 
 -- Workspaces
 hl.bind(M .. " + Tab", hl.dsp.focus({ workspace = "previous" }))
-hl.bind(M .. " + U",   hl.dsp.focus({ workspace = "e-1" }))
-hl.bind(M .. " + I",   hl.dsp.focus({ workspace = "e+1" }))
 
 for i = 1, 9 do
     hl.bind(M .. " + " .. i,          hl.dsp.focus({ workspace = i }))

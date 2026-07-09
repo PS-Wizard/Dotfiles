@@ -16,6 +16,7 @@ hl.config({
         inactive_opacity = 1.0,
         blur   = { enabled = false },
         shadow = { enabled = false },
+        screen_shader = '/home/wizard/.config/hypr/monochrome.frag',
     },
     animations = {
         enabled = true,

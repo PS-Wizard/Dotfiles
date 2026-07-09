@@ -105,13 +105,13 @@ menu:
         submenu:
           - key: "3"
             desc: 30 FPS
-            cmd: gpu-screen-recorder -w eDP-2 -f 30 -fm cfr -q medium -k h264 -encoder gpu -o ~/recording.mp4
+            cmd: gpu-screen-recorder -w screen -f 30 -fm cfr -q medium -k h264 -encoder gpu -o ~/recording.mp4
           - key: "6"
             desc: 60 FPS
-            cmd: gpu-screen-recorder -w eDP-2 -f 60 -fm cfr -q medium -k h264 -encoder gpu -o ~/recording.mp4
+            cmd: gpu-screen-recorder -w screen -f 60 -fm cfr -q medium -k h264 -encoder gpu -o ~/recording.mp4
           - key: "1"
             desc: 120 FPS
-            cmd: gpu-screen-recorder -w eDP-2 -f 120 -fm cfr -q medium -k h264 -encoder gpu -o ~/recording.mp4
+            cmd: gpu-screen-recorder -w screen -f 120 -fm cfr -q medium -k h264 -encoder gpu -o ~/recording.mp4
           - key: "q"
             desc: kill
             cmd: killall gpu-screen-recorder
@@ -121,13 +121,13 @@ menu:
         submenu:
           - key: "3"
             desc: 30 FPS
-            cmd: gpu-screen-recorder -w eDP-2 -f 30 -fm cfr -q medium -k h264 -encoder gpu -a default_output -o ~/recording.mp4
+            cmd: gpu-screen-recorder -w screen -f 30 -fm cfr -q medium -k h264 -encoder gpu -a default_output -o ~/recording.mp4
           - key: "6"
             desc: 60 FPS
-            cmd: gpu-screen-recorder -w eDP-2 -f 60 -fm cfr -q medium -k h264 -encoder gpu -a default_output -o ~/recording.mp4
+            cmd: gpu-screen-recorder -w screen -f 60 -fm cfr -q medium -k h264 -encoder gpu -a default_output -o ~/recording.mp4
           - key: "1"
             desc: 120 FPS
-            cmd: gpu-screen-recorder -w eDP-2 -f 120 -fm cfr -q medium -k h264 -encoder gpu -a default_output -o ~/recording.mp4
+            cmd: gpu-screen-recorder -w screen -f 120 -fm cfr -q medium -k h264 -encoder gpu -a default_output -o ~/recording.mp4
 
   - key: "s"
     desc: Fan Control

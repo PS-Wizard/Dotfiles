@@ -1,10 +1,76 @@
-vim.pack.add({
-    "https://github.com/Saghen/blink.lib",
-    "https://github.com/Saghen/blink.cmp",
-    "https://github.com/neovim/nvim-lspconfig",
-    "https://github.com/echasnovski/mini.nvim",
-    "https://github.com/vimpostor/vim-tpipeline",
-    "https://github.com/nvim-mini/mini.colors",
+-- Bootstrap lazy.nvim
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.uv.fs_stat(lazypath) then
+    vim.fn.system({
+        "git",
+        "clone",
+        "--filter=blob:none",
+        "https://github.com/folke/lazy.nvim.git",
+        "--branch=stable",
+        lazypath,
+    })
+end
+vim.opt.rtp:prepend(lazypath)
+
+require("lazy").setup({
+    {
+        "Saghen/blink.cmp",
+        dependencies = { "Saghen/blink.lib" },
+        build = function()
+            require("blink.cmp").build():pwait()
+        end,
+        config = function()
+            require("blink.cmp").setup({
+                keymap = {
+                    preset = "super-tab",
+                    ["<C-k>"] = { "select_prev", "fallback" },
+                    ["<C-j>"] = { "select_next", "fallback" },
+                    ["<C-u>"] = { "scroll_documentation_up", "fallback" },
+                    ["<C-d>"] = { "scroll_documentation_down", "fallback" },
+                },
+                snippets = {
+                    preset = "default",
+                },
+                sources = {
+                    default = { "snippets", "lsp", "path", "buffer" },
+                    providers = {
+                        snippets = {
+                            opts = {
+                                search_paths = { vim.fn.stdpath("config") .. "/snippets" },
+                                friendly_snippets = false,
+                            },
+                        },
+                    },
+                },
+                cmdline = {
+                    keymap = { preset = "inherit" },
+                    completion = { menu = { auto_show = true } },
+                },
+                signature = {
+                    enabled = true,
+                },
+                completion = {
+                    documentation = {
+                        auto_show = true,
+                        auto_show_delay_ms = 500,
+                        window = {
+                            border = "rounded",
+                            winhighlight = "Normal:BlinkCmpDoc,FloatBorder:BlinkCmpDocBorder,CursorLine:BlinkCmpDocCursorLine,Search:None",
+                        },
+                    },
+                    menu = {
+                        border = "rounded",
+                        draw = { gap = 2 },
+                        winhighlight = "Normal:BlinkCmpMenu,FloatBorder:BlinkCmpMenuBorder,CursorLine:BlinkCmpMenuSelection,Search:None",
+                    },
+                },
+            })
+        end,
+    },
+    "neovim/nvim-lspconfig",
+    "echasnovski/mini.nvim",
+    "vimpostor/vim-tpipeline",
+    "nvim-mini/mini.colors",
 })
 
 -- Configure mini.files as the file explorer.
@@ -85,51 +151,5 @@ require("mini.pick").setup({
 })
 require("mini.extra").setup()
 
--- Build blink's native matcher, then configure completion.
-local blink_completion = require("blink.cmp")
-blink_completion.build():wait(60000)
-blink_completion.setup({
-    keymap = {
-        preset = "super-tab",
-        ["<C-k>"] = { "select_prev", "fallback" },
-        ["<C-j>"] = { "select_next", "fallback" },
-        ["<C-u>"] = { "scroll_documentation_up", "fallback" },
-        ["<C-d>"] = { "scroll_documentation_down", "fallback" },
-    },
-    snippets = {
-        preset = "default",
-    },
-    sources = {
-        default = { "snippets", "lsp", "path", "buffer" },
-        providers = {
-            snippets = {
-                opts = {
-                    search_paths = { vim.fn.stdpath("config") .. "/snippets" },
-                    friendly_snippets = false,
-                },
-            },
-        },
-    },
-    cmdline = {
-        keymap = { preset = "inherit" },
-        completion = { menu = { auto_show = true } },
-    },
-    signature = {
-        enabled = true,
-    },
-    completion = {
-        documentation = {
-            auto_show = true,
-            auto_show_delay_ms = 500,
-            window = {
-                border = "rounded",
-                winhighlight = "Normal:BlinkCmpDoc,FloatBorder:BlinkCmpDocBorder,CursorLine:BlinkCmpDocCursorLine,Search:None",
-            },
-        },
-        menu = {
-            border = "rounded",
-            draw = { gap = 2 },
-            winhighlight = "Normal:BlinkCmpMenu,FloatBorder:BlinkCmpMenuBorder,CursorLine:BlinkCmpMenuSelection,Search:None",
-        },
-    },
-})
+-- Configure local pi bridge.
+require("pi").setup()

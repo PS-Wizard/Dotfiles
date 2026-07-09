@@ -1,7 +1,7 @@
 {
-  "lastChangelogVersion": "0.80.2",
-  "defaultProvider": "openai-codex",
-  "defaultModel": "gpt-5.4",
+  "lastChangelogVersion": "0.80.3",
+  "defaultProvider": "opencode-go",
+  "defaultModel": "deepseek-v4-flash",
   "defaultThinkingLevel": "medium",
   "hideThinkingBlock": false,
   "enabledModels": [
@@ -20,7 +20,8 @@
     "npm:@juicesharp/rpiv-ask-user-question",
     "npm:pi-hashline-edit",
     "npm:@tmustier/pi-usage-extension",
-    "npm:@tintinweb/pi-subagents"
+    "npm:@tintinweb/pi-subagents",
+    "npm:@ff-labs/pi-fff"
   ],
   "theme": "dark"
 }

@@ -19,12 +19,11 @@ alias rm='trash-put'
 alias dcup="docker compose down && docker compose build && docker compose up -d && docker image prune -f"
 alias dclean="docker system prune -a --volumes"
 alias ls='ls --color=auto'
-alias p='pi'
-alias pr='pi -r'
 alias grep='grep --color=auto'
 alias lz='lazygit'
 alias n='nvim'
 alias t='tmux'
+alias c='claude --dangerously-skip-permissions'
 alias cc='cargo check'
 alias cb='cargo build --release'
 alias cr='cargo run'
@@ -204,8 +203,17 @@ $([ -n "$_git_branch" ] && echo " ${_c_dim}on${_c_reset} ${_c_branch}$_git_branc
 ${_c_dim}└ %(?.${_c_ok}❯${_c_reset}.${_c_err}❯${_c_reset}) '
 
 export PI_CODING_AGENT_DIR="$HOME/.config/pi"
-export KANBAN_FILE=boards.json
-
-export XDG_CURRENT_DESKTOP=sway
+export PI_FFF_MULTIGREP=1
 export XDG_SESSION_TYPE=wayland
+export MOZ_ENABLE_WAYLAND=1
 
+# bun completions
+[ -s "/home/wizard/.bun/_bun" ] && source "/home/wizard/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
