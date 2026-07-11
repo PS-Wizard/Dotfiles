@@ -11,7 +11,7 @@ hl.config({
         ["col.inactive_border"] = "rgba(2f2f2fff)",
     },
     decoration = {
-        rounding        = 8,
+        rounding        = 12,
         active_opacity  = 1.0,
         inactive_opacity = 1.0,
         blur   = { enabled = false },
