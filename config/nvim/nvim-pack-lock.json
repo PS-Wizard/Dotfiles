@@ -1,9 +1,0 @@
-{
-  "blink.cmp": { "branch": "main", "commit": "bda905a4bf1b3edfa708b0be193b8c63d8620c96" },
-  "blink.lib": { "branch": "main", "commit": "5876dd95deeb70aadbe9f1c0b7117a135061cdac" },
-  "lazy.nvim": { "branch": "main", "commit": "306a05526ada86a7b30af95c5cc81ffba93fef97" },
-  "mini.colors": { "branch": "main", "commit": "40781071fc21e92f21393b6b8d5d70a2c9e91165" },
-  "mini.nvim": { "branch": "main", "commit": "1599a473aa6f5290a5d740b1144846e6f0c3963d" },
-  "nvim-lspconfig": { "branch": "master", "commit": "3371bf298c1f56efc26771ee961f461176958fb5" },
-  "vim-tpipeline": { "branch": "master", "commit": "9c1fc6a9aed96a6ff5f5cb0420e3760e95dfb1c1" }
-}

@@ -51,7 +51,7 @@ menu:
     submenu:
       - key: "c"
         desc: Chatgpt Codex Usage Limits
-        cmd: zen-browser https://chatgpt.com/codex/settings/usage
+        cmd: zen-browser https://chatgpt.com/#settings/Usage
       - key: "g"
         desc: Opencode Go Usage
         cmd: zen-browser https://opencode.ai/workspace/wrk_01KHAZWE1K94HYM2BE8VVNCWR3/go
@@ -91,6 +91,9 @@ menu:
       - key: "h"
         desc: Reload hyprland
         cmd: hyprctl reload
+      - key: "b"
+        desc: Restart swaybg
+        cmd: pkill swaybg; swaybg -i ~/.config/hypr/wallpaper.jpg
   - key: "i"
     desc: Toggle Monochrome
     cmd: /home/wizard/.config/hypr/scripts/toggle-monochrome.sh

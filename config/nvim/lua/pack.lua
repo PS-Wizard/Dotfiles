@@ -67,10 +67,38 @@ require("lazy").setup({
             })
         end,
     },
+    {
+        "ibhagwan/fzf-lua",
+        lazy = false,
+        opts = {
+            defaults = {
+                prompt = "> ",
+                file_icons = false,
+                git_icons = false,
+                color_icons = false,
+            },
+            diagnostics = { diag_icons = false },
+            lsp = { symbols = { symbol_style = 3 } },
+            winopts = {
+                fullscreen = true,
+                border = "none",
+                preview = { border = "none" },
+            },
+            keymap = {
+                fzf = {
+                    ["ctrl-c"] = "abort",
+                    ["ctrl-space"] = "toggle",
+                    ["ctrl-j"] = "down",
+                    ["ctrl-k"] = "up",
+                    ["ctrl-d"] = "half-page-down",
+                    ["ctrl-u"] = "half-page-up",
+                },
+            },
+        },
+    },
     "neovim/nvim-lspconfig",
     "echasnovski/mini.nvim",
     "vimpostor/vim-tpipeline",
-    "nvim-mini/mini.colors",
 })
 
 -- Configure mini.files as the file explorer.
@@ -124,32 +152,6 @@ vim.api.nvim_create_autocmd("FileType", {
     end,
 })
 
--- Configure MiniPick and MiniExtra.
-require("mini.pick").setup({
-    mappings = {
-        move_down = "<C-j>",
-        move_up = "<C-k>",
-        scroll_down = "<C-d>",
-        scroll_up = "<C-u>",
-        delete_left = "",
-    },
-    window = {
-        config = function()
-            local height = math.floor(0.8 * vim.o.lines)
-            local width = math.floor(0.8 * vim.o.columns)
-            return {
-                anchor = "NW",
-                height = height,
-                width = width,
-                row = math.floor(0.1 * vim.o.lines),
-                col = math.floor(0.1 * vim.o.columns),
-                border = "rounded",
-            }
-        end,
-        prompt_caret = ">",
-    },
-})
-require("mini.extra").setup()
 
 -- Configure local pi bridge.
 require("pi").setup()

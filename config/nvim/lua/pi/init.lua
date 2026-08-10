@@ -120,6 +120,15 @@ function M.open(opts)
     end)
 end
 
+function M.toggle()
+    local ui = require("pi.ui")
+    if ui.is_active() then
+        ui.toggle_visibility()
+    else
+        M.open({})
+    end
+end
+
 function M.setup()
     vim.o.autoread = true
 
@@ -139,8 +148,10 @@ function M.setup()
         M.open({ selection = selection })
     end, { range = true, desc = "Open pi prompt" })
 
-    vim.keymap.set("n", "<leader><leader>", ":Pi<CR>", { desc = "Open Pi prompt" })
-    vim.keymap.set({ "x", "v" }, "<leader><leader>", ":Pi<CR>", { desc = "Open Pi prompt" })
+    vim.keymap.set("n", "<leader><leader>", function()
+        M.toggle()
+    end, { desc = "Toggle Pi prompt" })
+    vim.keymap.set({ "x", "v" }, "<leader><leader>", ":Pi<CR>", { desc = "Open Pi prompt (selection)" })
 end
 
 return M

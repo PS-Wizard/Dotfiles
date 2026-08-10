@@ -1,8 +1,8 @@
 ---
 description: Fast codebase exploration agent — searches, reads, and summarizes findings
-model: opencode-go/deepseek-v4-flash
-thinking: off
-tools: read, grep, find, ls, bash
+model: openai-codex/gpt-5.6-luna
+thinking: medium
+tools: read, grep, find, ls, bash, ffgrep, fffind, fff-multi-grep
 prompt_mode: replace
 max_turns: 0
 ---

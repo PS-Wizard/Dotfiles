@@ -6,9 +6,40 @@ import * as net from "node:net";
 import * as path from "node:path";
 
 const SOCKETS_DIR = "/tmp/pi-bridge-sessions";
-const THINKING_LEVELS = ["off", "minimal", "low", "medium", "high", "xhigh"] as const;
+const THINKING_LEVELS = ["off", "minimal", "low", "medium", "high", "xhigh", "max"] as const;
+
+// How long a handed-off job may sit while pi reports idle before we assume the
+// send never produced an agent run (e.g. preflight failure) and recover, so a
+// single bad send can never wedge the queue.
+const STUCK_GRACE_MS = 6000;
+
+// Subagents load extensions in this process; only the parent may own the socket.
+const BRIDGE_OWNER = Symbol.for("pi-bridge.owner");
+const bridgeGlobal = globalThis as typeof globalThis & { [BRIDGE_OWNER]?: symbol };
 
 type ThinkingLevel = (typeof THINKING_LEVELS)[number];
+
+// Mirror of pi's getSupportedThinkingLevels: which effort levels a given model
+// actually exposes. Non-reasoning models only support "off"; otherwise a null
+// in thinkingLevelMap hides a level, and xhigh/max require an explicit mapping.
+function supportedThinkingLevels(model: {
+  reasoning?: boolean;
+  thinkingLevelMap?: Partial<Record<ThinkingLevel, string | null>>;
+}): ThinkingLevel[] {
+  if (!model.reasoning) {
+    return ["off"];
+  }
+  return THINKING_LEVELS.filter((level) => {
+    const mapped = model.thinkingLevelMap?.[level];
+    if (mapped === null) {
+      return false;
+    }
+    if (level === "xhigh" || level === "max") {
+      return mapped !== undefined;
+    }
+    return true;
+  });
+}
 
 type Job = {
   id: string;
@@ -69,6 +100,8 @@ function loadEnabledModels(cwd: string): string[] {
 }
 
 export default function (pi: ExtensionAPI) {
+  const ownerToken = Symbol();
+  let ownsBridge = false;
   let server: net.Server | null = null;
   let socketPath: string | null = null;
   let infoPath: string | null = null;
@@ -80,6 +113,8 @@ export default function (pi: ExtensionAPI) {
   let currentModel = "";
   let currentThinking: ThinkingLevel = "high";
   let enabledModels: string[] = [];
+  let modelThinkingLevels: Record<string, ThinkingLevel[]> = {};
+  let jobStartedAt = 0;
   let lastFinishedJobId = "";
   let lastFinishedAt = "";
   let lastFinishedOk = true;
@@ -98,6 +133,7 @@ export default function (pi: ExtensionAPI) {
       current_thinking: currentThinking,
       enabled_models: enabledModels,
       thinking_levels: THINKING_LEVELS,
+      model_thinking_levels: modelThinkingLevels,
       busy,
       queue_length: (currentJob ? 1 : 0) + queue.length,
       current_job_id: currentJob?.id ?? "",
@@ -137,6 +173,14 @@ export default function (pi: ExtensionAPI) {
 
     if (currentModel && !enabledModels.includes(currentModel)) {
       enabledModels.unshift(currentModel);
+    }
+
+    modelThinkingLevels = {};
+    for (const model of available) {
+      const key = modelKey(model);
+      if (enabledModels.includes(key)) {
+        modelThinkingLevels[key] = supportedThinkingLevels(model);
+      }
     }
 
     writeMetadata();
@@ -188,8 +232,21 @@ export default function (pi: ExtensionAPI) {
   }
 
   async function processQueue() {
-    if (!currentCtx || currentJob) {
+    if (!currentCtx) {
       return;
+    }
+
+    // A job is in flight: agent_settled will finish it. Watchdog: if pi has been
+    // fully idle well past hand-off, the send never started an agent run (e.g. a
+    // preflight failure whose rejection pi swallows), so recover instead of
+    // wedging the whole queue.
+    if (currentJob) {
+      if (currentCtx.isIdle() && Date.now() - jobStartedAt > STUCK_GRACE_MS) {
+        finishCurrentJob(false, "pi did not start the message");
+      } else {
+        scheduleProcessQueue();
+        return;
+      }
     }
 
     if (!currentCtx.isIdle()) {
@@ -207,6 +264,7 @@ export default function (pi: ExtensionAPI) {
     }
 
     currentJob = job;
+    jobStartedAt = Date.now();
     busy = true;
     writeMetadata();
 
@@ -217,11 +275,21 @@ export default function (pi: ExtensionAPI) {
         currentThinking = pi.getThinkingLevel() as ThinkingLevel;
         writeMetadata();
       }
-      await pi.sendUserMessage(job.prompt);
     } catch (error) {
       finishCurrentJob(false, error instanceof Error ? error.message : String(error));
       scheduleProcessQueue();
+      return;
     }
+
+    // deliverAs:"followUp" makes delivery race-proof: sent immediately when pi is
+    // idle, queued behind in-flight work when it is streaming. Without it,
+    // sendUserMessage throws "Agent is already processing" the instant pi went
+    // busy between the isIdle() check and here — and pi's runtime swallows that
+    // rejection, so the job silently vanished with the queue stuck forever.
+    jobStartedAt = Date.now();
+    pi.sendUserMessage(job.prompt, { deliverAs: "followUp" });
+    // Keep polling so the watchdog can recover if no agent run/settle ever comes.
+    scheduleProcessQueue();
   }
 
   function respond(conn: net.Socket, payload: unknown) {
@@ -259,12 +327,12 @@ export default function (pi: ExtensionAPI) {
     }
   }
 
+  function cleanup() {
     if (queueRetryTimer) {
       clearTimeout(queueRetryTimer);
       queueRetryTimer = null;
     }
 
-  function cleanup() {
     if (server) {
       server.close();
       server = null;
@@ -274,17 +342,31 @@ export default function (pi: ExtensionAPI) {
       try {
         fs.unlinkSync(socketPath);
       } catch {}
+      socketPath = null;
     }
 
     if (infoPath) {
       try {
         fs.unlinkSync(infoPath);
       } catch {}
+      infoPath = null;
     }
+
+    if (ownsBridge && bridgeGlobal[BRIDGE_OWNER] === ownerToken) {
+      delete bridgeGlobal[BRIDGE_OWNER];
+      process.off("exit", cleanup);
+    }
+    ownsBridge = false;
   }
 
   pi.on("session_start", async (_event, ctx) => {
     cleanup();
+    if (bridgeGlobal[BRIDGE_OWNER]) {
+      return;
+    }
+    bridgeGlobal[BRIDGE_OWNER] = ownerToken;
+    ownsBridge = true;
+    process.once("exit", cleanup);
     currentCtx = ctx;
     startedAt = new Date().toISOString();
     queue = [];
@@ -329,12 +411,21 @@ export default function (pi: ExtensionAPI) {
   });
 
   pi.on("agent_start", async (_event, ctx) => {
+    if (!ownsBridge) {
+      return;
+    }
     refreshState(ctx);
     busy = true;
     writeMetadata();
   });
 
-  pi.on("agent_end", async (_event, ctx) => {
+  // agent_end fires per low-level agent run and "may auto-retry or compact
+  // afterward", so it is NOT job completion. agent_settled is the authoritative
+  // "pi is fully done, nothing more will run" signal — finish the job there.
+  pi.on("agent_settled", async (_event, ctx) => {
+    if (!ownsBridge) {
+      return;
+    }
     refreshState(ctx);
     if (currentJob) {
       finishCurrentJob(true);
@@ -346,12 +437,18 @@ export default function (pi: ExtensionAPI) {
   });
 
   pi.on("model_select", async (event, ctx) => {
+    if (!ownsBridge) {
+      return;
+    }
     refreshState(ctx);
     currentModel = modelKey(event.model);
     writeMetadata();
   });
 
   pi.on("thinking_level_select", async (event, ctx) => {
+    if (!ownsBridge) {
+      return;
+    }
     refreshState(ctx);
     currentThinking = event.level as ThinkingLevel;
     writeMetadata();
@@ -361,5 +458,4 @@ export default function (pi: ExtensionAPI) {
     cleanup();
   });
 
-  process.on("exit", cleanup);
 }

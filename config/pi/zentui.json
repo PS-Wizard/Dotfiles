@@ -1,0 +1,31 @@
+{
+  "colorSources": {
+    "starship": "theme",
+    "editor": "theme",
+    "userMessages": "theme"
+  },
+  "separator": "pipe",
+  "icons": {
+    "mode": "nerd"
+  },
+  "features": {
+    "editor": true,
+    "copyFriendly": true,
+    "viewportIndicators": false,
+    "statusLine": true
+  },
+  "editorBorderColorMode": "static",
+  "editorModelLabel": "name",
+  "responsiveFooter": true,
+  "compactFooterMaxLines": 2,
+  "contextStyle": "text",
+  "footerSegments": {
+    "cwd": true,
+    "sessionName": false,
+    "runtime": false,
+    "modelInfo": false,
+    "context": true,
+    "tokens": false,
+    "time": true
+  }
+}

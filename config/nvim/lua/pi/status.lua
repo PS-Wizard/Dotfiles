@@ -5,7 +5,9 @@ local M = {}
 local namespace = vim.api.nvim_create_namespace("pi_bridge_status")
 local spinner = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" }
 
-local timer = nil
+local poll_timer = nil
+local anim_timer = nil
+local frame = 1
 local connected = nil
 local requests = {}
 local last_finish_token = nil
@@ -48,16 +50,24 @@ local function clear_request(id)
     requests[id] = nil
 end
 
-local function set_text(item, text, hl)
+local function draw(item)
     if not vim.api.nvim_buf_is_valid(item.buf) then
         requests[item.id] = nil
         return
     end
 
-    item.frame = (item.frame % #spinner) + 1
+    local text
+    if item.state == "running" then
+        text = string.format(" %s pi working", spinner[frame])
+    elseif item.state == "queued" then
+        text = string.format(" 󱎫 pi queued #%d", item.qindex or 1)
+    else
+        text = " 󱎫 pi queued"
+    end
+
     item.mark_id = vim.api.nvim_buf_set_extmark(item.buf, namespace, item.line, item.col, {
         id = item.mark_id,
-        virt_text = { { text, hl } },
+        virt_text = { { text, "Comment" } },
         virt_text_pos = "eol",
         hl_mode = "combine",
     })
@@ -91,28 +101,22 @@ local function apply_meta(meta)
 
     handle_finished(meta)
 
-    local active = {}
-    if meta.current_job_id and requests[meta.current_job_id] then
-        active[meta.current_job_id] = { state = "running" }
-    end
-
+    local running_id = meta.current_job_id
+    local queued = {}
     for index, id in ipairs(meta.queued_job_ids or {}) do
-        if requests[id] then
-            active[id] = { state = "queued", index = index }
-        end
+        queued[id] = index
     end
 
     for id, item in pairs(requests) do
-        local state = active[id]
-        if not state then
-            if meta.last_finished_job_id == id then
-                clear_request(id)
-            end
-        elseif state.state == "running" then
-            local frame = spinner[item.frame + 1] or spinner[1]
-            set_text(item, string.format(" %s pi working", frame), "Comment")
-        else
-            set_text(item, string.format(" 󱎫 pi queued #%d", state.index), "Comment")
+        if running_id and running_id ~= "" and running_id == id then
+            item.state = "running"
+            draw(item)
+        elseif queued[id] then
+            item.state = "queued"
+            item.qindex = queued[id]
+            draw(item)
+        elseif meta.last_finished_job_id == id then
+            clear_request(id)
         end
     end
 end
@@ -130,30 +134,47 @@ function M.refresh()
     apply_meta(meta)
 end
 
+-- Advance the spinner independently of the (slower) metadata poll so "pi working"
+-- animates smoothly instead of ticking once per file read.
+local function animate()
+    frame = (frame % #spinner) + 1
+    for _, item in pairs(requests) do
+        if item.state == "running" then
+            draw(item)
+        end
+    end
+end
+
+local function stop_timer(timer)
+    if timer then
+        timer:stop()
+        timer:close()
+    end
+end
+
 function M.connect(session)
     connected = session
     M.refresh()
 
-    if timer then
-        timer:stop()
-        timer:close()
+    stop_timer(poll_timer)
+    poll_timer = uv.new_timer()
+    if poll_timer then
+        poll_timer:start(0, 250, vim.schedule_wrap(M.refresh))
     end
 
-    timer = uv.new_timer()
-    if not timer then
-        return
+    stop_timer(anim_timer)
+    anim_timer = uv.new_timer()
+    if anim_timer then
+        anim_timer:start(100, 100, vim.schedule_wrap(animate))
     end
-
-    timer:start(0, 400, vim.schedule_wrap(M.refresh))
 end
 
 function M.disconnect()
     connected = nil
-    if timer then
-        timer:stop()
-        timer:close()
-        timer = nil
-    end
+    stop_timer(poll_timer)
+    poll_timer = nil
+    stop_timer(anim_timer)
+    anim_timer = nil
 
     for id in pairs(requests) do
         clear_request(id)
@@ -171,15 +192,10 @@ function M.register_request(id, opts)
         buf = opts.buf,
         line = line,
         col = opts.col or 0,
-        frame = 0,
+        state = "queued",
     }
 
-    item.mark_id = vim.api.nvim_buf_set_extmark(item.buf, namespace, item.line, item.col, {
-        virt_text = { { " 󱎫 pi queued", "Comment" } },
-        virt_text_pos = "eol",
-        hl_mode = "combine",
-    })
-
+    draw(item)
     requests[id] = item
     M.refresh()
 end

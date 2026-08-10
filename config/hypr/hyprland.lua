@@ -14,9 +14,11 @@ hl.config({
         rounding        = 12,
         active_opacity  = 1.0,
         inactive_opacity = 1.0,
-        blur   = { enabled = false },
+        blur = {
+            enabled = true,
+            passes=4,
+        },
         shadow = { enabled = false },
-        screen_shader = '/home/wizard/.config/hypr/monochrome.frag',
     },
     animations = {
         enabled = true,

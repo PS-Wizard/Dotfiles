@@ -24,7 +24,7 @@ vim.opt.isfname:append("@-@")
 vim.opt.termguicolors = true
 vim.opt.cmdheight = 0
 vim.opt.winborder = "rounded"
-vim.opt.laststatus = 3
+vim.opt.laststatus = 0
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
 vim.opt.shiftwidth = 4

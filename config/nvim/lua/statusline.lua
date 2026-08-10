@@ -11,7 +11,7 @@ local function apply_statusline()
     vim.api.nvim_set_hl(0, "StatusLineNC", { bg = "NONE" })
     vim.g.tpipeline_statusline = "%!v:lua.UserConfigBuildStatusline()"
     vim.g.tpipeline_clearstl = 1
-    vim.o.laststatus = 3
+    vim.o.laststatus = 0
     vim.o.winbar = ""
     vim.o.statusline = vim.g.tpipeline_clearstl == 1 and "%#StatusLine#" or vim.g.tpipeline_statusline
 end

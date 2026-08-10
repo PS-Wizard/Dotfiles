@@ -26,9 +26,11 @@ hl.bind(M .. " + SHIFT + P", hl.dsp.exec_cmd("hyprctl keyword monitor eDP-1,disa
 -- Layout toggle: dwindle ↔ scrolling (vertical)
 hl.bind(M .. " + Space", toggle_layout)
 
--- Resize current scrolling-layout column
-hl.bind(M .. " + minus", hl.dsp.layout("colresize -0.1"))
-hl.bind(M .. " + equal", hl.dsp.layout("colresize +0.1"))
+-- Resize focused window
+hl.bind(M .. " + minus", hl.dsp.window.resize({ x = -50, y = 0, relative = true }), { repeating = true })
+hl.bind(M .. " + equal", hl.dsp.window.resize({ x = 50, y = 0, relative = true }), { repeating = true })
+hl.bind(M .. " + SHIFT + minus", hl.dsp.window.resize({ x = 0, y = -50, relative = true }), { repeating = true })
+hl.bind(M .. " + SHIFT + equal", hl.dsp.window.resize({ x = 0, y = 50, relative = true }), { repeating = true })
 
 -- WM
 hl.bind(M .. " + SHIFT + Q",      hl.dsp.window.close())
@@ -36,6 +38,7 @@ hl.bind(M .. " + SHIFT + Return", hl.dsp.exit())
 
 -- Fullscreen / maximize
 hl.bind(M .. " + F", hl.dsp.window.fullscreen({ mode = "fullscreen" }))
+hl.bind(M .. " + SHIFT + Space", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(M .. " + M", hl.dsp.window.fullscreen({ mode = "maximized" }))
 
 -- Focus urgent or last window
@@ -82,8 +85,8 @@ hl.bind(M .. " + S",         hl.dsp.workspace.toggle_special("magic"))
 hl.bind(M .. " + SHIFT + S", hl.dsp.window.move({ workspace = "special:magic" }))
 
 -- Media
-hl.bind("XF86AudioRaiseVolume",  hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1+"),   { repeating = true })
-hl.bind("XF86AudioLowerVolume",  hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.1-"),   { repeating = true })
+hl.bind("XF86AudioRaiseVolume",  hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05+"),   { repeating = true })
+hl.bind("XF86AudioLowerVolume",  hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05-"),   { repeating = true })
 hl.bind("XF86AudioMute",         hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"),   { locked = true })
 hl.bind("XF86AudioMicMute",      hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"), { locked = true })
 hl.bind("XF86AudioPlay",         hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })

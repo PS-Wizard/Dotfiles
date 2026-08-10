@@ -1,12 +1,13 @@
 {
   "layer": "top",
-  "exclusive": true,
+  "exclusive":true,
   "position": "bottom",
-  "height": 24,
-  "spacing": 0,
-  "margin": 0,
+  "height": 30,
+  "spacing": 6,
+  "margin": "0 12px 0px 12px",
   "modules-left": ["clock", "custom/uptime"],
-  "modules-right": ["cpu", "memory", "temperature", "pulseaudio", "network", "battery"],
+  "modules-center": ["custom/ny-countdown", "custom/time-tracker"],
+  "modules-right": ["cpu", "memory", "temperature", "pulseaudio", "custom/headphones-battery", "network", "battery"],
 
   "clock": {
     "interval": 60,
@@ -20,6 +21,21 @@
     "interval": 60,
     "format": "<b>{}</b>",
     "tooltip": false
+  },
+
+  "custom/ny-countdown": {
+    "exec": "python3 -c \"import time;from datetime import datetime as dt;d=dt(dt.now().year+1,1,1).timestamp()-time.time();print(f'{int(d//86400)};{int(d//3600)}')\"",
+    "interval": 60,
+    "format": "<b>{}</b>",
+    "tooltip": false
+  },
+
+  "custom/time-tracker": {
+    "exec": "/home/wizard/.config/waybar/time-tracker.py",
+    "interval": 1,
+    "tooltip": false,
+    "on-click": "/home/wizard/.config/waybar/time-tracker.py toggle",
+    "on-click-right": "/home/wizard/.config/waybar/time-tracker.py reset"
   },
 
   "temperature": {
@@ -45,6 +61,12 @@
     "format-muted": "󰝟",
     "on-click": "pavucontrol",
     "tooltip-format": "Volume: {volume}%"
+  },
+
+  "custom/headphones-battery": {
+    "exec": "upower -e 2>/dev/null | grep -m1 'headset_' | xargs -r upower -i 2>/dev/null | awk -F':[[:space:]]*' '/percentage:/{print \"󰋋 \" $2}'",
+    "interval": 30,
+    "tooltip": false
   },
 
   "network": {

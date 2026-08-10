@@ -1,6 +1,6 @@
 local todo_module = {}
 
-local todo_file = vim.fn.expand("~/Projects/notes/todo.md")
+local todo_file = vim.fn.expand("~/Projects/gnosis/Projects/Inbox.md")
 local todo_buffer = nil
 local todo_window = nil
 

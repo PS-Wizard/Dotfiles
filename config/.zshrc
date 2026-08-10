@@ -14,10 +14,11 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 # Vi mode
 bindkey -v
 
+alias count='termdown'
+
 # Your aliases (converted from fish)
-alias rm='trash-put'
-alias dcup="docker compose down && docker compose build && docker compose up -d && docker image prune -f"
-alias dclean="docker system prune -a --volumes"
+alias rr='XDG_DATA_HOME="$HOME/.config" command tuicr'
+alias rm="trash-put"
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 alias lz='lazygit'
@@ -26,9 +27,11 @@ alias t='tmux'
 alias c='claude --dangerously-skip-permissions'
 alias cc='cargo check'
 alias cb='cargo build --release'
-alias cr='cargo run'
+alias cl='cargo fmt && cargo clippy --all-targets --all-features -- -D warnings'
 alias mn='touch "$(date +%F).md" && echo "Created $(date +%F).md"'
 alias hs='hugo serve -D --ignoreCache --disableFastRender'
+alias docker=podman
+
 
 # ── eza ───────────────────────────────────────────────────────────────────────
 alias ls='eza --icons --group-directories-first'
@@ -110,6 +113,35 @@ ct() {
     
     # Execute
     eval $cmd
+}
+
+# Cargo run function (compact flags: i=info, t=trace, r=release+native, v=verbose)
+cr() {
+    local release=false
+    local verbose=false
+    local rust_log="info"  # default
+
+    # Parse first argument for compact flags
+    if [[ $# -gt 0 && "$1" =~ ^[irvt]+$ ]]; then
+        local flags="$1"
+        shift
+        [[ "$flags" == *r* ]] && release=true
+        [[ "$flags" == *v* ]] && verbose=true
+        [[ "$flags" == *t* ]] && rust_log="trace"
+    fi
+
+    # Build args array (safe, no eval)
+    local -a args=(run)
+    [[ "$verbose" = true ]] && args+=(--verbose)
+    [[ "$release" = true ]] && args+=(--release)
+    args+=("$@")
+
+    # Execute — RUST_LOG and RUSTFLAGS scoped to single command
+    if [ "$release" = true ]; then
+        RUST_LOG="$rust_log" RUSTFLAGS="-C target-cpu=native" cargo "${args[@]}"
+    else
+        RUST_LOG="$rust_log" cargo "${args[@]}"
+    fi
 }
 
 # Environment variables
@@ -198,8 +230,7 @@ local _c_dim="%F{240}"
 local _c_reset="%f"
 
 
-PROMPT='${_c_dim}┌ ${_c_dir}%~${_c_reset}\
-$([ -n "$_git_branch" ] && echo " ${_c_dim}on${_c_reset} ${_c_branch}$_git_branch${_c_reset}")
+PROMPT='${_c_dim}┌ ${_c_dir}%~${_c_reset}$([ -n "$_git_branch" ] && echo " ${_c_dim}on${_c_reset} ${_c_branch}$_git_branch${_c_reset}")
 ${_c_dim}└ %(?.${_c_ok}❯${_c_reset}.${_c_err}❯${_c_reset}) '
 
 export PI_CODING_AGENT_DIR="$HOME/.config/pi"
@@ -217,3 +248,7 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 # bun
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
+
+# ante
+export PATH="/home/wizard/.ante/bin:$PATH"
+
