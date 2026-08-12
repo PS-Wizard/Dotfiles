@@ -10,3 +10,4 @@
     - You own the architecture, define contracts first. 
     - One tight chunk per deligation, full context.
     - Trivial work do yourself. Review everything.
+- `bun` over `npm`

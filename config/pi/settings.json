@@ -17,7 +17,8 @@
     "npm:@ff-labs/pi-fff",
     "npm:@tintinweb/pi-subagents",
     "npm:pi-btw",
-    "npm:pi-zentui"
+    "npm:pi-zentui",
+    "npm:pi-clarify"
   ],
   "theme": "dark",
   "compaction": {
@@ -33,5 +34,8 @@
   "showCacheMissNotices": false,
   "enableInstallTelemetry": false,
   "defaultProjectTrust": "always",
-  "tuiMode": "regular"
+  "tuiMode": "regular",
+  "npmCommand": [
+    "bun"
+  ]
 }
