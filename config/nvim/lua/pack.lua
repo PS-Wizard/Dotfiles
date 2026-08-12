@@ -98,7 +98,6 @@ require("lazy").setup({
     },
     "neovim/nvim-lspconfig",
     "echasnovski/mini.nvim",
-    "vimpostor/vim-tpipeline",
 })
 
 -- Configure mini.files as the file explorer.

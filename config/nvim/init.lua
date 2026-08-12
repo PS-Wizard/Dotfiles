@@ -4,9 +4,7 @@ require("options")
 require("keymaps")
 require("pack")
 require("lsp")
-
-
-require("statusline")
 require("todo")
 
 vim.cmd.colorscheme("nemo")
+require("filename")
