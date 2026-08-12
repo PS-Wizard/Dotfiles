@@ -10,8 +10,7 @@ tmux list-sessions -F "#{session_name}" 2>/dev/null \
   --print-query \
   --bind="ctrl-d:execute(tmux kill-session -t {})+reload(tmux list-sessions -F '#{session_name}' 2>/dev/null | grep -v '^${current}$')" \
   --header="enter:switch  ctrl-d:kill  (type new name + enter to create)" \
-  --color=bg:-1,bg+:-1,border:#31748f,prompt:#f6c177,pointer:#eb6f92,header:#6e6a86 \
-  --border=rounded > "$tmp"
+  --color=bg:-1,bg+:-1,prompt:#f6c177,pointer:#eb6f92,header:#6e6a86 > "$tmp"
 
 query=$(sed -n '1p' "$tmp")
 selected=$(sed -n '2p' "$tmp")
