@@ -47,6 +47,7 @@ local maximum_lsp_line_count = 1000
 
 vim.api.nvim_set_hl(0, "TodoFloatNormal", { bg = "NONE" })
 vim.api.nvim_set_hl(0, "TodoFloatBorder", { bg = "NONE", fg = "#555555" })
+
 vim.lsp.handlers["textDocument/hover"] = function(err, result, ctx, config)
     config = vim.tbl_deep_extend("force", config or {}, {
         border = "double",

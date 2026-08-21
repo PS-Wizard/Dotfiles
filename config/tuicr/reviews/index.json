@@ -1,0 +1,21 @@
+{
+  "version": "2.0",
+  "entries": {
+    "ps-wizard/revserp@feat-ai-chat-rewrite/commits/b9d6240..b9d6240": [
+      {
+        "path": "sessions/25b47868dd7a219f.json",
+        "kind": {
+          "type": "local"
+        },
+        "updated_at": "2026-08-14T04:05:41.604387236Z",
+        "canonical_repo_path": "/home/wizard/Projects/revketer/revserp/revserp-backend",
+        "display": {
+          "comment_count": 3,
+          "reviewed_count": 0,
+          "file_count": 3,
+          "anchor": "feat-ai-chat-rewrite"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,16 @@
+theme = "catppuccin-mocha"
+diff_view = "side-by-side"   # or "unified"
+ignore_whitespace = false    # ignore all whitespace in local VCS diffs
+appearance = "system"        # or "dark" / "light"
+mouse = true
+leader = " "                  # configurable prefix for leader shortcuts
+comment_vim = false # vim modal editing in the review comment box
+review_watch_interval_ms = 1000 # set to 0 to disable persisted-review polling
+
+comment_types = [
+  { id = "question", definition = "answer or investigate before changing code", color = "yellow" },
+  { id = "fix", definition = "required change; implement this", color = "red" },
+  { id = "suggestion", definition = "improvement worth implementing", color = "blue" },
+  { id = "nit", definition = "minor optional cleanup", color = "#d19a66" },
+  { id = "keep", definition = "intentional good behavior; do not regress", color = "green" },
+]

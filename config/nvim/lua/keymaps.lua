@@ -48,6 +48,20 @@ vim.keymap.set("n", "<leader>t", function()
 end, { desc = "Toggle todo float" })
 vim.keymap.set("n", "<leader>T", "<cmd>edit ~/Projects/notes/todo.md<CR>", { desc = "Open todo file" })
 
+-- Code review comments.
+-- Note: the visual mapping uses :<C-u> because nvim does not set '< '> marks
+-- inside a visual-mode callback; ending visual mode first makes them valid.
+vim.keymap.set("n", "<leader><leader>", function()
+    require("review").comment(false)
+end, { desc = "Add review comment" })
+vim.keymap.set("v", "<leader><leader>", ":<C-u>lua require('review').comment(true)<CR>", { desc = "Add review comment" })
+vim.keymap.set("n", "<leader>c", function()
+    require("review").copy()
+end, { desc = "Copy review comments to clipboard" })
+vim.keymap.set("n", "<leader>d", function()
+    require("review").clear()
+end, { desc = "Clear review comments" })
+
 -- Editing helpers.
 vim.keymap.set("i", "<C-c>", "<Esc>")
 vim.keymap.set("n", "<C-c>", "<cmd>nohlsearch<CR>", { desc = "Clear search highlighting", silent = true })
@@ -66,6 +80,37 @@ vim.keymap.set("n", "<leader>ab", function()
     vim.api.nvim_put({ "```", "", "```" }, "l", true, true)
     vim.api.nvim_feedkeys("k", "n", true)
 end, { desc = "Insert markdown code block" })
+
+local function markdown_bullet_or_strike()
+    local row, column = unpack(vim.api.nvim_win_get_cursor(0))
+    local line = vim.api.nvim_get_current_line()
+    local bullet, text = line:match("^(%s*%- )(.*)$")
+
+    if not bullet then
+        local indent, content = line:match("^(%s*)(.*)$")
+        vim.api.nvim_set_current_line(indent .. "- " .. content)
+        vim.api.nvim_win_set_cursor(0, { row, column + 2 })
+        return
+    end
+
+    if text == "" or text:match("^~~.*~~$") then
+        return
+    end
+
+    local struck = bullet .. "~~" .. text .. "~~"
+    vim.api.nvim_set_current_line(struck)
+    vim.api.nvim_win_set_cursor(0, { row, #struck })
+end
+
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = "markdown",
+    callback = function(event)
+        vim.keymap.set("i", "<C-l>", markdown_bullet_or_strike, {
+            buffer = event.buf,
+            desc = "Add markdown bullet or strikethrough",
+        })
+    end,
+})
 
 
 -- Window navigation.

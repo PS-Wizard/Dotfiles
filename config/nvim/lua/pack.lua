@@ -71,6 +71,7 @@ require("lazy").setup({
         "ibhagwan/fzf-lua",
         lazy = false,
         opts = {
+            ui_select = {},
             defaults = {
                 prompt = "> ",
                 file_icons = false,
@@ -98,6 +99,7 @@ require("lazy").setup({
     },
     "neovim/nvim-lspconfig",
     "echasnovski/mini.nvim",
+    "ChmaraX/herdr-nvim"
 })
 
 -- Configure mini.files as the file explorer.
@@ -151,6 +153,3 @@ vim.api.nvim_create_autocmd("FileType", {
     end,
 })
 
-
--- Configure local pi bridge.
-require("pi").setup()

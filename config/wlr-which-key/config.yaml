@@ -35,15 +35,12 @@ menu:
     desc: AI
     submenu:
       - key: "1"
-        desc: Claude
-        cmd: zen-browser https://claude.ai
-      - key: "2"
         desc: ChatGPT
         cmd: zen-browser https://chatgpt.com
-      - key: "3"
+      - key: "2"
         desc: Gemini
         cmd: zen-browser https://gemini.google.com
-      - key: "4"
+      - key: "3"
         desc: Notebooklm
         cmd: zen-browser https://notebooklm.google.com/
   - key: "u"
@@ -58,9 +55,9 @@ menu:
       - key: "h"
         desc: Opencode Go
         cmd: zen-browser https://opencode.ai/go
-      - key: "a"
-        desc: Claude Usage
-        cmd: zen-browser https://claude.ai/new#settings/usage
+      - key: "s"
+        desc: Cursor Spending
+        cmd: zen-browser https://cursor.com/dashboard/spending
   - key: "n"
     desc: Gammastep
     submenu:
@@ -81,7 +78,7 @@ menu:
         cmd: pkill gammastep
   - key: "d"
     desc: Wayscriber
-    cmd: pkill wayscriber; wayscriber --active --mode whiteboard
+    cmd: pkill wayscriber; wayscriber --freeze 
   - key: "w"
     desc: Reload
     submenu:
@@ -98,8 +95,8 @@ menu:
     desc: Toggle Monochrome
     cmd: /home/wizard/.config/hypr/scripts/toggle-monochrome.sh
   - key: "m"
-    desc: Mirror Display
-    cmd: wl-mirror $(niri msg --json outputs | jq -r '.[] | select(.logical.x == 0 and .logical.y == 0) | .name')
+    desc: Markdown Viewer Web
+    cmd: zen-browser https://markdn.vercel.app/
   - key: "r"
     desc: Recording
     submenu:

@@ -1,0 +1,102 @@
+{
+  "id": "1b639338-b38e-4b9d-87d6-41de18b5be14",
+  "version": "1.3",
+  "repo_path": "/home/wizard/Projects/revketer/revserp/revserp-backend/",
+  "branch_name": "feat/ai-chat-rewrite",
+  "base_commit": "b9d6240582f2781d99e32c467a84e96a4b552442",
+  "diff_source": "commit_range",
+  "commit_range": [
+    "b9d6240582f2781d99e32c467a84e96a4b552442"
+  ],
+  "pr_session_key": null,
+  "remote_comments_visibility": "unresolved",
+  "commit_selection_range": null,
+  "created_at": "2026-08-14T04:02:21.842778388Z",
+  "updated_at": "2026-08-14T04:05:41.604387236Z",
+  "review_comments": [],
+  "files": {
+    "PLAN.md": {
+      "path": "PLAN.md",
+      "reviewed": false,
+      "status": "modified",
+      "file_comments": [],
+      "line_comments": {},
+      "reviewed_hunks": [],
+      "content_hash": 13947435884343341820
+    },
+    "internal/db/sqlc/models.go": {
+      "path": "internal/db/sqlc/models.go",
+      "reviewed": false,
+      "status": "modified",
+      "file_comments": [],
+      "line_comments": {
+        "46": [
+          {
+            "id": "c5f928e1-7e03-4b3a-92a3-870d3d02ce74",
+            "content": "do we need this? or is this a good to have",
+            "comment_type": "question",
+            "created_at": "2026-08-14T04:04:18.452843627Z",
+            "line_context": null,
+            "side": "new",
+            "line_range": null,
+            "author": "user",
+            "lifecycle_state": "local_draft",
+            "remote_review_id": null,
+            "remote_comment_id": null,
+            "commit_id": "b9d6240582f2781d99e32c467a84e96a4b552442"
+          }
+        ],
+        "128": [
+          {
+            "id": "a7f4787d-3285-4d74-87d0-c8ecb48e8b68",
+            "content": "help me understand all of this ai related stuff actually whats the point of each struct",
+            "comment_type": "question",
+            "created_at": "2026-08-14T04:05:41.595183670Z",
+            "line_context": null,
+            "side": "new",
+            "line_range": {
+              "start": 71,
+              "end": 128
+            },
+            "author": "user",
+            "lifecycle_state": "local_draft",
+            "remote_review_id": null,
+            "remote_comment_id": null,
+            "commit_id": "b9d6240582f2781d99e32c467a84e96a4b552442"
+          }
+        ],
+        "60": [
+          {
+            "id": "a499a7bf-61d7-4091-a33f-1e7b5f24a240",
+            "content": "help me understand this",
+            "comment_type": "question",
+            "created_at": "2026-08-14T04:04:24.595609849Z",
+            "line_context": null,
+            "side": "new",
+            "line_range": {
+              "start": 52,
+              "end": 60
+            },
+            "author": "user",
+            "lifecycle_state": "local_draft",
+            "remote_review_id": null,
+            "remote_comment_id": null,
+            "commit_id": "b9d6240582f2781d99e32c467a84e96a4b552442"
+          }
+        ]
+      },
+      "reviewed_hunks": [],
+      "content_hash": 12129162653385116377
+    },
+    "migrations/000042_ai_chat_v2.sql": {
+      "path": "migrations/000042_ai_chat_v2.sql",
+      "reviewed": false,
+      "status": "added",
+      "file_comments": [],
+      "line_comments": {},
+      "reviewed_hunks": [],
+      "content_hash": 14004026391681776087
+    }
+  },
+  "session_notes": null
+}
