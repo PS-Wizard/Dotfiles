@@ -5,17 +5,17 @@ hl.config({
     general = {
         layout = "dwindle",
         border_size = 0,
-        gaps_in = 0,
-        gaps_out = 0,
+        gaps_in = 4,
+        gaps_out = 4,
         ["col.active_border"]   = "rgba(8a8a8aff)",
         ["col.inactive_border"] = "rgba(2f2f2fff)",
     },
     decoration = {
-        rounding        = 12,
+        rounding        = 14,
         active_opacity  = 1.0,
-        inactive_opacity = 1.0,
+        inactive_opacity = 1,
         blur = {
-            enabled = true,
+            enabled = false,
             size = 10,
             passes=3,
             noise = 0.015,

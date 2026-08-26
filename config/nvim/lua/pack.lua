@@ -99,7 +99,6 @@ require("lazy").setup({
     },
     "neovim/nvim-lspconfig",
     "echasnovski/mini.nvim",
-    "ChmaraX/herdr-nvim"
 })
 
 -- Configure mini.files as the file explorer.

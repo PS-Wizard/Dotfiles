@@ -4,7 +4,7 @@ require("options")
 require("keymaps")
 require("pack")
 require("lsp")
-require("todo")
+require("todo").setup({ path = "~/Projects/gnosis/tasks/" })
 
 vim.cmd.colorscheme("nemo")
 require("filename")

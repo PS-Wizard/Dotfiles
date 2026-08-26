@@ -1,16 +1,24 @@
 {
-  "lastChangelogVersion": "0.84.1",
+  "lastChangelogVersion": "0.84.3",
   "defaultProvider": "openai-codex",
   "defaultModel": "gpt-5.6-sol",
   "defaultThinkingLevel": "high",
   "hideThinkingBlock": false,
   "enabledModels": [
-    "openai-codex/gpt-5.5",
     "opencode-go/deepseek-v4-pro",
     "opencode-go/deepseek-v4-flash",
     "openai-codex/gpt-5.6-luna",
     "openai-codex/gpt-5.6-sol",
-    "openai-codex/gpt-5.6-terra"
+    "openai-codex/gpt-5.6-terra",
+    "cursor/composer-2.5:slow",
+    "cursor/grok-4.5:slow",
+    "cursor/grok-4.6:slow",
+    "cursor/auto",
+    "opencode-go/mimo-v2.5",
+    "opencode-go/muse-spark-1.2-contributor",
+    "opencode/deepseek-v4-flash-free",
+    "opencode/muse-spark-1.2-contributor-free",
+    "opencode-go/ox-alpha-free"
   ],
   "packages": [
     "npm:pi-hashline-edit",
@@ -18,7 +26,10 @@
     "npm:@tintinweb/pi-subagents",
     "npm:pi-btw",
     "npm:pi-zentui",
-    "npm:pi-clarify"
+    "npm:pi-clarify",
+    "npm:pi-codex-image-gen",
+    "npm:@tmustier/pi-usage-extension",
+    "npm:pi-cursor-sdk"
   ],
   "theme": "dark",
   "compaction": {
@@ -27,7 +38,7 @@
   "images": {
     "autoResize": true
   },
-  "showHardwareCursor": false,
+  "showHardwareCursor": true,
   "markdown": {
     "mermaid": "streaming"
   },

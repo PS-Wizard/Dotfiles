@@ -6,23 +6,35 @@ setopt SHARE_HISTORY
 setopt HIST_IGNORE_DUPS
 
 # Basic completion
+# Basic completion
 autoload -U compinit; compinit
+
 source ~/.config/fzf-tab/fzf-tab.plugin.zsh
+
 zstyle ':completion:*' menu select
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 
+# fzf-tab
+zstyle ':fzf-tab:*' fzf-bindings \
+    'tab:down' \
+    'shift-tab:up' \
+    'space:toggle'
+
 # Vi mode
+
 bindkey -v
 
 alias count='termdown'
 
 # Your aliases (converted from fish)
 alias rr='XDG_DATA_HOME="$HOME/.config" command tuicr'
+alias npm='bun'
 alias rm="trash-put"
 alias ls='ls --color=auto'
 alias grep='grep --color=auto'
 alias lz='lazygit'
 alias n='nvim'
+alias i='ink'
 alias t='tmux'
 alias c='claude --dangerously-skip-permissions'
 alias cc='cargo check'
@@ -166,6 +178,7 @@ export RUSTUP_UPDATE_ROOT=https://mirrors.tuna.tsinghua.edu.cn/rustup/rustup
 export NODE_OPTIONS="--dns-result-order=ipv4first"
 
 # fzf
+export FZF_DEFAULT_OPTS="--multi"
 export FZF_DEFAULT_COMMAND="fd --type f --hidden"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 export FZF_ALT_C_COMMAND="fd --type d --hidden"

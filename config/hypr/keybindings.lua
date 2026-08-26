@@ -96,8 +96,8 @@ hl.bind(M .. " + SHIFT + S", hl.dsp.window.move({ workspace = "special:magic" })
 -- Scratchpad - grave (i3-like, default special workspace)
 -- SUPER + grave = toggle the scratchpad over the current workspace
 -- SUPER + SHIFT + grave = float, resize, center, and hide the active window
-hl.bind(M .. " + grave",         hl.dsp.workspace.toggle_special())
-hl.bind(M .. " + SHIFT + grave", send_to_scratchpad)
+hl.bind(M .. " + minus ",         hl.dsp.workspace.toggle_special())
+hl.bind(M .. " + SHIFT + minus", send_to_scratchpad)
 
 -- Media
 hl.bind("XF86AudioRaiseVolume",  hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05+"),   { repeating = true })
@@ -116,31 +116,32 @@ hl.bind("ALT + W",         hl.dsp.exec_cmd("wlr-which-key"))
 hl.bind("ALT + SHIFT + W", hl.dsp.exec_cmd("pkill wayscriber; wayscriber --active --mode whiteboard"))
 
 -- hl.bind("CTRL + Space", hl.dsp.submap("normal"))
--- hl.define_submap("normal", function()
---     -- Focus
---     hl.bind("H", hl.dsp.exec_cmd("/home/wizard/.config/hypr/scripts/focus_or_workspace.sh l"))
---     hl.bind("J", hl.dsp.exec_cmd("/home/wizard/.config/hypr/scripts/focus_or_workspace.sh d e+1"))
---     hl.bind("K", hl.dsp.exec_cmd("/home/wizard/.config/hypr/scripts/focus_or_workspace.sh u e-1"))
---     hl.bind("L", hl.dsp.exec_cmd("/home/wizard/.config/hypr/scripts/focus_or_workspace.sh r"))
---
---     hl.bind("Return", hl.dsp.exec_cmd("kitty"))
---
---     -- Workspaces
---     for i = 1, 9 do
---         hl.bind(tostring(i), hl.dsp.focus({ workspace = i }))
---     end
---
---     -- Window actions
---     hl.bind("F", hl.dsp.window.fullscreen({ mode = "fullscreen" }))
---     hl.bind("M", hl.dsp.window.fullscreen({ mode = "maximized" }))
---
---     -- Swap windows
---     hl.bind("SHIFT + H", hl.dsp.window.swap({ direction = "l" }))
---     hl.bind("SHIFT + J", hl.dsp.window.swap({ direction = "d" }))
---     hl.bind("SHIFT + K", hl.dsp.window.swap({ direction = "u" }))
---     hl.bind("SHIFT + L", hl.dsp.window.swap({ direction = "r" }))
---
---     -- Exit back to regular keyboard input
---     hl.bind("Escape", hl.dsp.submap("reset"))
---     hl.bind("I", hl.dsp.submap("reset"))
--- end)
+hl.define_submap("normal", function()
+    -- Focus
+    hl.bind("H", hl.dsp.exec_cmd("/home/wizard/.config/hypr/scripts/focus_or_workspace.sh l"))
+    hl.bind("J", hl.dsp.exec_cmd("/home/wizard/.config/hypr/scripts/focus_or_workspace.sh d e+1"))
+    hl.bind("K", hl.dsp.exec_cmd("/home/wizard/.config/hypr/scripts/focus_or_workspace.sh u e-1"))
+    hl.bind("L", hl.dsp.exec_cmd("/home/wizard/.config/hypr/scripts/focus_or_workspace.sh r"))
+
+    hl.bind("Return", hl.dsp.exec_cmd("kitty"))
+
+    -- Workspaces
+    for i = 1, 9 do
+        hl.bind(tostring(i), hl.dsp.focus({ workspace = i }))
+    end
+
+    -- Window actions
+    hl.bind("F", hl.dsp.window.fullscreen({ mode = "fullscreen" }))
+    hl.bind("M", hl.dsp.window.fullscreen({ mode = "maximized" }))
+
+    -- Swap windows
+    hl.bind("SHIFT + H", hl.dsp.window.swap({ direction = "l" }))
+    hl.bind("SHIFT + J", hl.dsp.window.swap({ direction = "d" }))
+    hl.bind("SHIFT + K", hl.dsp.window.swap({ direction = "u" }))
+    hl.bind("SHIFT + L", hl.dsp.window.swap({ direction = "r" }))
+
+    -- Exit back to regular keyboard input
+    hl.bind("Escape", hl.dsp.submap("reset"))
+    hl.bind("CTRL + Space", hl.dsp.submap("reset"))
+    hl.bind("q", hl.dsp.submap("reset"))
+end)

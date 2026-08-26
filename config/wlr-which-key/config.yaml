@@ -63,7 +63,7 @@ menu:
     submenu:
       - key: "1"
         desc: Warm (4500K)
-        cmd: pkill gammastep; gammastep -O 4500
+        cmd: pkill gammastep; gammastep -O 5000
       - key: "2"
         desc: Warmer (3500K)
         cmd: pkill gammastep; gammastep -O 3500

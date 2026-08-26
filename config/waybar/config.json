@@ -1,10 +1,10 @@
 {
   "layer": "top",
   "exclusive":true,
-  "position": "bottom",
+  "position": "top",
   "height": 30,
-  "spacing": 6,
-  "margin": "0 12px 0px 12px",
+  "spacing": 7,
+  "margin": "0 0px 0px 0px",
   "modules-left": ["clock", "custom/uptime"],
   "modules-center": ["custom/ny-countdown", "custom/time-tracker"],
   "modules-right": ["cpu", "memory", "temperature", "pulseaudio", "custom/headphones-battery", "network", "battery"],
