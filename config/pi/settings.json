@@ -29,7 +29,8 @@
     "npm:pi-clarify",
     "npm:pi-codex-image-gen",
     "npm:@tmustier/pi-usage-extension",
-    "npm:pi-cursor-sdk"
+    "npm:pi-cursor-sdk",
+    "npm:pi-tinyfish"
   ],
   "theme": "dark",
   "compaction": {

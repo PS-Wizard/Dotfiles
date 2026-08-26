@@ -131,7 +131,20 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 
--- Window navigation.
+-- Window navigation and zoom.
+local function toggle_zoom()
+    if vim.t.zoomed then
+        vim.cmd("tabclose")
+        vim.t.zoomed = false
+    else
+        vim.cmd("tab split")
+        vim.t.zoomed = true
+    end
+end
+vim.keymap.set("n", "<leader>z", toggle_zoom, { desc = "Toggle zoom fullscreen" })
+vim.keymap.set("n", "<C-w>z", toggle_zoom, { desc = "Toggle zoom fullscreen" })
+vim.keymap.set("n", "<C-w>m", toggle_zoom, { desc = "Toggle zoom fullscreen" })
+vim.keymap.set("n", "<C-m>", toggle_zoom, { desc = "Toggle zoom fullscreen" })
 vim.keymap.set("n", "<C-h>", "<cmd>wincmd h<CR>", silent)
 vim.keymap.set("n", "<C-j>", "<cmd>wincmd j<CR>", silent)
 vim.keymap.set("n", "<C-k>", "<cmd>wincmd k<CR>", silent)
