@@ -1,54 +1,62 @@
 local M = {}
 
 local c = {
-    black = "NONE",
-    darker_black = "NONE",
-    white = "#e0def4",
-    black2 = "#1f1d2a",
-    one_bg = "NONE",
-    one_bg2 = "#2d2b38",
-    one_bg3 = "#353340",
-    grey = "#3f3d4a",
-    grey_fg = "#474552",
-    grey_fg2 = "#514f5c",
-    light_grey = "#5d5b68",
-    red = "#eb6f92",
-    baby_pink = "#f5799c",
-    pink = "#ff83a6",
-    line = "#2e2c39",
-    green = "#ABE9B3",
-    vibrant_green = "#b5f3bd",
-    nord_blue = "#86b9c2",
-    blue = "#8bbec7",
-    yellow = "#f6c177",
-    sun = "#fec97f",
-    purple = "#c4a7e7",
-    dark_purple = "#bb9ede",
-    teal = "#6aadc8",
-    orange = "#f6c177",
-    cyan = "#a3d6df",
-    statusline_bg = "#201e2b",
-    lightbg = "#2d2b38",
-    pmenu_bg = "#002429",
-    folder_bg = "#6aadc8",
-    base00 = "NONE",
-    base01 = "#1f1d2e",
-    base02 = "#26233a",
-    base03 = "#6e6a86",
-    base04 = "#908caa",
-    base05 = "#e0def4",
-    base06 = "#e0def4",
-    base07 = "#524f67",
-    base08 = "#eb6f92",
-    base09 = "#f6c177",
-    base0A = "#ebbcba",
-    base0B = "#31748f",
-    base0C = "#9ccfd8",
-    base0D = "#c4a7e7",
-    base0E = "#f6c177",
-    base0F = "#524f67",
-}
+    black         = "NONE",
+    darker_black  = "NONE",
 
+    -- UI
+    white         = "#d4c7a1",
+    black2        = "#1c1b18",
+    one_bg        = "NONE",
+    one_bg2       = "#282621",
+    one_bg3       = "#32302b",
+
+    grey          = "#504945",
+    grey_fg       = "#665c54",
+    grey_fg2      = "#7c6f64",
+    light_grey    = "#928374",
+
+    -- accents
+    red           = "#cc6b64",
+    baby_pink     = "#d3869b",
+    pink          = "#d3869b",
+    green         = "#98971a",
+    vibrant_green = "#b8bb26",
+    blue          = "#83a598",
+    nord_blue     = "#83a598",
+    yellow        = "#d79921",
+    sun           = "#fabd2f",
+    purple        = "#b16286",
+    dark_purple   = "#9d5c7c",
+    teal          = "#689d6a",
+    orange        = "#d65d0e",
+    cyan          = "#8ec07c",
+
+    line          = "#282828",
+    statusline_bg = "#1c1b18",
+    lightbg       = "#282621",
+    pmenu_bg      = "#282621",
+    folder_bg     = "#83a598",
+
+    -- base16-ish
+    base00 = "NONE",
+    base01 = "#1c1b18",
+    base02 = "#282621",
+    base03 = "#665c54",
+    base04 = "#928374",
+    base05 = "#d4c7a1",
+    base06 = "#ddcfaa",
+    base07 = "#ebdbb2",
+
+    base08 = "#cc6b64", -- red
+    base09 = "#d79921", -- orange/yellow
+    base0A = "#d8a657", -- warm yellow
+    base0B = "#a9b665", -- green
+    base0C = "#89b482", -- aqua
+    base0D = "#7daea3", -- blue
+    base0E = "#d3869b", -- purple/pink
+    base0F = "#928374",
+}
 local hl = vim.api.nvim_set_hl
 
 local function set_highlights()
@@ -63,7 +71,12 @@ local function set_highlights()
     hl(0, "SpellRare", { fg = 'NONE', bg = 'NONE', sp = c.base0D, undercurl=true, })
     hl(0, "NormalNC", { fg = c.base05, bg = c.base00 })
     hl(0, "Pmenu", { fg = 'NONE', bg = c.one_bg })
-    hl(0, "PmenuSel", { fg = c.white, bg = '#3e3a52' })
+
+    hl(0, "PmenuSel", {
+        fg = "#1d2021",
+        bg = "#a89984",
+    })
+
     hl(0, "WildMenu", { fg = c.base08, bg = c.base0A })
     hl(0, "CursorLineNr", { fg = c.white, bg = 'NONE' })
     hl(0, "Comment", { fg = c.grey_fg, bg = 'NONE' })
