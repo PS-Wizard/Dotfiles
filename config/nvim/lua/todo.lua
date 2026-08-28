@@ -270,11 +270,25 @@ render_view = function()
   state.wins = wins
 end
 
+local function has_pinned_note()
+  if not state.board_tab or not vim.api.nvim_tabpage_is_valid(state.board_tab) then return false end
+  for _, win in ipairs(vim.api.nvim_tabpage_list_wins(state.board_tab)) do
+    if vim.api.nvim_win_get_config(win).relative == "" then
+      local buf = vim.api.nvim_win_get_buf(win)
+      if vim.b[buf].todo_return_buf then return true end
+    end
+  end
+  return false
+end
+
 local function nav_h(cur_buf)
   if not state.board_tab or not vim.api.nvim_tabpage_is_valid(state.board_tab) then return end
   local idx = find_idx_by_buf(cur_buf)
   if not idx then idx = find_idx_by_buf(vim.api.nvim_get_current_buf()) end
-  if not idx then return end
+  if not idx then
+    vim.cmd("wincmd h")
+    return
+  end
   local visible = math.min(3, #state.buffers)
   local vs = state.view_start
   if idx > vs then
@@ -286,7 +300,12 @@ local function nav_h(cur_buf)
         return
       end
     end
+    vim.cmd("wincmd h")
   elseif idx == vs and vs > 1 then
+    if has_pinned_note() then
+      vim.cmd("wincmd h")
+      return
+    end
     state.view_start = vs - 1
     render_view()
     local target = idx - 1
@@ -297,6 +316,9 @@ local function nav_h(cur_buf)
         return
       end
     end
+    vim.cmd("wincmd h")
+  else
+    vim.cmd("wincmd h")
   end
 end
 
@@ -304,7 +326,10 @@ local function nav_l(cur_buf)
   if not state.board_tab or not vim.api.nvim_tabpage_is_valid(state.board_tab) then return end
   local idx = find_idx_by_buf(cur_buf)
   if not idx then idx = find_idx_by_buf(vim.api.nvim_get_current_buf()) end
-  if not idx then return end
+  if not idx then
+    vim.cmd("wincmd l")
+    return
+  end
   local visible = math.min(3, #state.buffers)
   local vs = state.view_start
   local ve = vs + visible - 1
@@ -317,7 +342,12 @@ local function nav_l(cur_buf)
         return
       end
     end
+    vim.cmd("wincmd l")
   elseif idx == ve and ve < #state.buffers then
+    if has_pinned_note() then
+      vim.cmd("wincmd l")
+      return
+    end
     state.view_start = vs + 1
     render_view()
     local target = idx + 1
@@ -328,6 +358,9 @@ local function nav_l(cur_buf)
         return
       end
     end
+    vim.cmd("wincmd l")
+  else
+    vim.cmd("wincmd l")
   end
 end
 
@@ -335,6 +368,14 @@ local function open_in_place(path, cur_buf)
   if vim.api.nvim_buf_is_valid(cur_buf) and vim.bo[cur_buf].modified then do_save() end
   local return_idx = find_idx_by_buf(cur_buf)
   vim.cmd("edit " .. vim.fn.fnameescape(path))
+  local file_buf = vim.api.nvim_get_current_buf()
+  vim.b[file_buf].todo_board_path = config.path
+  vim.b[file_buf].todo_return_buf = cur_buf
+  vim.b[file_buf].todo_return_idx = return_idx
+  vim.keymap.set("n", "<C-h>", "<cmd>wincmd h<CR>", { buffer = file_buf, silent = true })
+  vim.keymap.set("n", "<C-l>", "<cmd>wincmd l<CR>", { buffer = file_buf, silent = true })
+  vim.keymap.set("n", "<leader>ff", function() M._find_files() end, { buffer = file_buf, silent = true, desc = "Find board files" })
+  vim.keymap.set("n", "<leader>fg", function() M._live_grep() end, { buffer = file_buf, silent = true, desc = "Grep board files" })
   local note_win = vim.api.nvim_get_current_win()
   vim.api.nvim_create_autocmd("WinClosed", {
     group = state.augroup,
@@ -555,6 +596,8 @@ local function open_board_result(selected, opts, return_buf)
   local file_buf = vim.api.nvim_get_current_buf()
   vim.b[file_buf].todo_board_path = board_path
   vim.b[file_buf].todo_return_buf = return_buf
+  vim.keymap.set("n", "<C-h>", "<cmd>wincmd h<CR>", { buffer = file_buf, silent = true })
+  vim.keymap.set("n", "<C-l>", "<cmd>wincmd l<CR>", { buffer = file_buf, silent = true })
   vim.keymap.set("n", "<leader>ff", function() M._find_files() end, { buffer = file_buf, silent = true, desc = "Find board files" })
   vim.keymap.set("n", "<leader>fg", function() M._live_grep() end, { buffer = file_buf, silent = true, desc = "Grep board files" })
   if entry.line and entry.line > 0 then

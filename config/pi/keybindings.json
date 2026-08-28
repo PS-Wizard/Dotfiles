@@ -6,5 +6,6 @@
   "app.model.select": ["ctrl+p"],
   "app.model.cycleForward": ["shift+ctrl+p"],
   "app.thinking.cycle": ["ctrl+t"],
-  "app.thinking.toggle": []
+  "app.thinking.toggle": [],
+  "app.session.toggleNamedFilter": []
 }
