@@ -1,7 +1,7 @@
 -- Fallback rule: any unspecified monitor uses preferred mode
 hl.monitor({ output = "", mode = "preferred", position = "auto", scale = 1 })
 
-hl.env("XCURSOR_THEME", "Banana")
+hl.env("XCURSOR_THEME", "Adwaita")
 hl.env("XCURSOR_SIZE", "32")
 
 hl.config({

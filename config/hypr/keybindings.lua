@@ -21,7 +21,7 @@ local function send_to_scratchpad()
     hl.dispatch(hl.dsp.window.float({ action = "on" }))
     hl.dispatch(hl.dsp.window.resize({ x = 1100, y = 700 }))
     hl.dispatch(hl.dsp.window.center())
-    hl.dispatch(hl.dsp.window.move({ workspace = "special", follow = false }))
+    hl.dispatch(hl.dsp.window.move({ workspace = "special:magic", follow = false }))
 end
 
 -- Mouse drag / resize
@@ -96,7 +96,6 @@ hl.bind(M .. " + SHIFT + S", hl.dsp.window.move({ workspace = "special:magic" })
 -- Scratchpad - grave (i3-like, default special workspace)
 -- SUPER + grave = toggle the scratchpad over the current workspace
 -- SUPER + SHIFT + grave = float, resize, center, and hide the active window
-hl.bind(M .. " + SHIFT + minus", send_to_scratchpad)
 
 -- Media
 hl.bind("XF86AudioRaiseVolume",  hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05+"),   { repeating = true })
