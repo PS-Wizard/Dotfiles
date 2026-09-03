@@ -42,30 +42,17 @@ vim.keymap.set("v", "gp", '"_d"+P', silent)
 
 
 
--- Todo notes.
-vim.keymap.set("n", "<leader>t", function()
-    require("todo").toggle()
-end, { desc = "Toggle todo board" })
-vim.keymap.set("n", "<leader>T", function()
-    require("todo").edit()
-end, { desc = "Edit raw TODO.md" })
-vim.keymap.set("n", "<leader>ft", function()
-    require("todo").pick()
-end, { desc = "Pick todo board" })
 
--- Code review comments.
--- Note: the visual mapping uses :<C-u> because nvim does not set '< '> marks
--- inside a visual-mode callback; ending visual mode first makes them valid.
+-- tmux-nvim comments (replaces custom review.lua and herdr-nvim).
 vim.keymap.set("n", "<leader><leader>", function()
-    require("review").comment(false)
-end, { desc = "Add review comment" })
-vim.keymap.set("v", "<leader><leader>", ":<C-u>lua require('review').comment(true)<CR>", { desc = "Add review comment" })
-vim.keymap.set("n", "<leader>c", function()
-    require("review").copy()
-end, { desc = "Copy review comments to clipboard" })
-vim.keymap.set("n", "<leader>d", function()
-    require("review").clear()
-end, { desc = "Clear review comments" })
+    require("tmux-nvim").comment_line()
+end, { desc = "tmux-nvim: comment line" })
+vim.keymap.set("x", "<leader><leader>", function()
+    require("tmux-nvim").comment_selection()
+end, { desc = "tmux-nvim: comment selection" })
+vim.keymap.set("v", "<leader><leader>", function()
+    require("tmux-nvim").comment_selection()
+end, { desc = "tmux-nvim: comment selection" })
 
 -- Editing helpers.
 vim.keymap.set("i", "<C-c>", "<Esc>")
@@ -86,49 +73,6 @@ vim.keymap.set("n", "<leader>ab", function()
     vim.api.nvim_feedkeys("k", "n", true)
 end, { desc = "Insert markdown code block" })
 
-local function markdown_todo_toggle()
-    local row, col = unpack(vim.api.nvim_win_get_cursor(0))
-    local line = vim.api.nvim_get_current_line()
-    -- Toggle existing todo: - [ ] <-> - [x]
-    local indent, mark, text = line:match("^(%s*)%- %[([ xX])%] ?(.*)$")
-    if indent then
-        local new_mark = (mark == " " and "x" or " ")
-        vim.api.nvim_set_current_line(indent .. "- [" .. new_mark .. "] " .. text)
-        return
-    end
-    -- Plain bullet "- " -> todo unchecked
-    local b_indent, b_text = line:match("^(%s*)%- (.*)$")
-    if b_indent then
-        local new_line = b_indent .. "- [ ] " .. b_text
-        vim.api.nvim_set_current_line(new_line)
-        vim.api.nvim_win_set_cursor(0, { row, #new_line })
-        return
-    end
-    -- Empty line -> new todo; plain text -> prefix with todo
-    local p_indent, content = line:match("^(%s*)(.*)$")
-    if content == "" then
-        vim.api.nvim_set_current_line(p_indent .. "- [ ] ")
-        vim.api.nvim_win_set_cursor(0, { row, #p_indent + 6 })
-        return
-    end
-    local new_line = p_indent .. "- [ ] " .. content
-    vim.api.nvim_set_current_line(new_line)
-    vim.api.nvim_win_set_cursor(0, { row, col + 6 })
-end
-
-vim.api.nvim_create_autocmd("FileType", {
-    pattern = "markdown",
-    callback = function(event)
-        vim.keymap.set("i", "<C-l>", markdown_todo_toggle, {
-            buffer = event.buf,
-            desc = "Toggle markdown todo [ ] / [x]",
-        })
-        vim.keymap.set("n", "<C-l>", markdown_todo_toggle, {
-            buffer = event.buf,
-            desc = "Toggle markdown todo [ ] / [x]",
-        })
-    end,
-})
 
 
 -- Window navigation and zoom.

@@ -1,6 +1,9 @@
 -- Fallback rule: any unspecified monitor uses preferred mode
 hl.monitor({ output = "", mode = "preferred", position = "auto", scale = 1 })
 
+hl.env("XCURSOR_THEME", "Banana")
+hl.env("XCURSOR_SIZE", "32")
+
 hl.config({
     general = {
         layout = "dwindle",
@@ -15,11 +18,10 @@ hl.config({
         active_opacity  = 1.0,
         inactive_opacity = 1,
         blur = {
-            enabled = false,
-            size = 10,
-            passes=3,
-            noise = 0.015,
-            brightness = 0.92,
+            enabled = true,
+            size = 2,
+            passes=5,
+            vibrancy=2,
         },
         shadow = { enabled = false },
     },
@@ -60,6 +62,9 @@ hl.config({
     },
 })
 
+-- -- -- No gaps when a workspace has one tiled window.
+-- hl.workspace_rule({ workspace = "w[tv1]", gaps_out = 0, gaps_in = 0 })
+--
 -- Curves
 hl.curve("linear",  { type = "bezier", points = { {0.0, 0.0}, {1.0, 1.0} } })
 hl.curve("easeOut", { type = "bezier", points = { {0.0, 0.0}, {0.2, 1.0} } })

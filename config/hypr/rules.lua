@@ -7,6 +7,7 @@ hl.window_rule({
     size  = { 480, 270 },
 })
 
+
 -- Scratchpad: i3-like floating, centered and resizable (Hypr special workspace)
 -- Matches default special (SUPER+grave) and named magic (SUPER+S)
 -- Windows spawned directly in special will use this size (bigger than default 600x400)

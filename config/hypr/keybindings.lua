@@ -96,7 +96,6 @@ hl.bind(M .. " + SHIFT + S", hl.dsp.window.move({ workspace = "special:magic" })
 -- Scratchpad - grave (i3-like, default special workspace)
 -- SUPER + grave = toggle the scratchpad over the current workspace
 -- SUPER + SHIFT + grave = float, resize, center, and hide the active window
-hl.bind(M .. " + minus ",         hl.dsp.workspace.toggle_special())
 hl.bind(M .. " + SHIFT + minus", send_to_scratchpad)
 
 -- Media
