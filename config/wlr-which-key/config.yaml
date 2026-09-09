@@ -100,34 +100,51 @@ menu:
   - key: "r"
     desc: Recording
     submenu:
-      - key: "r"
-        desc: Record (no audio)
+      - key: "h"
+        desc: High (ultra)
         submenu:
-          - key: "3"
-            desc: 30 FPS
-            cmd: gpu-screen-recorder -w screen -f 30 -fm cfr -q medium -k h264 -encoder gpu -o ~/recording.mp4
-          - key: "6"
-            desc: 60 FPS
-            cmd: gpu-screen-recorder -w screen -f 60 -fm cfr -q medium -k h264 -encoder gpu -o ~/recording.mp4
-          - key: "1"
-            desc: 120 FPS
-            cmd: gpu-screen-recorder -w screen -f 120 -fm cfr -q medium -k h264 -encoder gpu -o ~/recording.mp4
-          - key: "q"
-            desc: kill
-            cmd: killall gpu-screen-recorder
-
-      - key: "a"
-        desc: Record (with audio)
+          - key: "r"
+            desc: No audio
+            submenu:
+              - key: "3"
+                desc: 30 FPS
+                cmd: gpu-screen-recorder -w screen -f 30 -fm cfr -q ultra -k h264 -encoder gpu -tune quality -o ~/recording.mp4
+              - key: "6"
+                desc: 60 FPS
+                cmd: gpu-screen-recorder -w screen -f 60 -fm cfr -q ultra -k h264 -encoder gpu -tune quality -o ~/recording.mp4
+          - key: "a"
+            desc: With audio
+            submenu:
+              - key: "3"
+                desc: 30 FPS
+                cmd: gpu-screen-recorder -w screen -f 30 -fm cfr -q ultra -k h264 -encoder gpu -tune quality -a default_output -o ~/recording.mp4
+              - key: "6"
+                desc: 60 FPS
+                cmd: gpu-screen-recorder -w screen -f 60 -fm cfr -q ultra -k h264 -encoder gpu -tune quality -a default_output -o ~/recording.mp4
+      - key: "l"
+        desc: Low (medium)
         submenu:
-          - key: "3"
-            desc: 30 FPS
-            cmd: gpu-screen-recorder -w screen -f 30 -fm cfr -q medium -k h264 -encoder gpu -a default_output -o ~/recording.mp4
-          - key: "6"
-            desc: 60 FPS
-            cmd: gpu-screen-recorder -w screen -f 60 -fm cfr -q medium -k h264 -encoder gpu -a default_output -o ~/recording.mp4
-          - key: "1"
-            desc: 120 FPS
-            cmd: gpu-screen-recorder -w screen -f 120 -fm cfr -q medium -k h264 -encoder gpu -a default_output -o ~/recording.mp4
+          - key: "r"
+            desc: No audio
+            submenu:
+              - key: "3"
+                desc: 30 FPS
+                cmd: gpu-screen-recorder -w screen -f 30 -fm cfr -q medium -k h264 -encoder gpu -o ~/recording.mp4
+              - key: "6"
+                desc: 60 FPS
+                cmd: gpu-screen-recorder -w screen -f 60 -fm cfr -q medium -k h264 -encoder gpu -o ~/recording.mp4
+          - key: "a"
+            desc: With audio
+            submenu:
+              - key: "3"
+                desc: 30 FPS
+                cmd: gpu-screen-recorder -w screen -f 30 -fm cfr -q medium -k h264 -encoder gpu -a default_output -o ~/recording.mp4
+              - key: "6"
+                desc: 60 FPS
+                cmd: gpu-screen-recorder -w screen -f 60 -fm cfr -q medium -k h264 -encoder gpu -a default_output -o ~/recording.mp4
+      - key: "q"
+        desc: Kill
+        cmd: killall gpu-screen-recorder
 
   - key: "s"
     desc: Fan Control
