@@ -99,9 +99,17 @@ require("lazy").setup({
     },
     "neovim/nvim-lspconfig",
     "echasnovski/mini.nvim",
-    { dir = "~/.config/nvim/tmux-nvim", name = "tmux-nvim", opts = { prefix = "<leader>t" } },
-}, {
-    install = { colorscheme = { "nemo" } },
+    {
+        dir = "~/.config/nvim/tmux-nvim",
+        name = "tmux-nvim",
+        opts = { prefix = "<leader>t" }
+    },
+},
+
+    {
+        install = {
+            colorscheme = { "nemo" }
+        },
 })
 
 -- Configure mini.files as the file explorer.

@@ -85,9 +85,7 @@ local function toggle_zoom()
         vim.t.zoomed = true
     end
 end
-vim.keymap.set("n", "<leader>z", toggle_zoom, { desc = "Toggle zoom fullscreen" })
-vim.keymap.set("n", "<C-w>z", toggle_zoom, { desc = "Toggle zoom fullscreen" })
-vim.keymap.set("n", "<C-w>m", toggle_zoom, { desc = "Toggle zoom fullscreen" })
+-- vim.keymap.set("n", "<leader>z", toggle_zoom, { desc = "Toggle zoom fullscreen" })
 vim.keymap.set("n", "<C-m>", toggle_zoom, { desc = "Toggle zoom fullscreen" })
 vim.keymap.set("n", "<C-h>", "<cmd>wincmd h<CR>", silent)
 vim.keymap.set("n", "<C-j>", "<cmd>wincmd j<CR>", silent)

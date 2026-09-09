@@ -20,3 +20,8 @@
     - Use `steer_subagent` to redirect a running agent mid-task.
 - `bun` over `npm`
 
+- Use `tmux-agent list` to discover marked agents in tmux.
+- When the user asks you to contact one, run `tmux-agent send <marker> <message>`.
+- When you receive `tmux-agent read <id>`, run it. Act on the message, reply to its `From` marker when useful, and then run `tmux-agent ack <id>`.
+- Run `tmux-agent inbox` when you start or resume inside tmux.
+

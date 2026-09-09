@@ -1,0 +1,174 @@
+#!/usr/bin/env bash
+# A tiny per-tmux-server mailbox.  Messages are data, never shell input.
+set -u
+umask 077
+
+socket=${TMUX_AGENT_SOCKET:-}
+pane=${TMUX_AGENT_PANE:-${TMUX_PANE:-}}
+while [[ ${1:-} == --socket || ${1:-} == --pane ]]; do
+  case $1 in
+    --socket) socket=${2:?missing socket}; shift 2 ;;
+    --pane) pane=${2:?missing pane}; shift 2 ;;
+  esac
+done
+cmd=${1:-help}; shift || :
+tmux=(tmux)
+[[ -n $socket ]] && tmux+=(-S "$socket")
+tm() { "${tmux[@]}" "$@"; }
+
+fail() { printf 'tmux-agent: %s\n' "$*" >&2; exit 1; }
+marker_ok() { [[ $1 =~ ^[a-z0-9][a-z0-9._-]{0,63}$ ]]; }
+pane_ok() { [[ $1 =~ ^%[0-9]+$ ]]; }
+id_ok() { [[ $1 =~ ^m[0-9]+-[0-9]+-[0-9]+$ ]]; }
+need_pane() {
+  pane_ok "$pane" || fail 'run this from a tmux pane'
+  [[ $(tm display-message -p -t "$pane" '#{pane_id}' 2>/dev/null) == "$pane" ]] || fail 'pane is no longer live'
+}
+secure_dir() {
+  local dir=$1
+  if [[ -e $dir || -L $dir ]]; then
+    [[ -d $dir && ! -L $dir && -O $dir ]] || fail "unsafe state directory: $dir"
+  else
+    mkdir -m 700 -- "$dir" 2>/dev/null || fail "cannot create state directory: $dir"
+  fi
+  chmod 700 -- "$dir" 2>/dev/null || fail "cannot secure state directory: $dir"
+  [[ -d $dir && ! -L $dir && -O $dir ]] || fail "unsafe state directory: $dir"
+}
+init_state() {
+  local pid server_pid
+  pid=
+  [[ ${TMUX:-} =~ ,([0-9]+), ]] && pid=${BASH_REMATCH[1]}
+  server_pid=$(tm display-message -p '#{pid}' 2>/dev/null) || fail 'cannot reach tmux server'
+  [[ $server_pid =~ ^[0-9]+$ ]] || fail 'invalid tmux server identity'
+  [[ -z $pid ]] && pid=$server_pid
+  [[ $pid == "$server_pid" ]] || fail 'tmux server identity changed'
+  root=/tmp/tmux-agent-$UID
+  secure_dir "$root"
+  state=$root/server-$pid
+  secure_dir "$state"
+}
+pane_dir() {
+  local id=${1#%}
+  printf '%s/pane-%s' "$state" "$id"
+}
+secure_pane_dir() {
+  local dir
+  dir=$(pane_dir "$1")
+  secure_dir "$dir"
+  printf '%s' "$dir"
+}
+marker_of() { tm show-options -p -v -t "$1" @agent_marker 2>/dev/null || :; }
+print_message() {
+  local line
+  while IFS= read -r line || [[ -n $line ]]; do printf '%s\n' "$line"; done < "$1"
+}
+
+case $cmd in
+  mark)
+    need_pane; init_state
+    [[ $# -le 1 ]] || fail 'usage: tmux-agent mark NAME'
+    name=${1:-}
+    if [[ -z $name ]]; then
+      tm set-option -p -t "$pane" -u @agent_marker
+      tm display-message -t "$pane" 'Agent marker removed'
+      exit
+    fi
+    marker_ok "$name" || fail 'marker must be lowercase [a-z0-9._-], start alphanumeric, max 64'
+    while IFS='|' read -r other existing; do
+      [[ $other == "$pane" || $existing != "$name" ]] || fail "marker already belongs to $other"
+    done < <(tm list-panes -a -F '#{pane_id}|#{@agent_marker}')
+    tm set-option -p -t "$pane" @agent_marker "$name"
+    tm display-message -t "$pane" "Agent marker: $name"
+    ;;
+  unmark)
+    need_pane; init_state
+    tm set-option -p -t "$pane" -u @agent_marker
+    tm display-message -t "$pane" 'Agent marker removed'
+    ;;
+  whoami)
+    need_pane; init_state
+    name=$(marker_of "$pane")
+    if marker_ok "$name"; then printf '%s %s\n' "$name" "$pane"; else printf 'unmarked %s\n' "$pane"; fi
+    ;;
+  list)
+    init_state
+    current=$pane
+    while IFS='|' read -r id name location command; do
+      marker_ok "$name" || continue
+      if [[ $id == "$current" ]]; then current_flag='*'; else current_flag=' '; fi
+      printf '%s\t%s\t%s\t%s\t%s\n' "$name" "$id" "$location" "$command" "$current_flag"
+    done < <(tm list-panes -a -F '#{pane_id}|#{@agent_marker}|#{session_name}:#{window_index}.#{pane_index}|#{pane_current_command}')
+    ;;
+  send)
+    init_state
+    [[ $# -ge 1 ]] || fail 'usage: tmux-agent send MARKER [MESSAGE...]'
+    destination=$1; shift
+    marker_ok "$destination" || fail 'invalid marker'
+    found=
+    while IFS='|' read -r id name; do
+      [[ $name == "$destination" ]] || continue
+      [[ -z $found ]] || fail 'marker is ambiguous'
+      found=$id
+    done < <(tm list-panes -a -F '#{pane_id}|#{@agent_marker}')
+    [[ -n $found ]] || fail 'no live pane has that marker'
+    if [[ $# -gt 0 ]]; then
+      message=$*
+    else
+      message=
+      while IFS= read -r line || [[ -n $line ]]; do message+=$line$'\n'; done
+    fi
+    if pane_ok "$pane" && [[ $(tm display-message -p -t "$pane" '#{pane_id}' 2>/dev/null) == "$pane" ]]; then
+      source_name=$(marker_of "$pane")
+      marker_ok "$source_name" || source_name=$pane
+    else
+      source_name=unknown
+    fi
+    destdir=$(secure_pane_dir "$found")
+    TZ=UTC printf -v stamp '%(%Y-%m-%dT%H:%M:%SZ)T' -1
+    printf -v id 'm%(%s)T-%s-%s%s%s' -1 "$BASHPID" "$RANDOM" "$RANDOM" "$RANDOM"
+    id_ok "$id" || fail 'could not create message ID'
+    file=$destdir/msg-$id
+    ( set -C; { printf 'From: %s\nUTC: %s\n\n' "$source_name" "$stamp"; printf '%s' "$message"; } > "$file" ) 2>/dev/null || fail 'could not save message'
+    tm send-keys -t "$found" -l -- "tmux-agent read $id" || fail 'message saved, but notification failed'
+    sleep 0.2
+    tm send-keys -t "$found" Enter || fail 'message saved, but submit failed'
+    printf '%s\n' "$id"
+    ;;
+  inbox)
+    need_pane; init_state
+    dir=$(pane_dir "$pane")
+    if [[ ! -e $dir && ! -L $dir ]]; then exit 0; fi
+    secure_dir "$dir"
+    shopt -s nullglob
+    for file in "$dir"/msg-*; do
+      id=${file##*/msg-}
+      id_ok "$id" && [[ -f $file && ! -L $file && -O $file ]] && printf '%s\n' "$id"
+    done
+    ;;
+  read|ack)
+    need_pane; init_state
+    [[ $# -eq 1 ]] || fail "usage: tmux-agent $cmd ID"
+    id=$1; id_ok "$id" || fail 'invalid message ID'
+    dir=$(pane_dir "$pane")
+    [[ -d $dir && ! -L $dir && -O $dir ]] || fail 'no inbox for this pane'
+    file=$dir/msg-$id
+    [[ -f $file && ! -L $file && -O $file ]] || fail 'message not found'
+    if [[ $cmd == read ]]; then print_message "$file"; else rm -f -- "$file"; fi
+    ;;
+  prompt)
+    need_pane; init_state
+    old=$(marker_of "$pane")
+    if marker_ok "$old"; then printf 'Marker (%s; blank unmarks): ' "$old"; else printf 'Marker (blank unmarks): '; fi
+    IFS= read -r name || name=
+    args=()
+    [[ -n $socket ]] && args+=(--socket "$socket")
+    "$0" "${args[@]}" --pane "$pane" mark "$name"
+    ;;
+  help|--help|-h)
+    printf '%s\n' \
+      'usage: tmux-agent mark NAME | unmark | whoami | list' \
+      '       tmux-agent send MARKER [MESSAGE...]  # or pipe MESSAGE on stdin' \
+      '       tmux-agent inbox | read ID | ack ID'
+    ;;
+  *) fail "unknown command: $cmd (try help)" ;;
+esac

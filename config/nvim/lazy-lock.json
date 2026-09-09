@@ -1,9 +1,8 @@
 {
-  "blink.cmp": { "branch": "main", "commit": "8ca29c2eb34f5ce4770bffc0d62e6f636a4e8526" },
-  "blink.lib": { "branch": "main", "commit": "c8fdc12c8a2fab6cf786dd7141a283f8079f902b" },
-  "fzf-lua": { "branch": "main", "commit": "8671012a7b2a1648595952c655039d51fb301c14" },
-  "herdr-nvim": { "branch": "main", "commit": "5e20a4048a461457df995cf121c1a6c39990e95b" },
+  "blink.cmp": { "branch": "main", "commit": "49d39fda6350d7f789d1da1053e86c9e256f8108" },
+  "blink.lib": { "branch": "main", "commit": "fd9a48ebbe6ec30d5dfcc5b42c243941ccdca1aa" },
+  "fzf-lua": { "branch": "main", "commit": "05e44d38de0a79c11fba5f7bf8138791b1dbdd1e" },
   "lazy.nvim": { "branch": "main", "commit": "306a05526ada86a7b30af95c5cc81ffba93fef97" },
-  "mini.nvim": { "branch": "main", "commit": "629bf6792187e11b4829411c1648f86f28df3963" },
-  "nvim-lspconfig": { "branch": "master", "commit": "4267d26e60323a45e18f8e7a63a964cc8f53ca4e" }
+  "mini.nvim": { "branch": "main", "commit": "455856f765c78220fe547fb0862708942b52c42c" },
+  "nvim-lspconfig": { "branch": "master", "commit": "da1aff0332774a0f60d52bf972e815dfc226f276" }
 }
