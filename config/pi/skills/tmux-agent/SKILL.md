@@ -43,6 +43,18 @@ EOF
 
 Include concrete context, files, expected result, and how to report completion. Preserve the user's intent.
 
+### Delivery behavior
+
+- `send` saves the message first, prints its ID, and keeps it in the inbox no matter what happens next.
+- Notifications are serialized per target pane with a process-lifetime `flock` lock, so concurrent sends cannot interleave text and Enter. If `flock` is missing, `send` fails clearly after saving, without a hang; the message stays in the inbox.
+- Delivery is three separate input events under the lock: `C-u` alone (clears partial input), a 0.1 s foreground pause, one literal bracketed-paste sequence framing only `tmux-agent read ID` (`ESC[200~` + command + `ESC[201~`) with no Enter, another 0.1 s foreground pause, then one `Enter` alone. The message body is never pasted. The pause is a tuned constant (`notify_pause = 0.1 s`), not a configurable timeout: Cursor's CLI drops text that arrives in the same PTY input chunk as `C-u`, and it mis-submits when Enter trails the bracketed-paste terminator in the same chunk, so each PTY input event is kept separate.
+- Before the paste and again before `Enter`, `send` rechecks that the exact pane is live and not in a tmux mode. If the pane is gone or a mode is active, it sends no further keys and fails naming the phase that failed.
+- If the target pane starts in copy mode, `send` leaves copy mode once before typing. Generic tmux cannot preserve copy mode while typing into the pane process behind it.
+- The clear-line key (`C-u`) reliably clears typed shell input. In a full-screen program or an editor with custom key bindings it is best effort. The saved message in the inbox is the fallback.
+- If the target pane is dead, `send` stops before saving and exits nonzero.
+- If a phase fails after the save, `send` prints the message ID, exits nonzero with the failed phase on stderr, and keeps the message in the inbox. It withholds `Enter` when the state check before it fails, and never sends a later retry. A failure after the paste means the command may remain unsubmitted in the target prompt and `Enter` was withheld. The recipient can find the message with `tmux-agent inbox`.
+- Exit 0 means tmux accepted all three input events (the lone `C-u`, the bracketed-paste event, and the `Enter`). tmux cannot confirm that Cursor rendered or submitted the input: Cursor's input editor is not visible to `tmux capture-pane` even while the user sees the text, so no capture-based confirmation is attempted. The explicit bracketed paste and short pauses work around Cursor's input-event bugs, and the state checks reduce, but cannot remove, races with the user typing in the same pane. The durable inbox is the fallback.
+
 ## Receive
 
 Run `tmux-agent inbox` when an agent starts or resumes inside tmux.

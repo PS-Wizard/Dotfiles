@@ -28,8 +28,10 @@ secure_dir() {
   local dir=$1
   if [[ -e $dir || -L $dir ]]; then
     [[ -d $dir && ! -L $dir && -O $dir ]] || fail "unsafe state directory: $dir"
-  else
-    mkdir -m 700 -- "$dir" 2>/dev/null || fail "cannot create state directory: $dir"
+  elif ! mkdir -m 700 -- "$dir" 2>/dev/null; then
+    # mkdir lost an EEXIST race or failed; validate before any chmod so we
+    # never chmod a path that is not an owned real directory.
+    [[ -d $dir && ! -L $dir && -O $dir ]] || fail "cannot create state directory: $dir"
   fi
   chmod 700 -- "$dir" 2>/dev/null || fail "cannot secure state directory: $dir"
   [[ -d $dir && ! -L $dir && -O $dir ]] || fail "unsafe state directory: $dir"
@@ -61,6 +63,88 @@ marker_of() { tm show-options -p -v -t "$1" @agent_marker 2>/dev/null || :; }
 print_message() {
   local line
   while IFS= read -r line || [[ -n $line ]]; do printf '%s\n' "$line"; done < "$1"
+}
+# Cursor's CLI has two PTY input bugs this works around: it drops text that
+# arrives in the same input chunk as C-u, and it mis-submits when Enter trails a
+# bracketed-paste terminator in the same chunk. So delivery is three separate
+# input events: a lone C-u, one literal bracketed-paste sequence framing the
+# read command (ESC[200~...ESC[201~), and a later separate Enter, each after a
+# short foreground pause. A pane capture cannot confirm the result: Cursor
+# renders its input editor off the pty, so typed text never appears in tmux
+# capture-pane. This pause is a tuned constant, not a timeout knob; it is
+# intentionally not configurable.
+notify_pause=0.1
+
+# One target-state check: the pane must still be the exact pane we targeted,
+# alive, and not in a tmux mode (a mode would swallow the keys instead of
+# feeding the process). Sets notify_err on failure. Deliberately silent about
+# which caller phase ran it; callers add that context.
+pane_safe() {
+  local want=$1 v rpane rdead rmode
+  v=$(tm display-message -p -t "$want" '#{pane_id}|#{pane_dead}|#{pane_mode}' 2>/dev/null) \
+    || { notify_err='lost contact with the target pane'; return 1; }
+  IFS='|' read -r rpane rdead rmode <<<"$v"
+  [[ $rpane == "$want" && $rdead == 0 ]] || { notify_err='target pane is no longer live'; return 1; }
+  [[ -z $rmode ]] || { notify_err='target pane entered a tmux mode'; return 1; }
+}
+notify_target() { # pane id -> 0 when delivered; else sets notify_err
+  local tpane=$1 tid=$2 mode
+  notify_err=
+  notify_timeout=${TMUX_AGENT_NOTIFY_TIMEOUT:-10}
+  [[ $notify_timeout =~ ^[1-9][0-9]*$ ]] || { notify_err='TMUX_AGENT_NOTIFY_TIMEOUT must be a positive integer (seconds)'; return 1; }
+  # One notification per target pane at a time. The lock is process-lifetime:
+  # the kernel drops it if the sender exits or is killed.
+  if command -v flock >/dev/null 2>&1; then
+    # Group-scoped stderr redirect: a bare 'exec fd>... 2>/dev/null' would
+    # make BOTH redirections persistent and silence stderr for the process.
+    { exec 9>>"$destdir/.notify-lock"; } 2>/dev/null || { notify_err="cannot open notification lock $destdir/.notify-lock"; return 1; }
+    flock -w "$notify_timeout" 9 || { notify_err="another notification to this pane did not finish within ${notify_timeout}s"; return 1; }
+  else
+    notify_err='flock(1) is not installed; cannot serialize the notification'
+    return 1
+  fi
+  mode=$(tm display-message -p -t "$tpane" '#{pane_mode}' 2>/dev/null) || { notify_err='cannot read target pane state'; return 1; }
+  if [[ $mode == copy-mode* ]]; then
+    # Copy mode swallows keys and vanilla tmux cannot inject into the pane
+    # process behind it, so leave copy mode once before typing. tmux cannot
+    # preserve copy mode while typing into the underlying process.
+    tm copy-mode -q -t "$tpane" 2>/dev/null || { notify_err='could not leave copy mode in the target pane'; return 1; }
+  fi
+  # Phase 1: clear any partial prompt line with a lone kill-line key. Sending
+  # C-u together with text makes Cursor drop the text, so C-u travels alone.
+  if ! tm send-keys -t "$tpane" -- C-u; then
+    notify_err='phase 1 (clear prompt) failed: could not send C-u to the target pane'
+    return 1
+  fi
+  sleep "$notify_pause"
+  if ! pane_safe "$tpane"; then
+    notify_err="phase 1 (clear prompt) failed: ${notify_err}; no further keys were sent"
+    return 1
+  fi
+  # Phase 2: one literal bracketed-paste sequence (ESC[200~...ESC[201~) that
+  # frames only the generated read command. Cursor's CLI drops text that shares
+  # an input chunk with C-u and mis-submits when Enter trails the paste
+  # terminator, so the paste and the later Enter stay distinct events. The
+  # message body is never sent. Cursor's input editor is invisible to tmux
+  # capture-pane, so the pasted text cannot be confirmed from the pane display;
+  # the saved inbox file is the fallback.
+  if ! tm send-keys -t "$tpane" -l -- $'\033[200~'"tmux-agent read $tid"$'\033[201~'; then
+    notify_err='phase 2 (paste command) failed: could not send the notification command to the target pane'
+    return 1
+  fi
+  sleep "$notify_pause"
+  if ! pane_safe "$tpane"; then
+    notify_err="phase 2 (paste command) failed: ${notify_err}; the command may remain in the prompt and Enter was withheld"
+    return 1
+  fi
+  # Phase 3: submit once with a later separate Enter input event. No End wake
+  # event and no later retry: a second key would double-submit or feed a mode.
+  # tmux cannot prove the program rendered or submitted the input; these checks
+  # only reduce user-input races.
+  if ! tm send-keys -t "$tpane" -- Enter; then
+    notify_err='phase 3 (submit) failed: could not send Enter to the target pane; the command may remain in the prompt'
+    return 1
+  fi
 }
 
 case $cmd in
@@ -123,15 +207,22 @@ case $cmd in
     else
       source_name=unknown
     fi
+    # list-panes also lists dead panes kept alive by remain-on-exit;
+    # reject them before anything is saved.
+    dead=$(tm display-message -p -t "$found" '#{pane_dead}' 2>/dev/null) || dead=1
+    [[ $dead == 0 ]] || fail 'target pane is dead'
     destdir=$(secure_pane_dir "$found")
     TZ=UTC printf -v stamp '%(%Y-%m-%dT%H:%M:%SZ)T' -1
     printf -v id 'm%(%s)T-%s-%s%s%s' -1 "$BASHPID" "$RANDOM" "$RANDOM" "$RANDOM"
     id_ok "$id" || fail 'could not create message ID'
     file=$destdir/msg-$id
     ( set -C; { printf 'From: %s\nUTC: %s\n\n' "$source_name" "$stamp"; printf '%s' "$message"; } > "$file" ) 2>/dev/null || fail 'could not save message'
-    tm send-keys -t "$found" -l -- "tmux-agent read $id" || fail 'message saved, but notification failed'
-    sleep 0.2
-    tm send-keys -t "$found" Enter || fail 'message saved, but submit failed'
+    if ! notify_target "$found" "$id"; then
+      printf '%s\n' "$id"
+      printf 'tmux-agent: %s\n' "$notify_err" >&2
+      printf 'tmux-agent: message %s is saved in the inbox and stays pending\n' "$id" >&2
+      exit 1
+    fi
     printf '%s\n' "$id"
     ;;
   inbox)
