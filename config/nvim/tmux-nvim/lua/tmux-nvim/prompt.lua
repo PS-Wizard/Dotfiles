@@ -11,7 +11,11 @@ function M.format(items, opts)
     for j = 1, math.min(3, #(item.snippet or {})) do
       table.insert(lines, "   > " .. item.snippet[j])
     end
-    table.insert(lines, "   Comment: " .. c.text)
+    table.insert(lines, "")
+    table.insert(lines, "[My Comment]")
+    for _, line in ipairs(vim.split(c.text, "\n", { plain = true })) do
+      table.insert(lines, line)
+    end
     table.insert(lines, "")
   end
   return table.concat(lines, "\n")

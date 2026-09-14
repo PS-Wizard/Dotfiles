@@ -21,7 +21,7 @@ function M.setup(config)
     local p = M.config.prefix
     map("x", p .. "c", function() M.comment_selection() end, "tmux-nvim: comment selection")
     map("n", p .. "c", function() M.comment_line() end, "tmux-nvim: comment line")
-    map("n", "<leader>l", function() M.list_comments() end, "tmux-nvim: list comments")
+    map("n", p .. "l", function() M.list_comments() end, "tmux-nvim: list comments")
     map("n", "<leader>S", function() M.send_all({ submit = true }) end, "tmux-nvim: send comments (submit)")
     map("n", "<leader>c", function() M.copy_all() end, "tmux-nvim: copy comments to clipboard")
     map("n", "<leader>s", function() M.send_all({ submit = false }) end, "tmux-nvim: send comments (no submit)")

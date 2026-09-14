@@ -1,5 +1,6 @@
 local M = {}
 local comments = require("tmux-nvim.comments")
+local draft = ""
 
 vim.api.nvim_set_hl(0, "TmuxNvimCommentSign", { default = true, fg = "#d7a65f", bold = true })
 vim.api.nvim_set_hl(0, "TmuxNvimCommentText", { default = true, fg = "#d7a65f" })
@@ -18,7 +19,8 @@ end
 function M.input_comment(on_done, opts)
   opts = opts or {}
   local title = opts.title or " Tmux Comment "
-  local default = opts.default or ""
+  local default = opts.default
+  if default == nil then default = draft end
 
   local buf = vim.api.nvim_create_buf(false, true)
   vim.api.nvim_buf_set_name(buf, "tmux-nvim-comment") -- :w needs a name or it raises E32
@@ -41,7 +43,7 @@ function M.input_comment(on_done, opts)
     border = "rounded",
     title = title,
     title_pos = "center",
-    footer = { { " :w save · :wq save+close · :q discard ", "Comment" } },
+    footer = { { " :w save · :wq save+close · q close (keep draft) · :q discard ", "Comment" } },
     footer_pos = "center",
   })
   vim.wo[win].wrap = true
@@ -49,14 +51,26 @@ function M.input_comment(on_done, opts)
   vim.wo[win].winhighlight = "Normal:Normal,FloatBorder:FloatBorder"
 
   if default ~= "" then
-    vim.api.nvim_buf_set_lines(buf, 0, -1, false, vim.split(default, "\n"))
+    vim.api.nvim_buf_set_lines(buf, 0, -1, false, vim.split(default, "\n", { plain = true }))
   end
   vim.cmd("startinsert")
 
   local closed = false
-  local function close()
+
+  local function buffer_text()
+    local lines = vim.api.nvim_buf_get_lines(buf, 0, -1, false)
+    return table.concat(lines, "\n")
+  end
+
+  local function close(kind)
     if closed then return end
     closed = true
+    if kind == "preserve" then
+      local text = vim.trim(buffer_text())
+      if text ~= "" then draft = buffer_text() end
+    elseif kind == "discard" or kind == "saved" then
+      draft = ""
+    end
     if vim.api.nvim_win_is_valid(win) then pcall(vim.api.nvim_win_close, win, true) end
     if vim.api.nvim_buf_is_valid(buf) then
       pcall(vim.api.nvim_buf_delete, buf, { force = true })
@@ -65,7 +79,7 @@ function M.input_comment(on_done, opts)
 
   -- :w saves (adds the comment) and keeps the box open.
   -- :wq / :x / ZZ save, then quit the window; WinClosed below cleans up.
-  -- :q / q / <Esc> discard and close.
+  -- q / <Esc> close and keep draft; :q discards draft.
   local function save()
     local lines = vim.api.nvim_buf_get_lines(buf, 0, -1, false)
     local text = vim.trim(table.concat(lines, "\n"))
@@ -75,19 +89,29 @@ function M.input_comment(on_done, opts)
       return
     end
     on_done(text)
+    draft = ""
     -- clear the input so a second :w starts a fresh comment
     vim.api.nvim_buf_set_lines(buf, 0, -1, false, {})
     vim.bo[buf].modified = false
   end
 
-  vim.keymap.set("n", "q", close, { buffer = buf, nowait = true, silent = true })
-  vim.keymap.set("n", "<Esc>", close, { buffer = buf, nowait = true, silent = true })
+  vim.keymap.set("n", "q", function() close("preserve") end, { buffer = buf, nowait = true, silent = true })
+  vim.keymap.set("n", "<Esc>", function() close("preserve") end, { buffer = buf, nowait = true, silent = true })
   vim.api.nvim_create_autocmd("BufWriteCmd", {
     buffer = buf,
     callback = save,
   })
   -- <C-s> saves like :w (no close)
   vim.keymap.set({ "n", "i" }, "<C-s>", save, { buffer = buf, silent = true })
+
+  -- :q / :wq / :q! — draft cleared (save() already cleared it for :wq)
+  vim.api.nvim_create_autocmd("QuitPre", {
+    buffer = buf,
+    callback = function()
+      if closed then return end
+      close("discard")
+    end,
+  })
 
   -- if user force-closes window, wipe buffer
   vim.api.nvim_create_autocmd("WinClosed", {

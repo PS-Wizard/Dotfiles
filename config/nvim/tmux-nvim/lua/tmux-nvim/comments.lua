@@ -43,10 +43,7 @@ function M.list()
     local c = resolve(id)
     if c then table.insert(out, c) end
   end
-  table.sort(out, function(a, b)
-    if a.file ~= b.file then return a.file < b.file end
-    return a.start_line < b.start_line
-  end)
+  table.sort(out, function(a, b) return a.id < b.id end)
   return out
 end
 
