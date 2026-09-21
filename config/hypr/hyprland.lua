@@ -7,14 +7,14 @@ hl.env("XCURSOR_SIZE", "32")
 hl.config({
     general = {
         layout = "dwindle",
-        border_size = 0,
+        border_size = 2,
         gaps_in = 4,
         gaps_out = 4,
-        ["col.active_border"]   = "rgba(8a8a8aff)",
-        ["col.inactive_border"] = "rgba(2f2f2fff)",
+        ["col.active_border"]   = "#1F1F1F",
+        ["col.inactive_border"] = "#000000",
     },
     decoration = {
-        rounding        = 14,
+        rounding        = 0,
         active_opacity  = 1.0,
         inactive_opacity = 1,
         blur = {

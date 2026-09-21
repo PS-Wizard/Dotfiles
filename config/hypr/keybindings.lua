@@ -33,7 +33,12 @@ hl.bind(M .. " + Return",    hl.dsp.exec_cmd("kitty"))
 hl.bind(M .. " + D",         hl.dsp.exec_cmd("bemenu-run -b --binding vim"))
 hl.bind(M .. " + Y",         hl.dsp.exec_cmd("/home/wizard/.config/hypr/scripts/screenshot.sh"))
 hl.bind(M .. " + P",         hl.dsp.exec_cmd("pkill -SIGUSR1 waybar"))
-hl.bind(M .. " + SHIFT + P", hl.dsp.exec_cmd("hyprctl keyword monitor eDP-1,disabled"))
+-- Blank or wake the laptop panel without disabling its workspace.
+hl.bind(M .. " + SHIFT + P", function()
+  hl.timer(function()
+    hl.dispatch(hl.dsp.dpms({ action = "toggle", monitor = "eDP-1" }))
+  end, { timeout = 1, type = "oneshot" })
+end)
 
 -- Layout toggle: dwindle ↔ scrolling (vertical)
 hl.bind(M .. " + Space", toggle_layout)

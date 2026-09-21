@@ -9,16 +9,20 @@ corner_r: 10
 padding: 15
 anchor: center
 inhibit_compositor_keyboard_shortcuts: true
+
 menu:
   - key: "f"
-    desc: zen-browser 
+    desc: zen-browser
     cmd: zen-browser
+
   - key: "t"
     desc: Google Calendar
     cmd: zen-browser https://calendar.google.com
+
   - key: "o"
     desc: Obsidian
     cmd: obsidian
+
   - key: "g"
     desc: GitHub
     submenu:
@@ -31,6 +35,7 @@ menu:
       - key: "s"
         desc: School
         cmd: zen-browser https://github.com/PS-Wizard/School
+
   - key: "l"
     desc: AI
     submenu:
@@ -43,6 +48,7 @@ menu:
       - key: "3"
         desc: Notebooklm
         cmd: zen-browser https://notebooklm.google.com/
+
   - key: "u"
     desc: Usage Limits Codex
     submenu:
@@ -51,34 +57,49 @@ menu:
         cmd: zen-browser https://chatgpt.com/#settings/Usage
       - key: "g"
         desc: Opencode Go Usage
-        cmd: zen-browser https://opencode.ai/workspace/wrk_01KHAZWE1K94HYM2BE8VVNCWR3/go
+        cmd: zen-browser https://opencode.ai/console/wrk_01KHAZWE1K94HYM2BE8VVNCWR3/go
       - key: "h"
         desc: Opencode Go
         cmd: zen-browser https://opencode.ai/go
-      - key: "s"
-        desc: Cursor Spending
-        cmd: zen-browser https://cursor.com/dashboard/spending
+
   - key: "n"
-    desc: Gammastep
+    desc: Night Shift
     submenu:
       - key: "1"
-        desc: Warm (4500K)
-        cmd: pkill gammastep; gammastep -O 5000
+        desc: Warm (5000K)
+        cmd: hyprctl hyprsunset temperature 5000
       - key: "2"
-        desc: Warmer (3500K)
-        cmd: pkill gammastep; gammastep -O 3500
+        desc: Warmer (4000K)
+        cmd: hyprctl hyprsunset temperature 4000
       - key: "3"
-        desc: Warmest (3000K)
-        cmd: pkill gammastep; gammastep -O 3000
+        desc: Very Warm (3500K)
+        cmd: hyprctl hyprsunset temperature 3500
       - key: "4"
-        desc: Warmest + Dim (3000K 70%)
-        cmd: pkill gammastep; gammastep -O 3000 -b 0.7
+        desc: Warmest (3000K)
+        cmd: hyprctl hyprsunset temperature 3000
       - key: "0"
         desc: Off
-        cmd: pkill gammastep
+        cmd: hyprctl hyprsunset temperature 6500
+
+  - key: "b"
+    desc: Brightness
+    submenu:
+      - key: "1"
+        desc: 90%
+        cmd: hyprctl hyprsunset gamma 90
+      - key: "2"
+        desc: 75%
+        cmd: hyprctl hyprsunset gamma 75
+      - key: "3"
+        desc: 50%
+        cmd: hyprctl hyprsunset gamma 50
+      - key: "0"
+        desc: Normal (100%)
+        cmd: hyprctl hyprsunset gamma 100
   - key: "d"
     desc: Wayscriber
-    cmd: pkill wayscriber; wayscriber --freeze 
+    cmd: pkill wayscriber; wayscriber --freeze
+
   - key: "w"
     desc: Reload
     submenu:
@@ -91,12 +112,15 @@ menu:
       - key: "b"
         desc: Restart swaybg
         cmd: pkill swaybg; swaybg -i ~/.config/hypr/wallpaper.jpg
+
   - key: "i"
     desc: Toggle Monochrome
     cmd: /home/wizard/.config/hypr/scripts/toggle-monochrome.sh
+
   - key: "m"
     desc: Markdown Viewer Web
     cmd: zen-browser https://markdn.vercel.app/
+
   - key: "r"
     desc: Recording
     submenu:
@@ -121,6 +145,7 @@ menu:
               - key: "6"
                 desc: 60 FPS
                 cmd: gpu-screen-recorder -w screen -f 60 -fm cfr -q ultra -k h264 -encoder gpu -tune quality -a default_output -o ~/recording.mp4
+
       - key: "l"
         desc: Low (medium)
         submenu:
@@ -142,6 +167,7 @@ menu:
               - key: "6"
                 desc: 60 FPS
                 cmd: gpu-screen-recorder -w screen -f 60 -fm cfr -q medium -k h264 -encoder gpu -a default_output -o ~/recording.mp4
+
       - key: "q"
         desc: Kill
         cmd: killall gpu-screen-recorder

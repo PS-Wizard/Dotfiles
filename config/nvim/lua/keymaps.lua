@@ -62,6 +62,17 @@ vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv", { desc = "Move selection up" })
 vim.keymap.set("v", "<", "<gv", { desc = "Unindent and keep selection" })
 vim.keymap.set("v", ">", ">gv", { desc = "Indent and keep selection" })
 vim.keymap.set("n", "J", "mzJ`z", { desc = "Join lines without moving cursor" })
+
+-- Screen-line movement: j/k follow wrapped lines like gj/gk. A typed count
+-- (e.g. 5j) falls back to real-line movement so relative-number jumps work;
+-- operators are left alone so dj/ck/yk still act on real lines like dd.
+local function screen_line_key(fallback, wrapped)
+    return 'v:count ? ' .. string.format("'%s'", fallback) .. " : " .. string.format("'%s'", wrapped)
+end
+for _, key in ipairs({ { "j", "gj" }, { "k", "gk" } }) do
+    vim.keymap.set("n", key[1], screen_line_key(key[1], key[2]), { expr = true, silent = true, desc = "Move down (screen line)" })
+    vim.keymap.set("x", key[1], screen_line_key(key[1], key[2]), { expr = true, silent = true, desc = "Extend selection (screen line)" })
+end
 vim.keymap.set("n", "<C-d>", "<C-d>zz", { desc = "Move down with cursor centered" })
 vim.keymap.set("n", "<C-u>", "<C-u>zz", { desc = "Move up with cursor centered" })
 vim.keymap.set("n", "n", "nzzzv", { desc = "Next search result centered" })
@@ -77,16 +88,12 @@ end, { desc = "Insert markdown code block" })
 
 -- Window navigation and zoom.
 local function toggle_zoom()
-    if vim.t.zoomed then
-        vim.cmd("tabclose")
-        vim.t.zoomed = false
-    else
-        vim.cmd("tab split")
-        vim.t.zoomed = true
+    if vim.fn.winnr("$") > 1 then
+        require("mini.misc").zoom(0, { border = "none" })
     end
 end
 -- vim.keymap.set("n", "<leader>z", toggle_zoom, { desc = "Toggle zoom fullscreen" })
-vim.keymap.set("n", "<C-m>", toggle_zoom, { desc = "Toggle zoom fullscreen" })
+vim.keymap.set("n", "<C-f>", toggle_zoom, { desc = "Toggle zoom fullscreen" })
 vim.keymap.set("n", "<C-h>", "<cmd>wincmd h<CR>", silent)
 vim.keymap.set("n", "<C-j>", "<cmd>wincmd j<CR>", silent)
 vim.keymap.set("n", "<C-k>", "<cmd>wincmd k<CR>", silent)

@@ -127,20 +127,20 @@ vim.lsp.config("gopls", {
     },
 })
 
-vim.lsp.config("rust_analyzer", {
-    cmd = { "rust-analyzer" },
-    filetypes = { "rust" },
-    root_markers = { "Cargo.toml", "rust-project.json", ".git" },
-    capabilities = blink_capabilities,
-
-    settings = {
-        ["rust-analyzer"] = {
-            check = {
-                command = "check",
-            },
-        },
-    },
-})
+-- vim.lsp.config("rust_analyzer", {
+--     cmd = { "rust-analyzer" },
+--     filetypes = { "rust" },
+--     root_markers = { "Cargo.toml", "rust-project.json", ".git" },
+--     capabilities = blink_capabilities,
+--
+--     settings = {
+--         ["rust-analyzer"] = {
+--             check = {
+--                 command = "check",
+--             },
+--         },
+--     },
+-- })
 vim.lsp.config("marksman", {
     cmd = { "marksman" },
     filetypes = { "markdown" },
@@ -226,7 +226,8 @@ vim.lsp.config("svelte", {
     capabilities = blink_capabilities,
 })
 
-vim.lsp.enable({ "gopls", "marksman", "ts_ls", "svelte", "vtsls", "rust_analyzer"})
+-- vim.lsp.enable({ "gopls", "marksman", "ts_ls", "svelte", "vtsls", "rust_analyzer"})
+vim.lsp.enable({ "gopls", "marksman", "ts_ls", "svelte", "vtsls"})
 
 vim.api.nvim_create_autocmd("LspAttach", {
     desc = "Set LSP keymaps and disable LSP for large buffers",

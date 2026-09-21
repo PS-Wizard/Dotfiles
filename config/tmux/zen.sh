@@ -2,6 +2,7 @@
 # Tmux Zen Mode - Center every single-pane window in the session.
 # Usage: zen.sh [width]
 # Internal: zen.sh apply-window WINDOW_ID
+# Internal: zen.sh cleanup WINDOW_ID
 
 MODE="toggle"
 CENTER_WIDTH="120"
@@ -10,6 +11,10 @@ TARGET=""
 case "${1:-}" in
     apply-window)
         MODE="apply-window"
+        TARGET="$2"
+        ;;
+    cleanup)
+        MODE="cleanup"
         TARGET="$2"
         ;;
     "") ;;
@@ -22,7 +27,7 @@ esac
 
 if [ "$MODE" = "apply-window" ]; then
     SESSION=$(tmux display-message -p -t "$TARGET" '#{session_id}')
-else
+elif [ "$MODE" != "cleanup" ]; then
     TARGET=$(tmux display-message -p '#{window_id}')
     SESSION=$(tmux display-message -p '#{session_id}')
 fi
@@ -61,6 +66,24 @@ apply_window() {
     tmux select-layout -t "$window" even-horizontal >/dev/null
     tmux resize-pane -t "$left" -x "$left_width"
     tmux resize-pane -t "$right" -x "$right_width"
+
+    tmux set-hook -w -t "$window" 'pane-exited[9000]' \
+        "run-shell '$SCRIPT_PATH cleanup #{hook_window}'"
+}
+
+# Drop the spacers once the last real pane in a zen window is gone, so the
+# window closes with it instead of leaving a dead side pane focused.
+cleanup_window() {
+    window=$1
+    [ -n "$window" ] || return 0
+
+    # Another real pane still lives here: leave zen mode alone.
+    tmux list-panes -t "$window" -F '#{pane_dead} #{@zen_spacer}' 2>/dev/null \
+        | grep -q '^0 $' && return 0
+
+    while read -r spacer; do
+        tmux kill-pane -t "$spacer"
+    done < <(spacer_panes "$window")
 }
 
 enable_zen() {
@@ -87,6 +110,7 @@ disable_zen() {
     tmux set-option -u -t "$SESSION" @zen_width
 
     while read -r window; do
+        tmux set-hook -u -w -t "$window" pane-exited
         while read -r spacer; do
             [ -n "$spacer" ] && tmux kill-pane -t "$spacer"
         done < <(spacer_panes "$window")
@@ -99,6 +123,8 @@ if [ "$MODE" = "apply-window" ]; then
     [ "$(tmux show-option -qv -t "$SESSION" @zen_mode)" = 1 ] || exit 0
     CENTER_WIDTH=$(tmux show-option -qv -t "$SESSION" @zen_width)
     apply_window "$TARGET"
+elif [ "$MODE" = "cleanup" ]; then
+    cleanup_window "$TARGET"
 elif [ "$(tmux show-option -qv -t "$SESSION" @zen_mode)" = 1 ]; then
     disable_zen
 else

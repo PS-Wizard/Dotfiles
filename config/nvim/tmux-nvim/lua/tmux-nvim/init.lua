@@ -128,9 +128,9 @@ function M.send_all(opts)
   end
 
   local function deliver(pane)
-    local ok, derr = dispatch.send(pane.pane_id, text, opts)
+    local ok, err = dispatch.send(pane.pane_id, text, opts)
     if not ok then
-      vim.notify("tmux-nvim: " .. derr, vim.log.levels.ERROR)
+      vim.notify("tmux-nvim: " .. err, vim.log.levels.ERROR)
       return
     end
     if M.config.clear_after_send then

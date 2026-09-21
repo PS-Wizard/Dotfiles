@@ -1,7 +1,7 @@
 ---
 description: >
   Sub-agent implementation worker.
-model: opencode-go/deepseek-v4-flash
+model: opencode-go/deepseek-v4.1-flash
 prompt_mode: replace
 max_turns: 0
 ---
