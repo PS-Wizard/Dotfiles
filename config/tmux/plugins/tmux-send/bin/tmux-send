@@ -1,0 +1,124 @@
+#!/usr/bin/env bash
+# tmux-send: paste arbitrary text as one bracketed-paste event into a pane
+# marked with @agent_marker (the same marker tmux-agent uses). Stateless.
+set -u
+umask 077
+send_buffer=
+
+tm() { command tmux "$@"; }
+fail() { printf 'tmux-send: %s\n' "$*" >&2; exit 1; }
+usage() {
+  cat <<'EOF'
+usage: tmux-send <command> [args]
+
+commands:
+  list   list marked panes as NAME<TAB>PANE<TAB>SESSION:WINDOW.PANE<TAB>COMMAND
+  send   send MARKER [--submit|--no-submit] [TEXT...]
+         paste TEXT (or stdin when no TEXT) into MARKER's pane.
+  send   send --pane PANE_ID [--submit|--no-submit] [TEXT...]
+         paste TEXT (or stdin when no TEXT) into exact pane PANE_ID (e.g. %10).
+         Skips marker lookup; PANE_ID must match ^%[0-9]+$.
+         The default is --no-submit: paste only, no Enter.
+  help   show this help
+EOF
+}
+marker_ok() { [[ $1 =~ ^[a-z0-9][a-z0-9._-]{0,63}$ ]]; }
+
+# Marker -> pane id. Fails on an invalid, missing, or ambiguous marker.
+resolve() {
+  local want=$1 id name found=
+  marker_ok "$want" || fail "invalid marker: $want"
+  while IFS='|' read -r id name; do
+    [[ -n $name && $name == "$want" ]] || continue
+    [[ -z $found ]] || fail "marker is ambiguous: $want ($found and $id)"
+    found=$id
+  done < <(tm list-panes -a -F '#{pane_id}|#{@agent_marker}' 2>/dev/null)
+  [[ -n $found ]] || fail "no pane marked: $want"
+  printf '%s' "$found"
+}
+
+cmd_list() {
+  local id name where run
+  while IFS='|' read -r id name where run; do
+    [[ -n $name ]] || continue
+    printf '%s\t%s\t%s\t%s\n' "$name" "$id" "$where" "$run"
+  done < <(tm list-panes -a -F '#{pane_id}|#{@agent_marker}|#{session_name}:#{window_index}.#{pane_index}|#{pane_current_command}' 2>/dev/null)
+}
+
+cmd_send() {
+  local marker= target= pane_mode=0
+  if [[ ${1:-} == --pane ]]; then
+    pane_mode=1
+    shift
+    target=${1:-}
+    [[ -n $target ]] || fail 'usage: tmux-send send --pane PANE_ID [--submit|--no-submit] [TEXT...]'
+    [[ $target =~ ^%[0-9]+$ ]] || fail "invalid pane id: $target"
+    shift
+  else
+    marker=${1:?}; shift
+  fi
+  local submit=0 from_stdin=0 text=
+  local -a rest=()
+  while [[ $# -gt 0 ]]; do
+    case $1 in
+      --submit)    submit=1 ;;
+      --no-submit) submit=0 ;;
+      --)          shift; rest=("$@"); break ;;
+      -*)          fail "unknown option: $1" ;;
+      *)           rest+=("$1") ;;
+    esac
+    shift
+  done
+  if [[ ${#rest[@]} -eq 0 ]]; then
+    from_stdin=1
+  else
+    text="${rest[*]}"
+  fi
+
+  if (( ! pane_mode )); then
+    target=$(resolve "$marker") || exit 1
+  fi
+  # One target-state check: same pane, alive, and not in a tmux mode.
+  local state pane dead mode
+  state=$(tm display-message -p -t "$target" '#{pane_id}|#{pane_dead}|#{pane_mode}' 2>/dev/null) \
+    || fail 'cannot read target pane state'
+  IFS='|' read -r pane dead mode <<<"$state"
+  [[ $pane == "$target" ]] || fail 'target pane is no longer live'
+  [[ $dead == 0 ]] || fail 'target pane is dead'
+  if [[ $mode == copy-mode* ]]; then
+    tm copy-mode -q -t "$target" 2>/dev/null || fail 'could not leave copy mode in the target pane'
+  elif [[ -n $mode ]]; then
+    fail "target pane is in tmux mode: $mode"
+  fi
+
+  send_buffer="tmux-send-$$-$RANDOM"
+  trap 'tm delete-buffer -b "$send_buffer" 2>/dev/null || :' EXIT
+
+  # Phase 1: a lone kill-line key so C-u never shares an input chunk with text.
+  tm send-keys -t "$target" -- C-u || fail 'could not clear the prompt (C-u)'
+  sleep 0.1
+
+  # Phase 2: one literal bracketed-paste sequence framing the text.
+  if (( from_stdin )); then
+    tm load-buffer -b "$send_buffer" - || fail 'could not load text into a tmux buffer'
+  else
+    printf '%s' "$text" | tm load-buffer -b "$send_buffer" - || fail 'could not load text into a tmux buffer'
+  fi
+  tm send-keys -t "$target" -l -- $'\033[200~' || fail 'could not begin bracketed paste'
+  tm paste-buffer -d -b "$send_buffer" -t "$target" || fail 'could not paste text into the target pane'
+  tm send-keys -t "$target" -l -- $'\033[201~' || fail 'could not end bracketed paste'
+  sleep 0.1
+
+  # Phase 3: submit as a later, separate Enter input event.
+  if (( submit )); then
+    tm send-keys -t "$target" -- Enter || fail 'could not submit (Enter)'
+  fi
+}
+
+cmd=${1:-help}; shift || :
+case $cmd in
+  list)  [[ $# -eq 0 ]] || fail 'usage: tmux-send list'; cmd_list ;;
+  send)  [[ $# -ge 1 ]] || fail 'usage: tmux-send send MARKER [--submit|--no-submit] [TEXT...] | tmux-send send --pane PANE_ID [--submit|--no-submit] [TEXT...]'; cmd_send "$@" ;;
+  help|-h|--help) usage ;;
+  *) usage >&2; fail "unknown command: $cmd" ;;
+esac

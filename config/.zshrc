@@ -37,7 +37,17 @@ alias n='nvim'
 alias i='ink'
 alias t='tmux'
 alias c='claude --dangerously-skip-permissions'
-alias cc='cargo check'
+# cc   -> cargo check, errors only (warnings muted)
+# cc a -> cargo check with warnings
+cc() {
+    if [[ "$1" == a ]]; then
+        shift
+        cargo check "$@"
+    else
+        RUSTFLAGS="-A warnings ${RUSTFLAGS}" cargo check "$@"
+    fi
+}
+alias cf='cargo fmt'
 alias cb='cargo build --release'
 alias cl='cargo fmt && cargo clippy --all-targets --all-features -- -D warnings'
 alias mn='touch "$(date +%F).md" && echo "Created $(date +%F).md"'
@@ -63,6 +73,7 @@ ct() {
     local ignored=false
     local release=false
     local nocapture=false
+    local show_warnings=false
     local crate=""
     local test_name=""
     
@@ -71,7 +82,9 @@ ct() {
     # i - ignored tests (--ignored)
     # r - release mode (--release)
     # v - verbose/print (replaces 'p') (--nocapture)
-    if [[ $# -gt 0 && "$1" =~ ^[irv]+$ ]]; then
+    # w - show warnings (hidden by default)
+    # flags combine in any order, e.g. rviw, wirv, w
+    if [[ $# -gt 0 && "$1" =~ ^[irvw]+$ ]]; then
         flags="$1"
         shift
         
@@ -79,6 +92,7 @@ ct() {
         [[ "$flags" == *r* ]] && release=true
         # Changed 'p' to 'v' for nocapture/verbose output
         [[ "$flags" == *v* ]] && nocapture=true
+        [[ "$flags" == *w* ]] && show_warnings=true
     fi
     
     # Parse remaining arguments
@@ -97,10 +111,12 @@ ct() {
     # Build command
     local cmd="cargo test"
     
-    # Add RUSTFLAGS if release mode
-    if [ "$release" = true ]; then
-        cmd="RUSTFLAGS=\"-C target-cpu=native\" $cmd --release"
-    fi
+    # RUSTFLAGS: warnings hidden unless 'w' is in the flags; native CPU in release
+    local -a rustflags=()
+    [ "$release" = true ] && rustflags+=("-C target-cpu=native")
+    [ "$show_warnings" = false ] && rustflags+=("-A warnings")
+    [ "$release" = true ] && cmd="$cmd --release"
+    [ ${#rustflags} -gt 0 ] && cmd="RUSTFLAGS=\"${rustflags[*]}\" $cmd"
     
     # Add package flag if crate specified
     if [ -n "$crate" ]; then
@@ -169,6 +185,8 @@ export PATH="$PNPM_HOME/bin:$PATH"
 
 # Cargo
 export PATH=$HOME/.cargo/bin:$PATH
+# Use half the cores for cargo builds (default = all cores)
+export CARGO_BUILD_JOBS=$(( $(nproc) / 2 ))
 
 # Faster mirrors
 export RUSTUP_DIST_SERVER=https://mirrors.tuna.tsinghua.edu.cn/rustup
@@ -262,6 +280,6 @@ export PATH="$BUN_INSTALL/bin:$PATH"
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 
-# ante
-export PATH="/home/wizard/.ante/bin:$PATH"
-
+export TINYFISH_API_KEY=sk-tinyfish-f7Brtw3joUz67GFjkreNq4EpGP-AbueN
+alias vpn='sudo systemctl start warp-svc && warp-cli connect'
+alias vpnoff='warp-cli disconnect; sudo systemctl stop warp-svc'
