@@ -1,0 +1,55 @@
+{
+  "$schema": "https://www.schemastore.org/claude-code-keybindings.json",
+  "$docs": "https://code.claude.com/docs/en/keybindings",
+  "bindings": [
+    {
+      "context": "Global",
+      "bindings": {
+        "ctrl+t": null
+      }
+    },
+    {
+      "context": "Chat",
+      "bindings": {
+        "ctrl+t": "chat:thinkingToggle",
+        "ctrl+p": "chat:modelPicker"
+      }
+    },
+    {
+      "context": "EffortSlider",
+      "bindings": {
+        "h": "effortSlider:decreaseEffort",
+        "l": "effortSlider:increaseEffort",
+        "j": "effortSlider:decreaseEffort",
+        "k": "effortSlider:increaseEffort",
+        "ctrl+j": "effortSlider:decreaseEffort",
+        "ctrl+k": "effortSlider:increaseEffort"
+      }
+    },
+    {
+      "context": "ModelPicker",
+      "bindings": {
+        "h": "modelPicker:decreaseEffort",
+        "l": "modelPicker:increaseEffort",
+        "j": "modelPicker:decreaseEffort",
+        "k": "modelPicker:increaseEffort",
+        "ctrl+j": "modelPicker:decreaseEffort",
+        "ctrl+k": "modelPicker:increaseEffort"
+      }
+    },
+    {
+      "context": "Select",
+      "bindings": {
+        "ctrl+j": "select:next",
+        "ctrl+k": "select:previous"
+      }
+    },
+    {
+      "context": "Autocomplete",
+      "bindings": {
+        "ctrl+j": "autocomplete:next",
+        "ctrl+k": "autocomplete:previous"
+      }
+    }
+  ]
+}
