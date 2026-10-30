@@ -1,3 +1,26 @@
+-- ponytail: follow OpenAPI $ref without a language server.
+vim.keymap.set("n", "gd", function()
+    local line = vim.api.nvim_get_current_line()
+    local ref = line:match("%$ref:%s*['\"]([^'\"]+)['\"]")
+    if not ref then
+        local ok = pcall(vim.lsp.buf.definition)
+        if not ok then vim.cmd("normal! gd") end
+        return
+    end
+    local file, anchor = ref:match("^(.-)#(.*)$")
+    if anchor then
+        anchor = anchor:match("[^/]+$")
+    end
+    if file and file ~= "" then
+        local base = vim.fn.expand("%:h")
+        vim.cmd("edit " .. vim.fn.fnameescape(base .. "/" .. file))
+    end
+    if anchor and anchor ~= "" then
+        vim.fn.search("^\\s*" .. vim.fn.escape(anchor, "\\") .. "\\s*:", "w")
+        vim.cmd("normal! zz")
+    end
+end, { desc = "Go to $ref or definition" })
+
 local silent = { noremap = true, silent = true }
 
 -- File and buffer navigation.
@@ -161,3 +184,10 @@ vim.keymap.set("n", "<C-n>", smart_qf_loc_next, silent)
 vim.keymap.set("n", "<C-p>", smart_qf_loc_prev, silent)
 
 _G.open_quickfix_if_diagnostics_exist = open_quickfix_if_diagnostics_exist
+
+-- Toggle LSP autocomplete. Buffer, path, snippets still work.
+vim.keymap.set("n", "<leader>ac", function()
+    vim.g.blink_lsp_enabled = not vim.g.blink_lsp_enabled
+    require("blink.cmp").hide()
+    vim.notify("LSP autocomplete " .. (vim.g.blink_lsp_enabled and "Enabled" or "Disabled"))
+end, { desc = "Toggle LSP autocomplete" })

@@ -7,3 +7,4 @@ config/pi/sessions/
 # Generated runtime state
 config/pi/models-store.json
 config/waybar/time-tracker.json
+config/.zshrc

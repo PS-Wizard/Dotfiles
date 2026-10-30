@@ -226,8 +226,7 @@ vim.lsp.config("svelte", {
     capabilities = blink_capabilities,
 })
 
--- vim.lsp.enable({ "gopls", "marksman", "ts_ls", "svelte", "vtsls", "rust_analyzer"})
-vim.lsp.enable({ "gopls", "marksman", "ts_ls", "svelte", "vtsls"})
+vim.lsp.enable({ "gopls", "marksman", "ts_ls", "svelte", "vtsls" })
 
 vim.api.nvim_create_autocmd("LspAttach", {
     desc = "Set LSP keymaps and disable LSP for large buffers",

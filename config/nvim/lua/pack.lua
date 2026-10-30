@@ -20,6 +20,7 @@ require("lazy").setup({
             require("blink.cmp").build():pwait()
         end,
         config = function()
+            vim.g.blink_lsp_enabled = true
             require("blink.cmp").setup({
                 keymap = {
                     preset = "super-tab",
@@ -34,6 +35,11 @@ require("lazy").setup({
                 sources = {
                     default = { "snippets", "lsp", "path", "buffer" },
                     providers = {
+                        lsp = {
+                            enabled = function()
+                                return vim.g.blink_lsp_enabled
+                            end,
+                        },
                         snippets = {
                             opts = {
                                 search_paths = { vim.fn.stdpath("config") .. "/snippets" },

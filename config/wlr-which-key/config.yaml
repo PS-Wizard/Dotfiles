@@ -40,11 +40,11 @@ menu:
     desc: AI
     submenu:
       - key: "1"
+        desc: claude
+        cmd: zen-browser https://claude.ai
+      - key: "2"
         desc: ChatGPT
         cmd: zen-browser https://chatgpt.com
-      - key: "2"
-        desc: Gemini
-        cmd: zen-browser https://gemini.google.com
       - key: "3"
         desc: Notebooklm
         cmd: zen-browser https://notebooklm.google.com/
@@ -53,14 +53,17 @@ menu:
     desc: Usage Limits Codex
     submenu:
       - key: "c"
+        desc: Claude Usage Limit 
+        cmd: zen-browser https://claude.ai/new#settings/usage
+      - key: "l"
         desc: Chatgpt Codex Usage Limits
         cmd: zen-browser https://chatgpt.com/#settings/Usage
       - key: "g"
         desc: Opencode Go Usage
         cmd: zen-browser https://opencode.ai/console/wrk_01KHAZWE1K94HYM2BE8VVNCWR3/go
       - key: "h"
-        desc: Opencode Go
         cmd: zen-browser https://opencode.ai/go
+        desc: Opencode Go
 
   - key: "n"
     desc: Night Shift
@@ -75,8 +78,14 @@ menu:
         desc: Very Warm (3500K)
         cmd: hyprctl hyprsunset temperature 3500
       - key: "4"
-        desc: Warmest (3000K)
+        desc: Very Very (3000K)
         cmd: hyprctl hyprsunset temperature 3000
+      - key: "5"
+        desc: Warmest (2500K)
+        cmd: hyprctl hyprsunset temperature 2500
+      - key: "6"
+        desc: Warmer Warmest (3000K)
+        cmd: hyprctl hyprsunset temperature 2000
       - key: "0"
         desc: Off
         cmd: hyprctl hyprsunset temperature 6500
@@ -96,6 +105,18 @@ menu:
       - key: "0"
         desc: Normal (100%)
         cmd: hyprctl hyprsunset gamma 100
+      - key: "u"
+        desc: Backlight +10%
+        cmd: brightnessctl --class=backlight set +10%
+      - key: "d"
+        desc: Backlight -10%
+        cmd: brightnessctl --class=backlight set 10%-
+      - key: "m"
+        desc: Backlight 0% (dark)
+        cmd: brightnessctl --class=backlight set 0
+      - key: "f"
+        desc: Backlight 25%
+        cmd: brightnessctl --class=backlight set 25%
   - key: "d"
     desc: Wayscriber
     cmd: pkill wayscriber; wayscriber --freeze

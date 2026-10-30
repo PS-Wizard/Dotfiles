@@ -1,35 +1,28 @@
 {
-  "lastChangelogVersion": "0.87.1",
+  "lastChangelogVersion": "1.4.0",
   "defaultProvider": "opencode-go",
   "defaultModel": "deepseek-v4.1-flash",
   "defaultThinkingLevel": "high",
-  "hideThinkingBlock": false,
+  "hideThinkingBlock": true,
   "enabledModels": [
     "opencode-go/deepseek-v4-pro",
     "opencode-go/mimo-v2.5",
-    "opencode-go/muse-spark-1.2-contributor",
-    "opencode/muse-spark-1.2-contributor-free",
     "opencode-go/glm-5.3-flash",
     "opencode-go/muse-spark-1.3-contributor",
     "openai-codex/gpt-6-astra",
     "opencode-go/deepseek-v4.1-flash",
-    "openai-codex/gpt-6-sol",
-    "openai-codex/gpt-6-luna"
+    "openai-codex/gpt-6-luna",
+    "openai-codex/gpt-6.1-sol"
   ],
   "packages": [
     "npm:pi-hashline-edit",
     "npm:@ff-labs/pi-fff",
-    "npm:@tintinweb/pi-subagents",
-    "npm:pi-btw",
-    "npm:pi-zentui",
-    "npm:pi-clarify",
     "npm:pi-codex-image-gen",
     "npm:@tmustier/pi-usage-extension",
     "npm:pi-tinyfish",
-    "npm:pi-mcp-adapter",
-    "npm:pi-copy-output"
+    "npm:pi-copy-output",
+    "npm:split-editor"
   ],
-  "theme": "dark",
   "compaction": {
     "enabled": true
   },
@@ -40,7 +33,7 @@
   "markdown": {
     "mermaid": "streaming"
   },
-  "showCacheMissNotices": false,
+  "showCacheMissNotices": true,
   "enableInstallTelemetry": false,
   "defaultProjectTrust": "always",
   "tuiMode": "regular",
@@ -48,5 +41,26 @@
     "bun"
   ],
   "fullscreenScrollbar": "hidden",
-  "fullscreenExitOutput": "transcript"
+  "fullscreenExitOutput": "transcript",
+  "terminal": {
+    "showTerminalProgress": true
+  },
+  "transport": "websocket-cached",
+  "cacheWarming": "streaming",
+  "quietStartup": true,
+  "editorPaddingX": 2,
+  "outputPad": 1,
+  "autocompleteMaxVisible": 10,
+  "steeringMode": "all",
+  "followUpMode": "one-at-a-time",
+  "collapseChangelog": true,
+  "doubleEscapeAction": "none",
+  "treeFilterMode": "user-only",
+  "warnings": {
+    "anthropicExtraUsage": true
+  },
+  "modelThinkingLevels": {
+    "openai-codex/gpt-6.1-sol": "medium"
+  },
+  "theme": "system/system"
 }

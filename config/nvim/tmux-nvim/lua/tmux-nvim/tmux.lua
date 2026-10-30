@@ -11,7 +11,14 @@ end
 
 function M.list_panes()
   if not M.is_inside() then return nil, "not inside tmux (no $TMUX)" end
-  local r = vim.system({ "tmux", "list-panes", "-a", "-F", "#{pane_id}|#{window_index}|#{pane_index}|#{pane_current_command}|#{pane_title}|#{pane_active}|#{session_name}|#{window_name}|#{@agent_marker}" }, { text = true }):wait()
+  -- ponytail: -s lists only this session, -a lists all sessions
+  local cmd = { "tmux", "list-panes", "-s", "-F", "#{pane_id}|#{window_index}|#{pane_index}|#{pane_current_command}|#{pane_title}|#{pane_active}|#{session_name}|#{window_name}|#{@agent_marker}" }
+  if vim.env.TMUX_PANE and vim.env.TMUX_PANE ~= "" then
+    -- target our pane so tmux uses our session, not the attached client session
+    table.insert(cmd, 3, "-t")
+    table.insert(cmd, 4, vim.env.TMUX_PANE)
+  end
+  local r = vim.system(cmd, { text = true }):wait()
   if r.code ~= 0 then
     return nil, "tmux list-panes failed: " .. (r.stderr ~= "" and r.stderr or ("exit " .. r.code))
   end

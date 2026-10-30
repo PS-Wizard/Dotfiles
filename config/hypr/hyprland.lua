@@ -18,9 +18,9 @@ hl.config({
         active_opacity  = 1.0,
         inactive_opacity = 1,
         blur = {
-            enabled = false,
-            size = 3,
-            passes=3,
+            enabled = true,
+            size = 4,
+            passes=5,
         },
         shadow = { enabled = false },
     },

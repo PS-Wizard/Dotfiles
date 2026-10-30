@@ -1,8 +1,20 @@
--- Firefox picture-in-picture floats
+-- Browsers that open fullscreen (RE2, case-insensitive).
+local BROWSER_CLASS = "(?i)^(zen|zen-browser|chromium|chromium-browser)$"
+
+-- Browsers open fullscreen.
+hl.window_rule({
+    name = "browser-fullscreen",
+    match = { class = BROWSER_CLASS },
+    fullscreen = true,
+})
+
+
+-- Picture-in-picture floats instead (later rule wins over browser-fullscreen).
 hl.window_rule({
     name  = "pip-float",
-    match = { class = "^(firefox|zen)$", title = "^Picture-in-Picture$" },
+    match = { class = BROWSER_CLASS, title = "^Picture-in-Picture$" },
     float = true,
+    fullscreen = false,
     suppress_event = "fullscreen maximize",
     size  = { 480, 270 },
 })

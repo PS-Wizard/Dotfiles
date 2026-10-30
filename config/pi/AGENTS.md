@@ -25,3 +25,9 @@
 - When you receive `tmux-agent read <id>`, run it. Act on the message, reply to its `From` marker when useful, and then run `tmux-agent ack <id>`.
 - Run `tmux-agent inbox` when you start or resume inside tmux.
 
+- User implies hard to trace code: read `minimize-reader-load.`
+- New names or types: read `write-discoverable-code`.
+- Before user's review: run `no-comments`.
+- "How does X work": use `how`.
+- User implies last message too hard to comprehend: use `bro`.
+- Comment rule: keep a comment only for a why that code cannot show.

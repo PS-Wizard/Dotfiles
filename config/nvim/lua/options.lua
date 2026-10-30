@@ -2,6 +2,8 @@ vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 vim.g.have_nerd_font = true
 vim.g.netrw_banner = 0
+-- ponytail: stop sql ftplugin from mapping <C-C> keys.
+vim.g.omni_sql_no_default_maps = 1
 
 vim.opt.number = true
 vim.opt.relativenumber = true
