@@ -1,0 +1,25 @@
+/* Glass dark for Hyprland blur. Dark mode only. Light mode stays paper. */
+/* ponytail: Linux Electron has no per-pixel alpha, so CSS stays opaque. */
+/* Hypr blends the whole window at 0.9 (see rules.lua obsidian-glass). */
+
+html body.theme-dark {
+  --background-primary: #101010 !important;
+  --background-primary-alt: #101010 !important;
+  --background-secondary: #101010 !important;
+  --background-secondary-alt: #2a2a2a !important;
+}
+
+body.theme-dark .workspace,
+body.theme-dark .workspace-split,
+body.theme-dark .mod-left-split,
+body.theme-dark .mod-right-split,
+body.theme-dark .workspace-ribbon,
+body.theme-dark .workspace-tabs,
+body.theme-dark .workspace-tab-container,
+body.theme-dark .view-content,
+body.theme-dark .markdown-reading-view,
+body.theme-dark .markdown-source-view,
+body.theme-dark .titlebar,
+body.theme-dark .status-bar {
+  background-color: #101010 !important;
+}

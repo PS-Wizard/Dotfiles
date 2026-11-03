@@ -1,0 +1,14 @@
+{
+  "cssTheme": "Baseline",
+  "enabledCssSnippets": [
+    "focus-mode",
+    "claude-touches",
+    "glass-dark"
+  ],
+  "theme": "obsidian",
+  "textFontFamily": "Geist",
+  "interfaceFontFamily": "Geist",
+  "accentColor": "#00ff4c",
+  "showRibbon": false,
+  "showViewHeader": true
+}

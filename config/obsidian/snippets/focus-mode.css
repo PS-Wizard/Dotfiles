@@ -1,0 +1,9 @@
+/* Focus mode. Hides app chrome for calm reading. Switch the snippet off to get rails back. */
+
+/* !important beats workspace layout display rules. */
+.titlebar,
+.titlebar-inner,
+.mod-top .workspace-tab-header-container,
+.workspace-ribbon {
+  display: none !important;
+}

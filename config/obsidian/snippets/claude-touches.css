@@ -1,0 +1,372 @@
+/* Claude touches for Baseline. Light paper plus neutral dark. focus-mode hides chrome. */
+
+body {
+  --ct-serif: "Geist Serif Triangle", "Geist Serif Square", "Geist Serif", "Source Serif 4", Charter, Georgia, "Times New Roman", serif;
+  --ct-sans: system-ui, -apple-system, "Segoe UI", sans-serif;
+  --radius-s: 0 !important;
+  --radius-m: 0 !important;
+  --radius-l: 0 !important;
+  --input-radius: 0 !important;
+}
+
+html body.theme-light {
+  --background-primary: #f3ead6;
+  --background-primary-alt: #ece1c8;
+  --background-secondary: #ece1c8;
+  --background-secondary-alt: #e0d0ac;
+  --background-modifier-border: #d5c6a0;
+  --background-modifier-border-hover: #bfae82;
+  --background-modifier-border-focus: #c15f3c;
+
+  --text-normal: #23201a;
+  --text-muted: #5f5b52;
+  --text-faint: #a09a8c;
+  --text-accent: #b4502a;
+  --text-accent-hover: #c15f3c;
+  --text-on-accent: #ffffff;
+  --text-selection: rgba(193, 95, 60, 0.28);
+
+  --interactive-accent: #c15f3c;
+  --interactive-accent-hover: #a94e30;
+
+  --link-color: #a94e30;
+  --link-color-hover: #c15f3c;
+  --link-unresolved-color: #a09a8c;
+
+  --blockquote-border-color: #c15f3c;
+  --tag-color: #23201a;
+  --tag-background: #e0d0ac;
+  --tag-background-hover: #d5c39a;
+
+  --checkbox-color: #141310;
+  --checkbox-color-hover: #141310;
+  --checkbox-border-color: #6b675e;
+
+  --icon-color-active: #c15f3c;
+}
+
+/* Neutral dark. html body beats late Style Settings rules. Never black, never brown. */
+html body.theme-dark {
+  --background-primary: #101010;
+  --background-primary-alt: #101010;
+  --background-secondary: #101010;
+  --background-secondary-alt: #2a2a2a;
+  --background-modifier-border: #383838;
+  --background-modifier-border-hover: #4d4d4d;
+  --background-modifier-border-focus: #d97e5b;
+  --background-modifier-hover: #242424;
+  --background-modifier-active-hover: #2a2a2a;
+
+  --text-normal: #e3e3e3;
+  --text-muted: #a3a3a3;
+  --text-faint: #6e6e6e;
+  --text-accent: #e08d6c;
+  --text-accent-hover: #eaa17f;
+  --text-on-accent: #101010;
+  --text-selection: rgba(217, 126, 91, 0.35);
+
+  --interactive-normal: #2a2a2a;
+  --interactive-hover: #383838;
+  --interactive-accent: #d97e5b;
+  --interactive-accent-hover: #e08d6c;
+
+  --link-color: #e08d6c;
+  --link-color-hover: #eaa17f;
+  --link-unresolved-color: #6e6e6e;
+
+  --code-background: #202020;
+  --code-normal: #e3e3e3;
+
+  --blockquote-border-color: #d97e5b;
+  --tag-color: #e3e3e3;
+  --tag-background: #2a2a2a;
+  --tag-background-hover: #383838;
+
+  --checkbox-color: #e3e3e3;
+  --checkbox-color-hover: #e3e3e3;
+  --checkbox-border-color: #a3a3a3;
+
+  --icon-color: #a3a3a3;
+  --icon-color-hover: #e3e3e3;
+  --icon-color-active: #e08d6c;
+
+  --scrollbar-thumb-bg: #383838;
+  --scrollbar-active-thumb-bg: #4d4d4d;
+}
+
+body.theme-dark .markdown-preview-view h1,
+body.theme-dark .markdown-preview-view h2,
+body.theme-dark .markdown-preview-view h3,
+body.theme-dark .markdown-preview-view h4,
+body.theme-dark .inline-title {
+  color: #eaeaea;
+}
+
+/* Body keeps Baseline sans. Serif lives on heads only. */
+body .markdown-preview-view,
+body .markdown-source-view,
+body .markdown-embed {
+  font-family: var(--ct-sans);
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+/* Fixed head scale. H1 stays H1 in any font. !important beats late Style Settings rules. */
+body .markdown-preview-view h1,
+body .markdown-source-view .cm-header-1 {
+  font-family: var(--ct-serif);
+  font-size: 38px !important;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  margin-block-start: 1.2em;
+  margin-block-end: 0.5em;
+}
+
+body .markdown-preview-view h2,
+body .markdown-source-view .cm-header-2 {
+  font-family: var(--ct-serif);
+  font-size: 29px !important;
+  font-weight: 400;
+  letter-spacing: -0.015em;
+  line-height: 1.2;
+  margin-block-start: 1.3em;
+  margin-block-end: 0.5em;
+}
+
+body .markdown-preview-view h3,
+body .markdown-source-view .cm-header-3 {
+  font-family: var(--ct-serif);
+  font-size: 22px !important;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.3;
+  margin-block-start: 1.2em;
+  margin-block-end: 0.4em;
+}
+
+body .markdown-preview-view h4,
+body .inline-title {
+  font-family: var(--ct-serif);
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 1.35;
+}
+
+body .markdown-preview-view h4 {
+  font-size: 18px !important;
+  margin-block-start: 1.1em;
+  margin-block-end: 0.4em;
+}
+
+body .inline-title {
+  font-size: 40px !important;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  margin-block-start: 0.2em !important;
+  margin-block-end: 0.6em !important;
+}
+
+/* Static Geist Serif files. No ELSH axis. Triangle is first. */
+
+/* Breathing room. Clean gaps, no tight stacks. */
+body .markdown-preview-view p {
+  margin-block-start: 0.8em;
+  margin-block-end: 0.8em;
+}
+
+body .markdown-preview-view ul,
+body .markdown-preview-view ol {
+  margin-block-start: 0.6em;
+  margin-block-end: 0.8em;
+}
+
+body .markdown-preview-view li {
+  margin-block-start: 0.25em;
+  margin-block-end: 0.25em;
+}
+
+body {
+  --file-line-width: 860px;
+}
+
+/* Quiet links read as text with a firm underline. */
+body .markdown-preview-view a.internal-link,
+body .markdown-preview-view a.external-link {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+/* Checkboxes and tags use the theme default. This keeps
+   Live Preview and Reading View the same. */
+
+/* Tables read as one bordered grid with a tinted head. */
+body .markdown-preview-view table,
+body .markdown-source-view table {
+  width: 100% !important;
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+  table-layout: fixed !important;
+  font-family: var(--ct-sans);
+  font-size: 14.5px;
+  margin-block-start: 1em;
+  margin-block-end: 1em;
+  border: 1px solid var(--background-modifier-border-hover) !important;
+  border-radius: 0 !important;
+  overflow: hidden !important;
+}
+
+body .markdown-preview-view th,
+body .markdown-source-view th {
+  font-weight: 500 !important;
+  font-size: 14px !important;
+  letter-spacing: 0 !important;
+  text-transform: none !important;
+  color: var(--text-normal) !important;
+  text-align: left !important;
+  padding: 5px 12px !important;
+  background: var(--background-secondary-alt) !important;
+  border: 0 !important;
+  border-right: 1px solid var(--background-modifier-border) !important;
+  border-bottom: 1.5px solid var(--background-modifier-border-hover) !important;
+}
+
+body .markdown-preview-view th:last-child,
+body .markdown-source-view th:last-child {
+  border-right: 0 !important;
+}
+
+body .markdown-preview-view td,
+body .markdown-source-view td {
+  padding: 5px 12px !important;
+  border: 0 !important;
+  border-right: 1px solid var(--background-modifier-border) !important;
+  border-top: 1px solid var(--background-modifier-border) !important;
+  background: transparent !important;
+  vertical-align: top;
+}
+
+body .markdown-preview-view td:last-child,
+body .markdown-source-view td:last-child {
+  border-right: 0 !important;
+}
+
+body .markdown-preview-view tbody tr:first-child td,
+body .markdown-source-view tbody tr:first-child td {
+  border-top: 0 !important;
+}
+
+body .markdown-preview-view tbody tr:hover td,
+body .markdown-source-view tbody tr:hover td {
+  background: var(--background-modifier-hover) !important;
+}
+
+
+/* Final word on chrome colors. !important beats scheme classes like .theme-dark.flexoki-dark. */
+html body.theme-light {
+  --background-primary: #f3ead6 !important;
+  --background-primary-alt: #ece1c8 !important;
+  --background-secondary: #ece1c8 !important;
+  --background-secondary-alt: #e0d0ac !important;
+  --background-modifier-border: #d5c6a0 !important;
+  --background-modifier-border-hover: #bfae82 !important;
+  --background-modifier-border-focus: #c15f3c !important;
+  --text-normal: #23201a !important;
+  --text-muted: #5f5b52 !important;
+  --text-faint: #a09a8c !important;
+  --text-accent: #b4502a !important;
+  --text-accent-hover: #c15f3c !important;
+  --text-on-accent: #ffffff !important;
+  --text-selection: rgba(193, 95, 60, 0.28) !important;
+  --interactive-accent: #c15f3c !important;
+  --interactive-accent-hover: #a94e30 !important;
+  --link-color: #a94e30 !important;
+  --link-color-hover: #c15f3c !important;
+  --link-unresolved-color: #a09a8c !important;
+  --blockquote-border-color: #c15f3c !important;
+  --tag-color: #23201a !important;
+  --tag-background: #e0d0ac !important;
+  --tag-background-hover: #d5c39a !important;
+  --checkbox-color: #141310 !important;
+  --checkbox-color-hover: #141310 !important;
+  --checkbox-border-color: #6b675e !important;
+  --icon-color-active: #c15f3c !important;
+}
+
+html body.theme-dark {
+  --background-primary: #101010 !important;
+  --background-primary-alt: #101010 !important;
+  --background-secondary: #101010 !important;
+  --background-secondary-alt: #2a2a2a !important;
+  --background-modifier-border: #383838 !important;
+  --background-modifier-border-hover: #4d4d4d !important;
+  --background-modifier-border-focus: #d97e5b !important;
+  --background-modifier-hover: #242424 !important;
+  --background-modifier-active-hover: #2a2a2a !important;
+  --text-normal: #e3e3e3 !important;
+  --text-muted: #a3a3a3 !important;
+  --text-faint: #6e6e6e !important;
+  --text-accent: #e08d6c !important;
+  --text-accent-hover: #eaa17f !important;
+  --text-on-accent: #101010 !important;
+  --text-selection: rgba(217, 126, 91, 0.35) !important;
+  --interactive-normal: #2a2a2a !important;
+  --interactive-hover: #383838 !important;
+  --interactive-accent: #d97e5b !important;
+  --interactive-accent-hover: #e08d6c !important;
+  --link-color: #e08d6c !important;
+  --link-color-hover: #eaa17f !important;
+  --link-unresolved-color: #6e6e6e !important;
+  --code-background: #202020 !important;
+  --code-normal: #e3e3e3 !important;
+  --blockquote-border-color: #d97e5b !important;
+  --tag-color: #e3e3e3 !important;
+  --tag-background: #2a2a2a !important;
+  --tag-background-hover: #383838 !important;
+  --checkbox-color: #e3e3e3 !important;
+  --checkbox-color-hover: #e3e3e3 !important;
+  --checkbox-border-color: #a3a3a3 !important;
+  --icon-color: #a3a3a3 !important;
+  --icon-color-hover: #e3e3e3 !important;
+  --icon-color-active: #e08d6c !important;
+  --scrollbar-thumb-bg: #383838 !important;
+  --scrollbar-active-thumb-bg: #4d4d4d !important;
+}
+
+/* Chrome surfaces, set direct. Beats theme element rules and scheme classes. */
+body.theme-dark .mod-left-split,
+body.theme-dark .mod-right-split,
+body.theme-dark .workspace-ribbon,
+body.theme-dark .workspace-tabs,
+body.theme-dark .workspace-split {
+  background-color: #101010 !important;
+}
+
+body.theme-dark .view-content,
+body.theme-dark .markdown-reading-view,
+body.theme-dark .markdown-source-view {
+  background-color: #101010 !important;
+}
+
+}
+
+
+/* Canvas file cards: inner padding and round border. */
+body .canvas-node {
+  border-radius: 12px !important;
+  overflow: hidden !important;
+}
+
+body .canvas-node-container {
+  border-radius: 12px !important;
+  overflow: hidden !important;
+}
+
+body .canvas-node-content.markdown-embed,
+body .canvas-node-content > .markdown-embed,
+body .canvas-node.is-type-text .canvas-node-content {
+  padding: 28px 20px 18px !important;
+  border-radius: 12px !important;
+}
