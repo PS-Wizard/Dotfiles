@@ -1,37 +1,30 @@
+;; Tab is Super. Double-tap Left Ctrl is also Super (one-shot).
+;; How to use: hold Tab (or roll Tab+key fast) and press any key
+;; for Super+key. Example: Tab+J -> Super+J (focus down in Niri).
+;; Tap Tab alone -> plain Tab. Caps is untouched, so it stays Ctrl
+;; via the compositor xkb caps:ctrl_modifier option.
+;; Runs at evdev level, so it works the same under Hypr and Niri.
+;; Plain Ctrl, Space, and the physical Super key all keep working.
+
 (defcfg
+  ;; Let non-listed keys pass through with no remap latency.
   process-unmapped-keys yes
-  concurrent-tap-hold yes
-)
-
-(defvar
-  tap-repress-timeout 150
-  hold-timeout 200
-
-  ;; Same-hand keys for f.
-  ;; Normal left-hand rolls should resolve as typing.
-  left-tap-keys (q w e r t a s d g z x c v b)
-
-  ;; If a real modifier is already held, f should just be f.
-  real-mods (lctl rctl lsft rsft lalt ralt lmet rmet)
 )
 
 (defsrc
-  f
-)
-
-(defalias
-  ;; f = tap f, hold Super
-  fraw (tap-hold-release-tap-keys-release
-          $tap-repress-timeout $hold-timeout
-          f
-          lmet
-          $left-tap-keys
-          ())
-
-  ;; If Ctrl/Shift/Alt/Super is already held, f stays normal f.
-  fsup (fork @fraw f $real-mods)
+  lctl tab
 )
 
 (deflayer base
-  @fsup
+  ;; Single tap -> plain Ctrl. Double tap within 200ms arms one-shot
+  ;; Super for the next key.
+  (tap-dance 200 (lctl (one-shot 2000 lmet)))
+  ;; Another key while Tab is held, or holding Tab past 120ms,
+  ;; means Super -- except Enter, Space, Backspace, which always stay
+  ;; plain so completion flows (Tab, Enter) and fast Tab-Space rolls
+  ;; never turn into Super combos (no more stray tmux picker).
+  ;; Quick lone tap means plain Tab.
+  ;; Note: holding Tab to repeat it (multi-indent) past 120ms turns it
+  ;; into Super instead; tap Tab repeatedly for that.
+  (tap-hold-except-keys 80 120 tab lmet (ret spc bspc))
 )
