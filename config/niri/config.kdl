@@ -1,0 +1,273 @@
+// Niri config ported 1:1 from Hyprland setup in ~/.config/hypr/*.lua.
+// Anything Niri cannot do is marked PORT-NOTE with the reason.
+
+input {
+    keyboard {
+        xkb {
+            layout "us"
+            options "caps:ctrl_modifier"
+        }
+        repeat-delay 600
+        repeat-rate 25
+    }
+
+    touchpad {
+        tap
+        dwt
+        drag true
+        drag-lock
+        natural-scroll
+    }
+
+    mouse {
+        accel-speed 0.0
+    }
+
+    // Hypr follow_mouse=1. 0% means focus only windows already fully on screen.
+    focus-follows-mouse max-scroll-amount="0%"
+    // Hypr warp_on_change_workspace=false, so no warp-mouse-to-focus.
+}
+
+// PORT-NOTE: Hypr monitors.conf is empty (all auto), so no output section here.
+// Run `niri msg outputs` inside Niri to name outputs if you ever need per-output config.
+
+// PORT-NOTE: Hypr XCURSOR_THEME=Adwaita / XCURSOR_SIZE=32 came from hl.env.
+// Niri has no env section; export them from login env instead, e.g. in ~/.profile:
+//   export XCURSOR_THEME=Adwaita
+//   export XCURSOR_SIZE=32
+
+layout {
+    // Hypr gaps_in=4 gaps_out=4.
+    gaps 4
+    center-focused-column "never"
+
+    preset-column-widths {
+        proportion 0.33333
+        proportion 0.5
+        proportion 0.66667
+        // Hypr scrolling column_width=0.8.
+        proportion 0.8
+    }
+
+    // Hypr starts in dwindle (roughly half-width splits).
+    default-column-width { proportion 0.5; }
+
+    // Hypr border_size=0 and rounding=0: no ring, no border.
+    focus-ring {
+        off
+    }
+    border {
+        off
+    }
+
+    // PORT-NOTE: Hypr shadow.enabled=false. Niri shadows default to off,
+    // so no shadow block. Hypr blur (size 35, passes 2) has no Niri equal.
+    // PORT-NOTE: Hypr smart-gaps (zero gaps with one tiled window) and the
+    // w[tv1] / f[1] workspace rules have no Niri equal; gaps stay static.
+}
+
+// Autostart ported from ~/.config/hypr/autostart.lua.
+spawn-sh-at-startup "dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP"
+spawn-sh-at-startup "swaybg -o '*' -i '/home/wizard/.config/hypr/wallpaper.jpg' -m fill"
+spawn-sh-at-startup "waybar -c /home/wizard/.config/waybar/config.json -s /home/wizard/.config/waybar/style.css"
+spawn-sh-at-startup "trash-empty -f 10"
+spawn-sh-at-startup "brightnessctl s 0"
+spawn-sh-at-startup "gammastep -O 4500"
+// PORT-NOTE: hyprsunset is Hypr-only; gammastep above already covers night tint.
+
+hotkey-overlay {
+    // Hypr shows no overlay at startup.
+    skip-at-startup
+}
+
+// PORT-NOTE: Hypr bezier curves (linear, easeOut) and per-leaf animation
+// styles (windows popin, windowsOut slide, fade) have no Niri equal.
+// Default Niri animations stay on to match Hypr animations.enabled=true.
+animations {
+}
+
+// Window rules ported from ~/.config/hypr/rules.lua.
+
+// Browsers open fullscreen.
+window-rule {
+    match app-id=r#"(?i)^(zen|zen-browser|chromium|chromium-browser)$"#
+    open-fullscreen true
+}
+
+// Browser picture-in-picture floats (later rule wins, same as Hypr).
+// PORT-NOTE: fixed 480x270 size has no Niri equal.
+window-rule {
+    match app-id=r#"(?i)^(zen|zen-browser|chromium|chromium-browser)$"# title="^Picture-in-Picture$"
+    open-floating true
+    open-fullscreen false
+}
+
+// Browser color picker dialog floats (later rule wins, same as Hypr).
+// PORT-NOTE: Niri centers new floating windows itself; no center flag needed.
+window-rule {
+    match app-id=r#"(?i)^(zen|zen-browser|chromium|chromium-browser)$"# title="^Choose a colou?r$"
+    open-floating true
+    open-fullscreen false
+}
+
+// Kitty frosted glass: bg already 0.9 in kitty.conf, blur comes from Niri.
+// Obsidian glass to match kitty bg #101010 at 0.9.
+window-rule {
+    match app-id=r#"^kitty$"#
+
+    background-effect {
+        blur true
+    }
+}
+window-rule {
+    match app-id=r#"[Oo]bsidian"#
+    opacity 0.9
+
+    background-effect {
+        blur true
+    }
+}
+
+// PORT-NOTE: Hypr scratchpad-float rule (special:magic workspace, 1100x700)
+// has no equal; Niri has no special workspaces.
+
+// Binds ported from ~/.config/hypr/keybindings.lua. Mod is Super on a TTY.
+// Arrow binds mirror the HJKL binds; Hypr defined HJKL only.
+
+binds {
+    Mod+Shift+Slash { show-hotkey-overlay; }
+
+    // Apps.
+    Mod+Return hotkey-overlay-title="Terminal: kitty" { spawn "kitty"; }
+    Mod+D hotkey-overlay-title="Launcher: bemenu-run" { spawn-sh "bemenu-run -b --binding vim"; }
+    Mod+Y hotkey-overlay-title="Screenshot menu" { spawn-sh "/home/wizard/.config/hypr/scripts/screenshot.sh"; }
+    Mod+P hotkey-overlay-title="Toggle Waybar" { spawn-sh "pkill -SIGUSR1 waybar"; }
+    // PORT-NOTE: Hypr toggled DPMS on eDP-1 only. Niri powers off all
+    // monitors; any input wakes them.
+    Mod+Shift+P hotkey-overlay-title="Power off monitors" { power-off-monitors; }
+
+    // PORT-NOTE: Hypr Mod+Space toggled dwindle<->scrolling layout.
+    // Niri is always scrollable; left unbound.
+
+    // Resize focused window (Hypr resized by 50px, repeating).
+    Mod+Minus { set-column-width "-10%"; }
+    Mod+Equal { set-column-width "+10%"; }
+    Mod+Shift+Minus { set-window-height "-10%"; }
+    Mod+Shift+Equal { set-window-height "+10%"; }
+
+    // WM.
+    Mod+Shift+Q repeat=false { close-window; }
+    Mod+Shift+Return repeat=false { quit; }
+    Mod+Shift+E repeat=false hotkey-overlay-title="Quit Niri (confirm dialog)" { quit; }
+
+    // Fullscreen / maximize (Hypr F fullscreen, M maximized).
+    // M uses to-edges: true gapless single window, closest to smart-gaps.
+    // Waybar stays drawn, press again to undo.
+    Mod+F { fullscreen-window; }
+    Mod+Shift+Space { toggle-window-floating; }
+    Mod+M { maximize-window-to-edges; }
+
+    // Niri-native helpers, no Hypr equal. Overview replaces nothing in Hypr
+    // but is core to driving Niri; R cycles the preset widths above (incl 0.8).
+    Mod+O repeat=false hotkey-overlay-title="Overview" { toggle-overview; }
+    Mod+R hotkey-overlay-title="Cycle preset column width" { switch-preset-column-width; }
+    Mod+Shift+R { switch-preset-column-width-back; }
+    Mod+C hotkey-overlay-title="Center column" { center-column; }
+
+    // Focus column/window. Replaces focus_or_workspace.sh (hyprctl-based,
+    // dead under Niri); Niri does direction focus native.
+    // J/K fall through to the workspace below/above at the column edge.
+    Mod+Left { focus-column-left; }
+    Mod+Down { focus-window-or-workspace-down; }
+    Mod+Up { focus-window-or-workspace-up; }
+    Mod+Right { focus-column-right; }
+    Mod+H { focus-column-left; }
+    Mod+J { focus-window-or-workspace-down; }
+    Mod+K { focus-window-or-workspace-up; }
+    Mod+L { focus-column-right; }
+
+    // Swap windows (Hypr Shift+H/J/K/L swap).
+    Mod+Shift+Left { move-column-left; }
+    Mod+Shift+Down { move-window-down; }
+    Mod+Shift+Up { move-window-up; }
+    Mod+Shift+Right { move-column-right; }
+    Mod+Shift+H { move-column-left; }
+    Mod+Shift+J { move-window-down; }
+    Mod+Shift+K { move-window-up; }
+    Mod+Shift+L { move-column-right; }
+
+    // Focus monitor (Hypr Ctrl+H/J/K/L).
+    Mod+Ctrl+Left { focus-monitor-left; }
+    Mod+Ctrl+Down { focus-monitor-down; }
+    Mod+Ctrl+Up { focus-monitor-up; }
+    Mod+Ctrl+Right { focus-monitor-right; }
+    Mod+Ctrl+H { focus-monitor-left; }
+    Mod+Ctrl+J { focus-monitor-down; }
+    Mod+Ctrl+K { focus-monitor-up; }
+    Mod+Ctrl+L { focus-monitor-right; }
+
+    // Move current workspace to a monitor (Hypr Shift+Ctrl+H/J/K/L).
+    Mod+Shift+Ctrl+Left { move-workspace-to-monitor-left; }
+    Mod+Shift+Ctrl+Down { move-workspace-to-monitor-down; }
+    Mod+Shift+Ctrl+Up { move-workspace-to-monitor-up; }
+    Mod+Shift+Ctrl+Right { move-workspace-to-monitor-right; }
+    Mod+Shift+Ctrl+H { move-workspace-to-monitor-left; }
+    Mod+Shift+Ctrl+J { move-workspace-to-monitor-down; }
+    Mod+Shift+Ctrl+K { move-workspace-to-monitor-up; }
+    Mod+Shift+Ctrl+L { move-workspace-to-monitor-right; }
+
+    // Workspaces.
+    Mod+Tab { focus-workspace-previous; }
+    Mod+1 { focus-workspace 1; }
+    Mod+2 { focus-workspace 2; }
+    Mod+3 { focus-workspace 3; }
+    Mod+4 { focus-workspace 4; }
+    Mod+5 { focus-workspace 5; }
+    Mod+6 { focus-workspace 6; }
+    Mod+7 { focus-workspace 7; }
+    Mod+8 { focus-workspace 8; }
+    Mod+9 { focus-workspace 9; }
+    // PORT-NOTE: Hypr moved the window only; Niri moves the whole column.
+    Mod+Shift+1 { move-column-to-workspace 1; }
+    Mod+Shift+2 { move-column-to-workspace 2; }
+    Mod+Shift+3 { move-column-to-workspace 3; }
+    Mod+Shift+4 { move-column-to-workspace 4; }
+    Mod+Shift+5 { move-column-to-workspace 5; }
+    Mod+Shift+6 { move-column-to-workspace 6; }
+    Mod+Shift+7 { move-column-to-workspace 7; }
+    Mod+Shift+8 { move-column-to-workspace 8; }
+    Mod+Shift+9 { move-column-to-workspace 9; }
+
+    // Mouse wheel workspace scroll (Hypr Mod+mouse_down/up).
+    Mod+WheelScrollDown cooldown-ms=150 { focus-workspace-down; }
+    Mod+WheelScrollUp cooldown-ms=150 { focus-workspace-up; }
+
+    // PORT-NOTE: Hypr scratchpad (Mod+S toggle, Mod+Shift+S send) has no
+    // equal; Niri has no special workspaces. Left unbound.
+    // PORT-NOTE: Hypr Mod+drag / Mod+right-drag to move/resize with the mouse
+    // has no bindable equal in Niri. Left unbound.
+    // PORT-NOTE: Hypr "normal" submap was commented out; not ported.
+
+    // Media (Hypr steps kept: volume 0.05, brightness 10%).
+    XF86AudioRaiseVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05+"; }
+    XF86AudioLowerVolume allow-when-locked=true { spawn-sh "wpctl set-volume @DEFAULT_AUDIO_SINK@ 0.05-"; }
+    XF86AudioMute allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"; }
+    XF86AudioMicMute allow-when-locked=true { spawn-sh "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"; }
+    XF86AudioPlay allow-when-locked=true { spawn-sh "playerctl play-pause"; }
+    XF86AudioPause allow-when-locked=true { spawn-sh "playerctl play-pause"; }
+    XF86AudioPrev allow-when-locked=true { spawn-sh "playerctl previous"; }
+    XF86AudioNext allow-when-locked=true { spawn-sh "playerctl next"; }
+    XF86MonBrightnessUp allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "+10%"; }
+    XF86MonBrightnessDown allow-when-locked=true { spawn "brightnessctl" "--class=backlight" "set" "10%-"; }
+
+    // Misc tools.
+    Alt+W hotkey-overlay-title="Which-key menu" { spawn-sh "wlr-which-key"; }
+    Alt+Shift+W hotkey-overlay-title="Whiteboard" { spawn-sh "pkill wayscriber; wayscriber --active --mode whiteboard"; }
+
+    // Niri-native screenshots (Hypr had no Print binds; Mod+Y script kept too).
+    Print { screenshot; }
+    Ctrl+Print { screenshot-screen; }
+    Alt+Print { screenshot-window; }
+
+    Mod+Escape allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
+}
